@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ladetidsberegner</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXX');
+</script>
+</head>
+<body>
+
+  <!-- Topbar med landevælger -->
+<!--<div class="top-bar">
+  <select class="landevaelger">
+    <option value="dk">Danmark</option>
+    <option value="no">Norge</option>
+    <option value="nl">Holland</option>
+    <option value="uk">UK</option>
+  </select>
+</div>
+-->
+
+  <!-- Hero sektion -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Beregn ladetid på din elbil hjemme</h1>
+      <p>Planlæg din opladning bedre med vores gratis ladetidsberegner. Indtast bilens batteristørrelse, start- og slutladningsniveau, og få en præcis beregning af ladetiden ved hjemmeladning.</p>
+<nav>
+  <a href="#beregner" class="btn">Beregn ladetid</a>
+</nav>
+
+    </div>
+  </section>
+
+  <!-- 2. sektion: About -->
+  <section class="about">
+    <div class="about-wrapper">
+      <div class="image-block">
+        <img src="img/elbil-der-lader.jpg" alt="Elbil der lader" />
+      </div>
+      <div class="text-block">
+        <h2>Hvor lang tid tager det at lade en elbil op?</h2>
+        <p>Det kan være svært at gennemskue, hvor lang tid det tager at lade en elbil, da det afhænger af batteri og hjemmelader. Med vores ladetidsberegner får du hurtigt overblik – inklusive hvor meget strøm (bruttoeffekt) du skal bede laderen om.</p>
+<a href="#beregner" class="btn">Gå til ladetidsberegner</a>
+    </div>
+  </section>
+
+<!--reklame 1-->
+<div class="ad-horizontal">
+  <div class="banner banner-desktop" style="background: #e0e0e0; padding: 40px 20px; border-radius: 8px;">
+    <strong style="font-size: 24px;">[TEST-ANNONCE]</strong><br />
+    Reklameplads 970x250
+  </div>
+
+  <div class="banner banner-mobile" style="background: #d0d0ff; padding: 20px 10px; border-radius: 8px;">
+    <strong style="font-size: 18px;">[MOBIL-ANNONCE]</strong><br />
+    Reklame 320x100
+  </div>
+</div>
+
+  <!-- Features med billede og trin -->
+  <section class="features-image-with-steps">
+    <div class="features-layout">
+      <div class="features-image animate-on-scroll">
+        <img src="img/elbil-dame-telefon.jpg" alt="Elbil dame med telefon" />
+      </div>
+
+      <div class="features-steps">
+        <div class="feature-step step-1 animate-on-scroll">
+          <div class="circle">1</div>
+          <div class="step-content">
+            <h3>Start- og slutladningsniveau </h3>
+            <p>Hvor fyldt batteriet er, og hvor meget du ønsker at lade op</p>
+          </div>
+        </div>
+
+        <div class="feature-step step-2 animate-on-scroll">
+          <div class="circle">2</div>
+          <div class="step-content">
+            <h3>Batteristørrelse</h3>
+            <p>Hvor mange kWh din elbils batteri har</p>
+          </div>
+        </div>
+
+        <div class="feature-step step-3 animate-on-scroll">
+          <div class="circle">3</div>
+          <div class="step-content">
+            <h3>Oplysninger om hjemmeladeren</h3>
+            <p>Hvor kraftig din lader er, og lidt om energitab under opladning</p>
+          </div>
+        </div>
+        <p>Ud fra disse data regner vi automatisk den forventede opladningstid ud, så du får et realistisk billede af, hvor lang tid opladningen tager hjemme hos dig.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. sektion: Text-image reverse -->
+  <section class="text-image reverse">
+    <div class="text-image-wrapper reverse">
+      <div class="text-block">
+        <h2>Hurtigt overblik over din bils ladetid</h2>
+        <p>Få hurtigt et klart overblik over, hvor lang tid din elbil tager at lade hjemme hos dig. Det giver dig bedre planlægning og tryghed i hverdagen. tryghed i hverdagen.</p>
+<a href="#beregner" class="btn">Gå til ladetidsberegner</a>
+      <div class="image-block">
+        <img src="img/elbil-og-telefon.jpg" alt="Elbil og telefon" />
+      </div>
+    </div>
+  </section>
+
+  <!--REklame 2-->
+<div class="ad-horizontal">
+  <div class="banner banner-desktop" style="background: #e0e0e0; padding: 40px 20px; border-radius: 8px;">
+    <strong style="font-size: 24px;">[TEST-ANNONCE]</strong><br />
+    Reklameplads 970x250
+  </div>
+  </div>
+
+
+  <!--Beregner-->
+<section id="beregner" class="beregn-container">
+  <div class="beregn-indhold">
+    <h3>Beregn din ladetid</h3>
+    <p>Indtast dine oplysninger, og få ladetiden med det samme.</p>
+    <form class="beregn-form">
+      <!-- SoC -->
+      <div class="form-row soc-row">
+        <div class="form-group">
+          <label for="soc-start">Start SoC (%)</label>
+          <input type="number" id="soc-start" min="0" max="100" value="20" />
+        </div>
+        <div class="form-group">
+          <label for="soc-slut">Slut SoC (%)</label>
+          <input type="number" id="soc-slut" min="0" max="100" value="80" />
+        </div>
+      </div>
+
+      <!-- Batterikapacitet + henvisning -->
+      <div class="form-row">
+        <div class="form-group tech-width">
+          <label for="kapacitet">Batterikapacitet (kWh)</label>
+          <input type="number" id="kapacitet" min="0" value="64" />
+        </div>
+        <p class="kilde">
+          Data fx fra <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>
+        </p>
+      </div>
+
+      <!-- Teknikfelter -->
+      <div class="form-row tech-row">
+        <div class="form-group tech-width">
+          <label for="ampere">Ampere</label>
+          <input type="number" id="ampere" min="1" value="16" />
+        </div>
+        <div class="form-group tech-width">
+          <label for="volt">Volt</label>
+          <input type="number" id="volt" min="100" value="230" />
+        </div>
+        <div class="form-group tech-width">
+          <label for="faser">Faser</label>
+          <select id="faser">
+            <option value="1">1</option>
+            <option value="3" selected>3</option>
+          </select>
+        </div>
+        <div class="form-group tech-width">
+          <label for="ladetab">Ladetab (%)</label>
+          <input type="number" id="ladetab" min="0" max="100" value="12" />
+        </div>
+      </div>
+
+      <!-- Resultat og knap -->
+      <div class="form-row bottom-row">
+        <div class="beregn-resultat" id="resultat">Ladetiden vises her</div>
+        <button type="submit" class="beregn-knap">Beregn</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!--samtykke-->
+  <div id="cookie-banner" class="cookie-banner">
+  <p>Vi bruger cookies til trafikmåling (Google Analytics). <a href="/privatliv" target="_blank">Læs mere</a>.</p>
+  <button id="accept-cookies">Accepter</button>
+</div>
+
+
+<!--footer-->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Ladetidsberegner. Alle rettigheder forbeholdes.</p>
+    </div>
+  </footer>
+
+ <script src="script.js"></script>
+
+</body>
+</html>
+
+
