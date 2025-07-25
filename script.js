@@ -1,3 +1,4 @@
+// Ladetidsberegner
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".beregn-form");
   const resultatEl = document.getElementById("resultat");
@@ -10,99 +11,104 @@ document.addEventListener("DOMContentLoaded", function () {
     const kapacitet = parseFloat(document.getElementById("kapacitet").value);
     const ampere = parseFloat(document.getElementById("ampere").value);
     const volt = parseFloat(document.getElementById("volt").value);
-    const faser = parseInt(document.getElementById("faser").value);
+    const faser = parseInt(document.getElementById("faser").value, 10);
     const ladetab = parseFloat(document.getElementById("ladetab").value);
 
+    // Validering med feedback til bruger
     if (
-      isNaN(socStart) || isNaN(socSlut) || isNaN(kapacitet) ||
-      isNaN(ampere) || isNaN(volt) || isNaN(faser) || isNaN(ladetab)
+      isNaN(socStart) || socStart < 0 || socStart > 100 ||
+      isNaN(socSlut) || socSlut <= socStart || socSlut > 100
     ) {
-      resultatEl.textContent = "Udfyld alle felter korrekt.";
+      resultatEl.textContent = "Start- og slut SoC skal være tal mellem 0 og 100, og slut skal være højere end start.";
+      return;
+    }
+    if (isNaN(kapacitet) || kapacitet <= 0) {
+      resultatEl.textContent = "Indtast en gyldig batterikapacitet (større end 0).";
+      return;
+    }
+    if (isNaN(ampere) || ampere <= 0) {
+      resultatEl.textContent = "Indtast en gyldig strømstyrke (ampere, større end 0).";
+      return;
+    }
+    if (isNaN(volt) || volt <= 0) {
+      resultatEl.textContent = "Indtast en gyldig spænding (volt, større end 0).";
+      return;
+    }
+    if (isNaN(faser) || (faser !== 1 && faser !== 3)) {
+      resultatEl.textContent = "Vælg antal faser (1 eller 3).";
+      return;
+    }
+    if (isNaN(ladetab) || ladetab < 0 || ladetab > 100) {
+      resultatEl.textContent = "Indtast et gyldigt ladetab i procent (0-100).";
       return;
     }
 
-    if (socSlut <= socStart) {
-      resultatEl.textContent = "Slut SoC skal være højere end start SoC.";
+    // Beregning
+    const procentDifferens = socSlut - socStart;
+    const energibehovKWh = kapacitet * (procentDifferens / 100);
+    const bruttoKWh = energibehovKWh * (1 + ladetab / 100);
+    const effektKW = (ampere * volt * faser) / 1000;
+
+    if (effektKW <= 0) {
+      resultatEl.textContent = "Ugyldig beregning: Effekt kan ikke være 0 eller negativ.";
       return;
     }
 
-    // Energi som batteriet skal bruge (netto)
-    const energiNetto = kapacitet * ((socSlut - socStart) / 100);
-
-    // Energi brutto, dvs. hvad laderen skal levere inkl. ladetab
-    const energiBrutto = energiNetto / (1 - ladetab / 100);
-
-    // Ladeeffekt brutto (kW)
-    const ladeEffektBrutto = (ampere * volt * faser) / 1000;
-
-    // Tid i timer
-    const tidTimer = energiBrutto / ladeEffektBrutto;
-
-    if (isFinite(tidTimer) && tidTimer > 0) {
-      const timer = Math.floor(tidTimer);
-      const minutter = Math.round((tidTimer - timer) * 60);
-      resultatEl.textContent = 
-        `Ca. ${timer} timer og ${minutter} minutter. ` +
-        `Energi der skal trækkes fra laderen (brutto): ${energiBrutto.toFixed(2)} kWh.`;
-    } else {
-      resultatEl.textContent = "Kan ikke beregne – tjek dine tal.";
+    const tidITimer = bruttoKWh / effektKW;
+    if (tidITimer <= 0) {
+      resultatEl.textContent = "Ugyldig ladetid beregnet.";
+      return;
     }
+
+    // Format tid (dage, timer, minutter)
+    const totalMinutter = tidITimer * 60;
+    const dage = Math.floor(totalMinutter / (60 * 24));
+    const timer = Math.floor((totalMinutter % (60 * 24)) / 60);
+    const minutter = Math.round(totalMinutter % 60);
+
+    let resultatTekst = "Estimeret ladetid: ";
+    if (dage > 0) resultatTekst += `${dage} dag${dage > 1 ? "e" : ""} `;
+    if (timer > 0) resultatTekst += `${timer} timer `;
+    if (minutter > 0) resultatTekst += `${minutter} minutter`;
+
+    resultatEl.textContent = resultatTekst.trim();
   });
 });
 
-
-// Din eksisterende kode her ...
-
-// Nyt smooth scroll med easing:
-function smoothScrollTo(targetY, duration = 600) {
-  const startY = window.pageYOffset;
-  const distanceY = targetY - startY;
-  let startTime = null;
-
-  function easeInOutQuad(t) {
-    return t < 0.5
-      ? 2 * t * t
-      : -1 + (4 - 2 * t) * t;
-  }
-
-  function animation(currentTime) {
-    if (!startTime) startTime = currentTime;
-    const timeElapsed = currentTime - startTime;
-    const progress = Math.min(timeElapsed / duration, 1);
-    const easedProgress = easeInOutQuad(progress);
-
-    window.scrollTo(0, startY + distanceY * easedProgress);
-
-    if (timeElapsed < duration) {
-      requestAnimationFrame(animation);
-    }
-  }
-
-  requestAnimationFrame(animation);
-}
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-
-    const targetId = this.getAttribute('href').substring(1);
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      const offset = 70; // juster hvis du har sticky header
-      const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
-      smoothScrollTo(targetPosition, 700);
-    }
-  });
-});
-
-
-//samtykke
+// Cookie-samtykke og dynamisk Google Analytics indlæsning
 document.addEventListener('DOMContentLoaded', function () {
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('accept-cookies');
 
+  function loadAnalytics() {
+    if (window.analyticsLoaded) return; // undgå dobbeltindlæsning
+    window.analyticsLoaded = true;
+
+    // Erstat 'G-ELGNQRMN1X' med dit eget Google Analytics ID
+    const GA_ID = 'G-ELGNQRMN1X';
+
+    // Load gtag.js script
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(script1);
+
+    // Init gtag
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GA_ID}');
+    `;
+    document.head.appendChild(script2);
+  }
+
+  // Vis banner hvis ikke accepteret
   if (!localStorage.getItem('cookiesAccepted')) {
     banner.style.display = 'block';
+  } else {
+    loadAnalytics();
   }
 
   acceptBtn.addEventListener('click', function () {
@@ -110,24 +116,4 @@ document.addEventListener('DOMContentLoaded', function () {
     banner.style.display = 'none';
     loadAnalytics();
   });
-
-  if (localStorage.getItem('cookiesAccepted') === 'true') {
-    loadAnalytics();
-  }
-
-  function loadAnalytics() {
-    const script1 = document.createElement('script');
-    script1.setAttribute('async', '');
-    script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX'; // <-- Erstat med dit ID
-    document.head.appendChild(script1);
-
-    const script2 = document.createElement('script');
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXX'); // <-- Erstat med dit ID
-    `;
-    document.head.appendChild(script2);
-  }
 });
