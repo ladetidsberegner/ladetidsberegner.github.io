@@ -1,4 +1,3 @@
-// Ladetidsberegner
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".beregn-form");
   const resultatEl = document.getElementById("resultat");
@@ -14,32 +13,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const faser = parseInt(document.getElementById("faser").value, 10);
     const ladetab = parseFloat(document.getElementById("ladetab").value);
 
-    // Validering med feedback til bruger
+    // Validering
     if (
       isNaN(socStart) || socStart < 0 || socStart > 100 ||
       isNaN(socSlut) || socSlut <= socStart || socSlut > 100
     ) {
-      resultatEl.textContent = "Start- og slut SoC skal være tal mellem 0 og 100, og slut skal være højere end start.";
+      resultatEl.textContent = "Start- og slut SoC skal være mellem 0 og 100, og slut højere end start.";
       return;
     }
     if (isNaN(kapacitet) || kapacitet <= 0) {
-      resultatEl.textContent = "Indtast en gyldig batterikapacitet (større end 0).";
+      resultatEl.textContent = "Indtast en gyldig batterikapacitet.";
       return;
     }
     if (isNaN(ampere) || ampere <= 0) {
-      resultatEl.textContent = "Indtast en gyldig strømstyrke (ampere, større end 0).";
+      resultatEl.textContent = "Indtast en gyldig strømstyrke.";
       return;
     }
     if (isNaN(volt) || volt <= 0) {
-      resultatEl.textContent = "Indtast en gyldig spænding (volt, større end 0).";
+      resultatEl.textContent = "Indtast en gyldig spænding.";
       return;
     }
     if (isNaN(faser) || (faser !== 1 && faser !== 3)) {
-      resultatEl.textContent = "Vælg antal faser (1 eller 3).";
+      resultatEl.textContent = "Antal faser skal være 1 eller 3.";
       return;
     }
     if (isNaN(ladetab) || ladetab < 0 || ladetab > 100) {
-      resultatEl.textContent = "Indtast et gyldigt ladetab i procent (0-100).";
+      resultatEl.textContent = "Ladetab skal være mellem 0 og 100%.";
       return;
     }
 
@@ -50,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const effektKW = (ampere * volt * faser) / 1000;
 
     if (effektKW <= 0) {
-      resultatEl.textContent = "Ugyldig beregning: Effekt kan ikke være 0 eller negativ.";
+      resultatEl.textContent = "Effekten kan ikke være nul.";
       return;
     }
 
@@ -60,60 +59,24 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Format tid (dage, timer, minutter)
-    const totalMinutter = tidITimer * 60;
-    const dage = Math.floor(totalMinutter / (60 * 24));
-    const timer = Math.floor((totalMinutter % (60 * 24)) / 60);
-    const minutter = Math.round(totalMinutter % 60);
+    // Format tid og visning
+    const totalMinutter = Math.round(tidITimer * 60);
+    let tekst = "Estimeret ladetid: ";
 
-    let resultatTekst = "Estimeret ladetid: ";
-    if (dage > 0) resultatTekst += `${dage} dag${dage > 1 ? "e" : ""} `;
-    if (timer > 0) resultatTekst += `${timer} timer `;
-    if (minutter > 0) resultatTekst += `${minutter} minutter`;
+    if (totalMinutter <= 60) {
+      tekst += `${totalMinutter} minutter`;
+    } else {
+      const dage = Math.floor(totalMinutter / (60 * 24));
+      const timer = Math.floor((totalMinutter % (60 * 24)) / 60);
+      const minutter = totalMinutter % 60;
 
-    resultatEl.textContent = resultatTekst.trim();
-  });
-});
+      if (dage > 0) tekst += `${dage} dag${dage > 1 ? "e" : ""} `;
+      if (timer > 0) tekst += `${timer} timer `;
+      if (minutter > 0) tekst += `${minutter} minutter`;
+    }
 
-// Cookie-samtykke og dynamisk Google Analytics indlæsning
-document.addEventListener('DOMContentLoaded', function () {
-  const banner = document.getElementById('cookie-banner');
-  const acceptBtn = document.getElementById('accept-cookies');
+    tekst += `<br>Energiforbrug: ${bruttoKWh.toFixed(2)} kWh`;
 
-  function loadAnalytics() {
-    if (window.analyticsLoaded) return; // undgå dobbeltindlæsning
-    window.analyticsLoaded = true;
-
-    // Erstat 'G-ELGNQRMN1X' med dit eget Google Analytics ID
-    const GA_ID = 'G-ELGNQRMN1X';
-
-    // Load gtag.js script
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-    document.head.appendChild(script1);
-
-    // Init gtag
-    const script2 = document.createElement('script');
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${GA_ID}');
-    `;
-    document.head.appendChild(script2);
-  }
-
-  // Vis banner hvis ikke accepteret
-  if (!localStorage.getItem('cookiesAccepted')) {
-    banner.style.display = 'block';
-  } else {
-    loadAnalytics();
-  }
-
-  acceptBtn.addEventListener('click', function () {
-    localStorage.setItem('cookiesAccepted', 'true');
-    banner.style.display = 'none';
-    loadAnalytics();
+    resultatEl.innerHTML = tekst;
   });
 });
