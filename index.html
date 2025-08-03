@@ -4,32 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ladetidsberegner - Beregn opladningstid til elbil hjemme</title>
-  
-  <!-- Google AdSense script - skal ligge i head -->
-  <script async 
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" 
-    crossorigin="anonymous"></script>
 
-  <!-- Din CSS -->
-  <link rel="stylesheet" href="style.css" />
-  
   <!-- Meta description for SEO -->
   <meta name="description" content="Gratis ladetidsberegner til elbiler. Beregn opladningstid hjemme ud fra batteristørrelse, strømstyrke, volt, faser og ladetab." />
   
-  <!-- Valgfrit: Favicon -->
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  
-  <!-- Valgfrit: Open Graph til deling på sociale medier -->
+
+  <!-- Open Graph for social sharing -->
   <meta property="og:title" content="Ladetidsberegner - Beregn opladningstid til elbil hjemme" />
   <meta property="og:description" content="Brug vores gratis ladetidsberegner til at finde ud af, hvor lang tid din elbil tager at lade op hjemme." />
   <meta property="og:image" content="https://ladetidsberegner.github.io/ladetidsberegner/img/hero.jpg" />
   <meta property="og:url" content="https://ladetidsberegner.github.io/ladetidsberegner/" />
   <meta property="og:type" content="website" />
 
-  <!-- Google Ads script kan stå her -->
-  <script data-ad-client="ca-pub-4322732012925287" async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Din CSS -->
+  <link rel="stylesheet" href="style.css" />
 
+  <!-- Google Tag Manager (Consent Mode + Analytics) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    // Standard Consent Mode: NEJ til ad_storage og analytics_storage indtil bruger giver accept
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-ELGNQRMN1X');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -109,19 +120,17 @@
       </div>
     </div>
   </section>
-  <!--reklame 1a-->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
-     crossorigin="anonymous"></script>
-<!-- 3 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-4322732012925287"
-     data-ad-slot="4377501697"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
+<!-- Annonce 1 -->
+<!-- Annonceboks -->
+<div id="ads-container" class="ads-box" style="display: none;">
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-4322732012925287"
+    data-ad-slot="4377501697"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
 
 <!-- 3. sektion: Text-image reverse -->
 <section class="text-image reverse">
@@ -204,30 +213,33 @@
 </section>
 
 <!-- AdSense banner efter beregneren -->
-  <!--Reklame 2a-->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
-     crossorigin="anonymous"></script>
-<!-- 3 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-4322732012925287"
-     data-ad-slot="4377501697"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <!--Reklame 2-->
+<!-- Annonceboks -->
+<div id="ads-container" class="ads-box" style="display: none;">
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-4322732012925287"
+    data-ad-slot="4377501697"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
 
 
-<!--samtykke-->
+
+
+<!-- Samtykke -->
+<!-- Cookie-banner -->
 <div id="cookie-banner" class="cookie-banner">
-  <p>Vi bruger cookies til statistik og annoncer.</p>
-  <button id="accept-cookies">Accepter</button>
+  <p>Vi bruger cookies til statistik og annoncer. <a href="#cookies">Læs mere</a></p>
+  <button id="accept-cookies">Acceptér</button>
 </div>
 
-<div id="ads-container" style="display: none;">
-  <!-- Din Adsense-kode her -->
-</div>
+<!-- Din script.js -->
+<script src="script.js"></script>
+</body>
+</html>
+
+
 
 
 
