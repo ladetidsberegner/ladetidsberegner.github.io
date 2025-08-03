@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         isNaN(socStart) || socStart < 0 || socStart > 100 ||
         isNaN(socSlut) || socSlut <= socStart || socSlut > 100
       ) {
-        resultatEl.textContent = "Start- og slut SoC skal være mellem 0 og 100, og slut højere end start.";
+        resultatEl.textContent = "Slut SoC skal være højere end start SoC, og begge mellem 0 og 100.";
         return;
       }
       if (isNaN(kapacitet) || kapacitet <= 0) {
@@ -102,17 +102,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const cookieBanner = document.getElementById("cookie-banner");
     const acceptBtn = document.getElementById("accept-cookies");
     const afvisBtn = document.getElementById("afvis-cookies");
-    const adsContainer = document.getElementById("ads-container");
 
     function checkConsent() {
       return localStorage.getItem("cookiesAccepted");
     }
 
     function showAds() {
-      if (adsContainer) {
-        adsContainer.style.display = "block";
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }
+      const adContainers = document.querySelectorAll(".ads-box, #ads-container");
+      adContainers.forEach(container => {
+        container.style.display = "block";
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (err) {
+          console.warn("Annoncefejl:", err);
+        }
+      });
     }
 
     function acceptCookies() {
@@ -160,13 +164,3 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("Fejl i JavaScript:", err);
   }
 });
-
-
-//--reklamer--//
-function showAds() {
-  const adContainers = document.querySelectorAll(".ads-box");
-  adContainers.forEach(container => {
-    container.style.display = "block";
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  });
-}

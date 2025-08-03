@@ -519,3 +519,26 @@ a {
   float: right;
   margin-left: 1em;
 }
+
+/* Vandret reklame */
+.ad-container {
+  margin: 40px auto;
+  max-width: 728px;
+  text-align: center;
+}
+
+/* Skyscraper – kun på desktop */
+.skyscraper-ad {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 160px;
+  z-index: 99;
+}
+
+@media screen and (min-width: 1024px) {
+  .skyscraper-ad {
+    display: block;
+  }
+}
+
