@@ -1,18 +1,28 @@
+
 document.addEventListener("DOMContentLoaded", function () {
   try {
-    // --- Ladetidsberegner ---
+    // --- Beregner ---
     const form = document.querySelector(".beregn-form");
     const resultatEl = document.getElementById("resultat");
+    const toggleBtn = document.getElementById("toggle-advanced");
+    const advancedFields = document.getElementById("advanced-fields");
 
-    if (!form) {
-      console.error("Kunne ikke finde formularen .beregn-form");
-      return;
-    }
-    if (!resultatEl) {
-      console.error("Kunne ikke finde resultat elementet med id 'resultat'");
+    if (!form || !resultatEl) {
+      console.error("Formular eller resultat-element ikke fundet");
       return;
     }
 
+    // Vis/skjul avanceret panel
+    if (toggleBtn && advancedFields) {
+      toggleBtn.addEventListener("click", () => {
+        advancedFields.classList.toggle("show");
+        toggleBtn.textContent = advancedFields.classList.contains("show")
+          ? "Skjul avancerede indstillinger"
+          : "Vis avancerede indstillinger";
+      });
+    }
+
+    // Beregn ladetid
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -21,15 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const kapacitet = parseFloat(document.getElementById("kapacitet").value);
       const ampere = parseFloat(document.getElementById("ampere").value);
       const volt = parseFloat(document.getElementById("volt").value);
-      const faserEl = document.getElementById("faser");
+      const faser = parseInt(document.getElementById("faser").value, 10);
       const ladetab = parseFloat(document.getElementById("ladetab").value);
-
-      if (!faserEl) {
-        console.error("Kunne ikke finde select #faser");
-        resultatEl.textContent = "Fejl: Faser input ikke fundet.";
-        return;
-      }
-      const faser = parseInt(faserEl.value, 10);
 
       // Validering
       if (
@@ -43,16 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
         resultatEl.textContent = "Indtast en gyldig batterikapacitet.";
         return;
       }
-      if (isNaN(ampere) || ampere <= 0) {
-        resultatEl.textContent = "Indtast en gyldig strømstyrke.";
-        return;
-      }
-      if (isNaN(volt) || volt <= 0) {
-        resultatEl.textContent = "Indtast en gyldig spænding.";
-        return;
-      }
-      if (isNaN(faser) || (faser !== 1 && faser !== 3)) {
-        resultatEl.textContent = "Antal faser skal være 1 eller 3.";
+      if (isNaN(ampere) || ampere <= 0 || isNaN(volt) || volt <= 0 || (faser !== 1 && faser !== 3)) {
+        resultatEl.textContent = "Tjek de tekniske værdier.";
         return;
       }
       if (isNaN(ladetab) || ladetab < 0 || ladetab > 100) {
@@ -61,9 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Beregning
-      const procentDifferens = socSlut - socStart;
-      const energibehovKWh = kapacitet * (procentDifferens / 100);
-      const bruttoKWh = energibehovKWh * (1 + ladetab / 100);
+      const energibehov = kapacitet * ((socSlut - socStart) / 100);
+      const bruttoKWh = energibehov * (1 + ladetab / 100);
       const effektKW = (ampere * volt * faser) / 1000;
 
       if (effektKW <= 0) {
@@ -71,22 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      const tidITimer = bruttoKWh / effektKW;
-      if (tidITimer <= 0) {
-        resultatEl.textContent = "Ugyldig ladetid beregnet.";
-        return;
-      }
-
-      // Format tid og visning
-      const totalMinutter = Math.round(tidITimer * 60);
+      const tidTimer = bruttoKWh / effektKW;
+      const totalMin = Math.round(tidTimer * 60);
       let tekst = "Estimeret ladetid: ";
 
-      if (totalMinutter <= 60) {
-        tekst += `${totalMinutter} minutter`;
+      if (totalMin <= 60) {
+        tekst += `${totalMin} minutter`;
       } else {
-        const dage = Math.floor(totalMinutter / (60 * 24));
-        const timer = Math.floor((totalMinutter % (60 * 24)) / 60);
-        const minutter = totalMinutter % 60;
+        const dage = Math.floor(totalMin / 1440);
+        const timer = Math.floor((totalMin % 1440) / 60);
+        const minutter = totalMin % 60;
 
         if (dage > 0) tekst += `${dage} dag${dage > 1 ? "e" : ""} `;
         if (timer > 0) tekst += `${timer} timer `;
@@ -94,11 +82,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       tekst += `<br>Energiforbrug: ${bruttoKWh.toFixed(2)} kWh`;
-
       resultatEl.innerHTML = tekst;
     });
 
-    // --- Cookie accept og reklamer ---
+    // --- Cookie consent og annoncer ---
     const cookieBanner = document.getElementById("cookie-banner");
     const acceptBtn = document.getElementById("accept-cookies");
     const afvisBtn = document.getElementById("afvis-cookies");
@@ -164,3 +151,4 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("Fejl i JavaScript:", err);
   }
 });
+

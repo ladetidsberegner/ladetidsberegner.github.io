@@ -44,15 +44,15 @@
     <div class="hero-text">
       <h1>Beregn ladetid på din elbil hjemme</h1>
       <p>Planlæg din opladning bedre med vores gratis ladetidsberegner. Indtast bilens batteristørrelse, start- og slutladningsniveau, og få en præcis beregning af ladetiden ved hjemmeladning.</p>
-      <nav><a href="#beregner" class="btn">Beregn ladetid</a></nav>
+      <nav><a href="#bereger" class="btn">Beregn ladetid</a></nav>
     </div>
   </section>
 
   <!-- Skyscraper annonce -->
-  <div class="skyscraper-ad">
+  <!--<div class="skyscraper-ad">
     <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-4322732012925287" data-ad-slot="4377501700"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
+  </div>-->
 
   <!-- About sektion -->
   <section class="about">
@@ -63,7 +63,7 @@
       <div class="text-block">
         <h2>Hvor lang tid tager det at lade en elbil op?</h2>
         <p>Det kan være svært at gennemskue, hvor lang tid det tager at lade en elbil, da det afhænger af batteri og hjemmelader. Med vores ladetidsberegner får du hurtigt overblik.</p>
-        <a href="#beregner" class="btn">Gå til ladetidsberegner</a>
+        <a href="#bereger" class="btn">Gå til ladetidsberegner</a>
       </div>
     </div>
   </section>
@@ -97,6 +97,7 @@
           </div>
         </div>
         <p>Ud fra disse data regner vi automatisk den forventede opladningstid ud.</p>
+         <!--<a href="#bereger" class="btn">Gå til ladetidsberegner</a>-->
       </div>
     </div>
   </section>
@@ -113,7 +114,7 @@
       <div class="text-block">
         <h2>Hurtigt overblik over din bils ladetid</h2>
         <p>Få et klart overblik over, hvor lang tid din elbil tager at lade hjemme hos dig.</p>
-        <a href="#beregner" class="btn">Gå til ladetidsberegner</a>
+        <a href="#bereger" class="btn">Gå til ladetidsberegner</a>
       </div>
       <div class="image-block">
         <img src="img/elbil-og-telefon.jpg" alt="Elbil og telefon" />
@@ -122,60 +123,65 @@
   </section>
 
   <!-- Beregner sektion -->
-  <section id="beregner" class="beregn-container">
-    <div class="beregn-indhold">
-      <h3>Beregn din ladetid</h3>
-      <p>Indtast dine oplysninger, og få ladetiden med det samme.</p>
-      <form class="beregn-form">
-        <div class="form-row soc-row">
-          <div class="form-group">
-            <label for="soc-start">Start SoC (%)</label>
-            <input type="number" id="soc-start" min="0" max="100" value="20" />
-          </div>
-          <div class="form-group">
-            <label for="soc-slut">Slut SoC (%)</label>
-            <input type="number" id="soc-slut" min="0" max="100" value="80" />
-          </div>
+<section class="beregner-sektion" id="bereger">
+  <div class="container">
+    <form class="beregn-form" novalidate>
+      <div class="form-row soc-row">
+        <div class="form-group-inline">
+          <label for="soc-start">Start SoC (%)</label>
+          <input type="number" id="soc-start" min="0" max="100" value="10" required />
+        </div>
+        <div class="form-group-inline">
+          <label for="soc-slut">Slut SoC (%)</label>
+          <input type="number" id="soc-slut" min="0" max="100" value="80" required />
+        </div>
+      </div>
+
+    <div class="form-row">
+  <label for="kapacitet">Batteristørrelse (kWh)</label>
+  <input type="number" id="kapacitet" min="0" step="0.1" value="60" required />
+  <small class="info-text">Find batteristørrelse på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a></small>
+</div>
+
+    <div class="form-row">
+        <label for="ladetab">Ladetab (%)</label>
+        <input type="number" id="ladetab" min="0" max="100" value="12" required />
+      </div>
+      <button type="button" id="toggle-advanced" class="toggle-advanced-btn">Vis avancerede indstillinger</button>
+
+      <div class="advanced-fields" id="advanced-fields" aria-hidden="true">
+        <div class="form-row">
+          <label for="ampere">Ampere (A)</label>
+          <input type="number" id="ampere" min="1" value="16" />
         </div>
         <div class="form-row">
-          <div class="form-group tech-width">
-            <label for="kapacitet">Batterikapacitet (kWh)</label>
-            <input type="number" id="kapacitet" min="0" value="64" />
-          </div>
-          <p class="kilde">Data fx fra <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a></p>
+          <label for="volt">Volt (V)</label>
+          <input type="number" id="volt" min="1" value="230" />
         </div>
-        <div class="form-row tech-row">
-          <div class="form-group tech-width">
-            <label for="ampere">Ampere</label>
-            <input type="number" id="ampere" min="1" value="16" />
-          </div>
-          <div class="form-group tech-width">
-            <label for="volt">Volt</label>
-            <input type="number" id="volt" min="100" value="230" />
-          </div>
-          <div class="form-group tech-width">
-            <label for="faser">Faser</label>
-            <select id="faser">
-              <option value="1">1</option>
-              <option value="3" selected>3</option>
-            </select>
-          </div>
-          <div class="form-group tech-width">
-            <label for="ladetab">Ladetab (%)</label>
-            <input type="number" id="ladetab" min="0" max="100" value="12" />
-          </div>
+        <div class="form-row">
+          <label for="faser">Faser</label>
+          <select id="faser" name="faser" required>
+  <option value="1">1</option>
+  <option value="3" selected>3</option>
+</select>
+
         </div>
-        <div class="form-row bottom-row">
-          <div class="beregn-resultat" id="resultat">Ladetiden vises her</div>
-          <button type="submit" class="beregn-knap">Beregn</button>
-        </div>
-      </form>
+      </div>
+
+  
+
+      <button type="submit" class="beregn-knap">Beregn</button>
+
+      <div id="resultat" aria-live="polite"></div>
+
       <p class="disclaimer">
-        Bemærk: <i>Den beregnede ladetid og energiforbrug er vejledende og baseret på dine indtastede værdier. Faktiske resultater kan afvige betydeligt afhængigt af bilens model, batteristyring, temperatur, ladeudstyr og andre forhold.<br /> 
-        Vi fraskriver os ethvert ansvar for fejlagtige beregninger, tab eller konsekvenser ved brug af denne beregner.</i>
+        Bemærk: Beregneren giver et estimat baseret på de indtastede værdier og tager ikke højde for alle faktorer, der kan påvirke ladetiden.
       </p>
-    </div>
-  </section>
+    </form>
+  </div>
+</section>
+
+
 
   <!-- Ad efter beregner -->
   <div class="ad-container">
