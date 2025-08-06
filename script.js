@@ -1,53 +1,95 @@
-
 document.addEventListener("DOMContentLoaded", function () {
-  try {
-    // --- Beregner ---
-    const form = document.querySelector(".beregn-form");
-    const resultatEl = document.getElementById("resultat");
-    const toggleBtn = document.getElementById("toggle-advanced");
-    const advancedFields = document.getElementById("advanced-fields");
+  // --- Cookie-banner håndtering ---
+  const cookieBanner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("accept-cookies");
+  const afvisBtn = document.getElementById("afvis-cookies"); // hvis du har en afvis-knap
 
-    if (!form || !resultatEl) {
-      console.error("Formular eller resultat-element ikke fundet");
-      return;
-    }
+  // Tjek tidligere valg
+  const consent = localStorage.getItem("cookiesAccepted");
 
-    // Vis/skjul avanceret panel
-    if (toggleBtn && advancedFields) {
-      toggleBtn.addEventListener("click", () => {
-        advancedFields.classList.toggle("show");
-        toggleBtn.textContent = advancedFields.classList.contains("show")
-          ? "Skjul avancerede indstillinger"
-          : "Vis avancerede indstillinger";
+  if (!consent) {
+    cookieBanner.style.display = "flex"; // Vis banner hvis intet valg
+  } else {
+    cookieBanner.style.display = "none";
+    handleConsent(consent === "yes");
+  }
+
+  // Klik på accept
+  acceptBtn?.addEventListener("click", function () {
+    localStorage.setItem("cookiesAccepted", "yes");
+    cookieBanner.style.display = "none";
+    handleConsent(true);
+  });
+
+  // Klik på afvis (hvis du har knap)
+  afvisBtn?.addEventListener("click", function () {
+    localStorage.setItem("cookiesAccepted", "no");
+    cookieBanner.style.display = "none";
+    handleConsent(false);
+  });
+
+  function handleConsent(isAccepted) {
+    if (typeof gtag === "function") {
+      gtag('consent', 'update', {
+        'ad_storage': isAccepted ? 'granted' : 'denied',
+        'analytics_storage': isAccepted ? 'granted' : 'denied'
       });
     }
 
-    // Beregn ladetid
+    if (isAccepted) {
+      // Trigger annonceindlæsning
+      document.querySelectorAll(".adsbygoogle").forEach((ad) => {
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+          console.warn("Annoncefejl:", e);
+        }
+      });
+    }
+  }
+
+  // --- Toggle avancerede felter ---
+  const toggleBtn = document.getElementById("toggle-advanced");
+  const advancedFields = document.getElementById("advanced-fields");
+
+  if (toggleBtn && advancedFields) {
+    toggleBtn.addEventListener("click", function () {
+      const shown = advancedFields.classList.toggle("show");
+      advancedFields.setAttribute("aria-hidden", !shown);
+      toggleBtn.textContent = shown
+        ? "Skjul avancerede indstillinger"
+        : "Vis avancerede indstillinger";
+    });
+  }
+
+  // --- Beregning af ladetid ---
+  const form = document.querySelector(".beregn-form");
+  const resultatEl = document.getElementById("resultat");
+
+  if (form && resultatEl) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      // Læs værdier, sæt default hvis tomt
       const socStart = parseFloat(document.getElementById("soc-start").value);
       const socSlut = parseFloat(document.getElementById("soc-slut").value);
       const kapacitet = parseFloat(document.getElementById("kapacitet").value);
-      const ampere = parseFloat(document.getElementById("ampere").value);
-      const volt = parseFloat(document.getElementById("volt").value);
-      const faser = parseInt(document.getElementById("faser").value, 10);
       const ladetab = parseFloat(document.getElementById("ladetab").value);
+      const ampere = parseFloat(document.getElementById("ampere").value) || 16;
+      const volt = parseFloat(document.getElementById("volt").value) || 230;
+      const faser = parseInt(document.getElementById("faser").value) || 3;
 
       // Validering
-      if (
-        isNaN(socStart) || socStart < 0 || socStart > 100 ||
-        isNaN(socSlut) || socSlut <= socStart || socSlut > 100
-      ) {
-        resultatEl.textContent = "Slut SoC skal være højere end start SoC, og begge mellem 0 og 100.";
+      if (isNaN(socStart) || isNaN(socSlut) || socStart < 0 || socStart >= socSlut || socSlut > 100) {
+        resultatEl.textContent = "Start SoC skal være mindre end Slut SoC, begge mellem 0 og 100.";
         return;
       }
       if (isNaN(kapacitet) || kapacitet <= 0) {
-        resultatEl.textContent = "Indtast en gyldig batterikapacitet.";
+        resultatEl.textContent = "Indtast en gyldig batteristørrelse.";
         return;
       }
       if (isNaN(ampere) || ampere <= 0 || isNaN(volt) || volt <= 0 || (faser !== 1 && faser !== 3)) {
-        resultatEl.textContent = "Tjek de tekniske værdier.";
+        resultatEl.textContent = "Tjek de tekniske værdier (ampere, volt, faser).";
         return;
       }
       if (isNaN(ladetab) || ladetab < 0 || ladetab > 100) {
@@ -56,7 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Beregning
-      const energibehov = kapacitet * ((socSlut - socStart) / 100);
+      const andel = (socSlut - socStart) / 100;
+      const energibehov = kapacitet * andel;
       const bruttoKWh = energibehov * (1 + ladetab / 100);
       const effektKW = (ampere * volt * faser) / 1000;
 
@@ -66,15 +109,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const tidTimer = bruttoKWh / effektKW;
-      const totalMin = Math.round(tidTimer * 60);
+      const totalMinutter = Math.round(tidTimer * 60);
+
       let tekst = "Estimeret ladetid: ";
 
-      if (totalMin <= 60) {
-        tekst += `${totalMin} minutter`;
+      if (totalMinutter < 60) {
+        tekst += `${totalMinutter} minutter`;
       } else {
-        const dage = Math.floor(totalMin / 1440);
-        const timer = Math.floor((totalMin % 1440) / 60);
-        const minutter = totalMin % 60;
+        const dage = Math.floor(totalMinutter / 1440);
+        const timer = Math.floor((totalMinutter % 1440) / 60);
+        const minutter = totalMinutter % 60;
 
         if (dage > 0) tekst += `${dage} dag${dage > 1 ? "e" : ""} `;
         if (timer > 0) tekst += `${timer} timer `;
@@ -82,73 +126,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       tekst += `<br>Energiforbrug: ${bruttoKWh.toFixed(2)} kWh`;
+
       resultatEl.innerHTML = tekst;
     });
-
-    // --- Cookie consent og annoncer ---
-    const cookieBanner = document.getElementById("cookie-banner");
-    const acceptBtn = document.getElementById("accept-cookies");
-    const afvisBtn = document.getElementById("afvis-cookies");
-
-    function checkConsent() {
-      return localStorage.getItem("cookiesAccepted");
-    }
-
-    function showAds() {
-      const adContainers = document.querySelectorAll(".ads-box, #ads-container");
-      adContainers.forEach(container => {
-        container.style.display = "block";
-        try {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (err) {
-          console.warn("Annoncefejl:", err);
-        }
-      });
-    }
-
-    function acceptCookies() {
-      localStorage.setItem("cookiesAccepted", "yes");
-      if (cookieBanner) cookieBanner.style.display = "none";
-
-      if (typeof gtag === "function") {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'analytics_storage': 'granted'
-        });
-      }
-
-      showAds();
-    }
-
-    function declineCookies() {
-      localStorage.setItem("cookiesAccepted", "no");
-      if (cookieBanner) cookieBanner.style.display = "none";
-
-      if (typeof gtag === "function") {
-        gtag('consent', 'update', {
-          'ad_storage': 'denied',
-          'analytics_storage': 'denied'
-        });
-      }
-
-      showAds(); // Ikke-personlige annoncer
-    }
-
-    const consent = checkConsent();
-    if (consent === "yes") {
-      if (cookieBanner) cookieBanner.style.display = "none";
-      acceptCookies();
-    } else if (consent === "no") {
-      if (cookieBanner) cookieBanner.style.display = "none";
-      declineCookies();
-    } else {
-      if (cookieBanner) cookieBanner.style.display = "flex";
-    }
-
-    if (acceptBtn) acceptBtn.addEventListener("click", acceptCookies);
-    if (afvisBtn) afvisBtn.addEventListener("click", declineCookies);
-  } catch (err) {
-    console.error("Fejl i JavaScript:", err);
   }
 });
-

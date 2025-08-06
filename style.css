@@ -89,6 +89,30 @@ a {
   .banner-mobile { display: block; }
 }
 
+/* Skjul annoncecontainer, hvis der ikke vises annonce */
+.ad-container:empty,
+.ad-container ins.adsbygoogle:empty {
+  display: none !important;
+}
+
+/* Sørg for at ad-container ikke har fast højde */
+.ad-container {
+  margin: 2rem 0;
+  text-align: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Annonceelementet skal tilpasse sig */
+.ad-container ins.adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+}
+
+
 /* --- Container --- */
 .container {
   max-width: 1100px;
