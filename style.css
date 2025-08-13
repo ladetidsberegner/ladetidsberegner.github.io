@@ -13,6 +13,7 @@ a {
   color: inherit;
 }
 
+
 .btn {
   display: inline-block;
   padding: 0.6em 1.2em;
@@ -41,6 +42,7 @@ a {
 
 .features-image-with-step .btn {
   all: unset; /* Nulstil */
+  /* Genindstil de styles du ønsker */
   background-color: #55ca1c;
   color: #fff;
   padding: 12px 25px;
@@ -51,13 +53,15 @@ a {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .features-image-with-step .btn:hover,
 .features-image-with-step .btn:focus {
   background-color: #3ea314;
   outline: none;
 }
 
-/* --- Adsense banner --- */
+
+/*adsensebanner*/
 .adsense-banner {
   margin: 2rem auto;
   max-width: 100%;
@@ -107,6 +111,7 @@ a {
   min-height: 0 !important;
   max-height: 100% !important;
 }
+
 
 /* --- Container --- */
 .container {
@@ -181,7 +186,6 @@ a {
 /* --- About sektion --- */
 .about {
   padding: 4rem 0;
-  background-color: #fff;
 }
 .about-wrapper {
   display: flex;
@@ -229,56 +233,50 @@ a {
   color: #000;
 }
 
-/* --- Text-Image reverse (FAQ) --- */
-.faq-section {
-  max-width: 800px;
-  margin: 0 auto;
+/* --- Text-Image reverse --- */
+.text-image {
+  padding: 60px 20px;
+  background: #f9f9f9;
 }
-.faq-item {
-  border-bottom: 1px solid #55ca1c;
-}
-.faq-question {
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 0.8rem 0;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
+.text-image-wrapper.reverse {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 0.6rem;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  flex-direction: row; /* tekst til venstre, billede til højre */
 }
-.faq-icon {
-  color: #4CAF50; /* brand-grøn */
-  font-size: 1.8rem; /* 100% større end før */
-  transition: transform 0.25s ease, color 0.2s ease;
+.text-image-wrapper.reverse .text-block {
+  flex: 1 1 50%;
 }
-.faq-question:hover .faq-icon {
-  color: #43a047; /* mørkere grøn ved hover */
+.text-image-wrapper.reverse .image-block {
+  flex: 1 1 50%;
+  max-width: 500px;
 }
-.faq-item.active .faq-icon {
-  transform: rotate(90deg);
-}
-
-.faq-answer {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
-}
-.faq-answer.open {
-  height: auto; /* vi håndterer height i JS */
-  overflow: visible;
+.text-image-wrapper.reverse .image-block img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
 }
 
-
-.toggle-info-box {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
+/* Ensartet mobil-adfærd for About og Text-Image reverse sektioner */
+@media (max-width: 768px) {
+  .about-wrapper,
+  .text-image-wrapper.reverse {
+    flex-direction: column;
+    align-items: center;
+  }
+  .about-wrapper .image-block,
+  .about-wrapper .text-block,
+  .text-image-wrapper.reverse .image-block,
+  .text-image-wrapper.reverse .text-block {
+    width: 100%;
+    max-width: 500px;
+  }
 }
-
 
 /* --- Features med trin --- */
 .features-image-with-steps {
@@ -338,203 +336,216 @@ a {
   color: #333;
 }
 
-.ladeeffekt-forklaring {
-  color: #fff; 
-  margin-bottom: 0.25rem;
-}
-
-.ladeeffekt-note {
-  color: #fff;  font-size: 0.95rem;
-  margin-top: 0;
-}
-
-.ansvarsfraskrivelse-forklaring {
-  color: #fff; /* hvid */
-  margin-bottom: 0.25rem;
-  font-weight: 600;
-}
-
-.ansvarsfraskrivelse-note {
-  color: #fff; /* også hvid */
-  font-size: 0.95rem;
-  margin-top: 0;
-}
-
 /* --- Beregner --- */
-.beregner-outer {
+/* Baggrundsfarve over hele sektionen */
+.beregner-sektion {
+  
   background-color: #55ca1c;
+  padding: 30px 0;
   width: 100vw;
-  padding: 40px 20px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
-.beregner-container {
+
+/* Container der centrerer og begrænser bredde */
+.container {
+  width: 100%;
   max-width: 900px;
-  margin: 0 auto;
-  color: #fff;
+  padding: 0 20px;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
-.beregner-overskrift {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 20px;
-  font-family: "Helvetica Neue", sans-serif;
-  line-height: 1.3;
-}
 
-@media (min-width: 768px) {
-  .beregner-overskrift {
-    font-size: 28px;
-  }
-}
-
-form.beregn-form {
+/* Formular generel styling */
+.beregn-form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+}
+
+/* Form row med inline felter til SoC */
+.soc-row {
+  display: flex;
   gap: 20px;
-}
-.form-row {
-  display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* afstand mellem felter på samme række */
-  margin-bottom: 20px; /* luft mellem rækker */
-}
-.faq-link {
-  font-size: 0.85em;
-  margin-left: 6px;
-  color: #fff; /* eller en farve, der passer til dit design */
-  text-decoration: underline;
-  cursor: pointer;
 }
 
-
-.halv-bredde {
-  max-width: 48%;
-  flex: 0 0 48%;
-  box-sizing: border-box;
-}
-.form-row > .form-group {
-  flex: 1 1 0;
-  min-width: 180px;
+/* Individuelle inline grupper i soc-row */
+.form-group-inline {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
-label {
+
+/* Labels */
+.form-row label {
+  margin-bottom: 8px; /* lidt større afstand under label */
   font-weight: 600;
-  margin-bottom: 6px;
-  font-size: 16px;
+  color: #fff;
+  display: block; /* sikrer label står over input */
+}
+
+
+/* Info tekst under batteri input */
+.info-text {
+  font-size: 0.85rem;
+  margin-top: 3px;
   color: #fff;
 }
-input[type="number"],
-select {
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  background: #fff;
-  color: #111;
-  width: 100%;
-  box-sizing: border-box;
-  appearance: none;
+
+.info-text a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.info-text a:hover,
+.info-text a:focus {
+  color: #001a00;
+  text-decoration: none;
+}
+
+/* Input- og select-felter */
+.form-row input,
+.form-row select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  outline-offset: 2px;
+  border: 2px solid transparent;
   transition: border-color 0.3s ease;
 }
-select {
-  background-image: url("data:image/svg+xml,%3csvg fill='none' stroke='%23000' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3e%3c/path%3e%3c/svg%3e");
+
+#faser {
+  appearance: none; /* fjerner standardbrowser-pil, hvis ønsket */
+  background-color: #fff; /* hvis input har hvid baggrund */
+  color: #000; /* tekstfarve */
+  padding-right: 30px; /* plads til dropdown-pil */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5"><path fill="none" stroke="%23000" stroke-width="1" d="M0 0 L5 5 L10 0"/></svg>');
   background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px 16px;
-  padding-right: 40px;
+  background-position: right 10px center;
+  background-size: 10px 5px;
 }
-input[type="number"]:focus,
-select:focus {
+
+
+/* Fokus */
+.form-row input:focus,
+.form-row select:focus {
   border-color: #004d00;
   outline: none;
 }
+
+/* Avancerede felter (skjult som standard) */
+.advanced-fields {
+  display: none;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.advanced-fields.show {
+  display: flex;
+}
+
+/* Avancerede felter - hver enkelt form-row får bredde */
+.advanced-fields .form-row {
+  flex: 1 1 30%;
+}
+
+/* Ladetab feltet udenfor avancerede */
+.form-row:last-of-type {
+  margin-bottom: 15px;
+}
+
+/* Knap til beregn */
 .beregn-knap {
-  background: #fff;
-  color: #55ca1c;
-  border: 2px solid #fff;
-  font-weight: 600;
-  padding: 12px 26px;
-  font-size: 16px;
+  color:#55ca1c;
+  background-color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-  height: 48px;
+  transition: background-color 0.3s ease;
+  width: 150px;
   align-self: flex-start;
-  min-width: 150px;
-  white-space: nowrap;
 }
+
 .beregn-knap:hover {
-  background: #4cb119;
-  border-color:2 px #fff;
-  color: #fff;
+  background-color: #f0f0f0;
 }
+
+/* Toggle avanceret knap */
+.toggle-advanced-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-weight: 600;
+  padding: 0;
+  text-decoration: underline;
+  width: fit-content;
+}
+
+.toggle-advanced-btn:hover {
+  color: #001a00;
+}
+
+/* Resultat */
 #resultat {
   margin-top: 20px;
-  font-size: 16px;
-  min-height: 50px;
+  font-weight: 700;
+  font-size: 1.15rem;
   color: #fff;
-}
-.info-text {
-  font-size: smaller;
-  color: #e0e0e0;
-  margin-top: 5px;
-  max-width: 300px;
 }
 
-#ansvarsfraskrivelse {
-  color: #fff;
+.advanced-fields {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  /* Fjern display:none */
+  display: flex; /* Så det stadig kan flexe, men max-height:0 skjuler det */
+}
+
+.advanced-fields.show {
+  max-height: 500px; /* Sæt en passende max-height, så den kan rumme alt indhold */
+  opacity: 1;
+}
+
+
+
+/* Disclaimer */
+.disclaimer {
   font-size: 0.85rem;
-  margin-top: 1rem;
-  max-width: 900px;
-  line-height: 1.4;
-  opacity: 0.85;
-}
-
-/* Ens styling på begge "forklaring"-tekster */
-.ladeeffekt-forklaring,
-.ansvarsfraskrivelse-forklaring {
   color: #fff;
-  margin-bottom: 0.25rem;
-  /*font-weight: 600;
-  font-size: 1rem;*/
-  font-size: 1rem;
-  line-height: 1.4;
-  font-family: Arial, sans-serif; /* sikr ens font */
-}
-
-/* Ens styling på begge "note"-tekster */
-.ladeeffekt-note,
-.ansvarsfraskrivelse-note {
-  color: #fff;
-  font-size: 0.95rem;
-  margin-top: 0;
+  margin-top: 15px;
+  font-style: italic;
+  max-width: 480px;
   line-height: 1.3;
-  font-family: Arial, sans-serif;
-  opacity: 1; /* undgå forskellig gennemsigtighed */
 }
 
-
-/* Responsivt */
+/* Responsivt: På små skærme placeres avancerede felter i kolonne */
 @media (max-width: 600px) {
-  .form-row {
+  .soc-row {
     flex-direction: column;
+  }
+  .advanced-fields {
+    flex-direction: column;
+  }
+  .advanced-fields .form-row {
+    flex: 1 1 100%;
   }
   .beregn-knap {
     width: 100%;
-    align-self: stretch;
-  }
-  .hero-text h1 {
-    font-size: 2.6rem !important;
-    line-height: 1.2;
-    word-break: break-word;
-    white-space: normal;
-  }
-  .hero-text p {
-    font-size: 0.95rem;
   }
 }
+
 
 /* --- Cookie-banner --- */
 .cookie-banner {
@@ -555,13 +566,16 @@ select:focus {
   gap: 10px;
   flex-wrap: wrap;
 }
+
 .cookie-banner p {
   margin: 0;
 }
+
 .cookie-banner a {
   color: #55ca1c;
   text-decoration: underline;
 }
+
 .cookie-banner button {
   background: #55ca1c;
   color: white;
@@ -572,12 +586,15 @@ select:focus {
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
+
 .cookie-banner button:hover {
   background: #429012;
 }
+
 .cookie-banner .btn-secondary {
   background: #555;
 }
+
 .cookie-banner .btn-secondary:hover {
   background: #444;
 }
@@ -591,12 +608,29 @@ select:focus {
   font-size: 0.9rem;
 }
 
-/* --- Reklamer --- */
+@media (max-width: 600px) {
+  .hero-text h1 {
+    font-size: 2.6rem !important;
+    line-height: 1.2;
+    word-break: break-word;
+    white-space: normal;
+    
+  }
+
+  .hero-text p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/*reklamer*/
 .ads-box {
   margin: 2em auto;
   max-width: 728px;
   text-align: center;
 }
+
+/*sideannoncer*/
 .ads-side {
   position: sticky;
   top: 100px;
@@ -604,11 +638,15 @@ select:focus {
   float: right;
   margin-left: 1em;
 }
+
+/* Vandret reklame */
 .ad-container {
   margin: 40px auto;
   max-width: 728px;
   text-align: center;
 }
+
+/* Skyscraper – kun på desktop */
 .skyscraper-ad {
   position: fixed;
   top: 120px;
@@ -616,6 +654,7 @@ select:focus {
   width: 160px;
   z-index: 99;
 }
+
 @media screen and (min-width: 1024px) {
   .skyscraper-ad {
     display: block;

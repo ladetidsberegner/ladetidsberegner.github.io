@@ -1,130 +1,133 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("beregn-form");
-  const resultatDiv = document.getElementById("resultat");
+  // --- Cookie-banner håndtering ---
+  const cookieBanner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("accept-cookies");
+  const afvisBtn = document.getElementById("afvis-cookies"); // hvis du har en afvis-knap
 
-  // Smooth fold-ud info-tekster ved klik på label
-  document.querySelectorAll(".toggle-info").forEach(label => {
-    label.style.cursor = "pointer";
-    label.addEventListener("click", function () {
-      const infoId = this.getAttribute("data-info");
-      const infoBox = document.getElementById(infoId);
-      if (!infoBox) return;
+  // Tjek tidligere valg
+  const consent = localStorage.getItem("cookiesAccepted");
 
-      if (infoBox.style.height && infoBox.style.height !== "0px") {
-        // Luk infoBox
-        infoBox.style.height = infoBox.scrollHeight + "px"; // start højde
-        requestAnimationFrame(() => {
-          infoBox.style.height = "0px"; // animér til 0
-        });
-      } else {
-        // Åbn infoBox
-        infoBox.style.height = infoBox.scrollHeight + "px";
-        // Når transition er færdig, sæt height til auto
-        infoBox.addEventListener("transitionend", function handler() {
-          if (infoBox.style.height !== "0px") {
-            infoBox.style.height = "auto";
-          }
-          infoBox.removeEventListener("transitionend", handler);
-        });
-      }
-    });
+  if (!consent) {
+    cookieBanner.style.display = "flex"; // Vis banner hvis intet valg
+  } else {
+    cookieBanner.style.display = "none";
+    handleConsent(consent === "yes");
+  }
+
+  // Klik på accept
+  acceptBtn?.addEventListener("click", function () {
+    localStorage.setItem("cookiesAccepted", "yes");
+    cookieBanner.style.display = "none";
+    handleConsent(true);
   });
 
-  // Load gemte værdier eller default
-  document.getElementById("soc-start").value = localStorage.getItem("socStart") || 20;
-  document.getElementById("soc-slut").value = localStorage.getItem("socSlut") || 80;
-  document.getElementById("kapacitet").value = localStorage.getItem("kapacitet") || 57.5;
-  document.getElementById("ladetab").value = localStorage.getItem("ladetab") || 12;
-  document.getElementById("ladevalg").value = localStorage.getItem("ladevalg") || "11-3";
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const socStart = parseFloat(document.getElementById("soc-start").value);
-    const socSlut = parseFloat(document.getElementById("soc-slut").value);
-    const kapacitet = parseFloat(document.getElementById("kapacitet").value);
-    const ladetab = parseFloat(document.getElementById("ladetab").value);
-    let [effekt, faser] = document.getElementById("ladevalg").value.split("-");
-
-    effekt = parseFloat(effekt);
-
-    if (effekt === 11 && faser === "1") {
-      effekt = 3.7;
-    }
-
-    // Gem værdier i localStorage
-    localStorage.setItem("socStart", socStart);
-    localStorage.setItem("socSlut", socSlut);
-    localStorage.setItem("kapacitet", kapacitet);
-    localStorage.setItem("ladetab", ladetab);
-    localStorage.setItem("ladevalg", document.getElementById("ladevalg").value);
-
-    if (socSlut <= socStart) {
-      resultatDiv.innerHTML = `<p style="color:red;">Slut SoC skal være større end start SoC.</p>`;
-      return;
-    }
-
-    const procentAtLade = socSlut - socStart;
-    const kWhAtLade = (kapacitet * (procentAtLade / 100)) * (1 + ladetab / 100);
-    const tidTimer = kWhAtLade / effekt;
-
-    let tidTekst = "";
-    if (tidTimer < 1) {
-      const minutter = Math.round(tidTimer * 60);
-      tidTekst = `${minutter} minutter`;
-    } else {
-      const timer = Math.floor(tidTimer);
-      const minutter = Math.round((tidTimer - timer) * 60);
-      tidTekst = `${timer} timer${minutter > 0 ? ` og ${minutter} minutter` : ""}`;
-    }
-
-    resultatDiv.innerHTML = `
-      <p>Du skal lade <strong>${kWhAtLade.toFixed(1)} kWh</strong>.</p>
-      <p>Det vil tage cirka <strong>${tidTekst}</strong>.</p>
-    `;
+  // Klik på afvis (hvis du har knap)
+  afvisBtn?.addEventListener("click", function () {
+    localStorage.setItem("cookiesAccepted", "no");
+    cookieBanner.style.display = "none";
+    handleConsent(false);
   });
 
-  document.querySelectorAll(".faq-question").forEach(button => {
-  button.style.cursor = "pointer";
-  button.addEventListener("click", () => {
-    const answer = button.nextElementSibling; // faq-answer div
-    if (!answer) return;
-
-    if (answer.style.height && answer.style.height !== "0px") {
-      // Luk svar
-      answer.style.height = answer.scrollHeight + "px";
-      requestAnimationFrame(() => {
-        answer.style.height = "0px";
+  function handleConsent(isAccepted) {
+    if (typeof gtag === "function") {
+      gtag('consent', 'update', {
+        'ad_storage': isAccepted ? 'granted' : 'denied',
+        'analytics_storage': isAccepted ? 'granted' : 'denied'
       });
-      answer.classList.remove("open");
-    } else {
-      // Åbn svar
-      answer.style.height = answer.scrollHeight + "px";
-      answer.classList.add("open");
-      answer.addEventListener("transitionend", function handler() {
-        if (answer.classList.contains("open")) {
-          answer.style.height = "auto";
+    }
+
+    if (isAccepted) {
+      // Trigger annonceindlæsning
+      document.querySelectorAll(".adsbygoogle").forEach((ad) => {
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+          console.warn("Annoncefejl:", e);
         }
-        answer.removeEventListener("transitionend", handler);
       });
     }
-  });
-});
+  }
 
+  // --- Toggle avancerede felter ---
+  const toggleBtn = document.getElementById("toggle-advanced");
+  const advancedFields = document.getElementById("advanced-fields");
 
-  // Cookie banner (vises kun hvis ikke accepteret)
-  if (!localStorage.getItem("cookiesAccepted")) {
-    const cookieBanner = document.createElement("div");
-    cookieBanner.classList.add("cookie-banner");
-    cookieBanner.innerHTML = `
-      <p>Vi bruger cookies til at huske dine indstillinger og forbedre oplevelsen. <a href="/cookiepolitik">Læs mere</a></p>
-      <button id="acceptCookies">Accepter</button>
-    `;
-    document.body.appendChild(cookieBanner);
+  if (toggleBtn && advancedFields) {
+    toggleBtn.addEventListener("click", function () {
+      const shown = advancedFields.classList.toggle("show");
+      advancedFields.setAttribute("aria-hidden", !shown);
+      toggleBtn.textContent = shown
+        ? "Skjul avancerede indstillinger"
+        : "Vis avancerede indstillinger";
+    });
+  }
 
-    document.getElementById("acceptCookies").addEventListener("click", function () {
-      localStorage.setItem("cookiesAccepted", "true");
-      cookieBanner.remove();
+  // --- Beregning af ladetid ---
+  const form = document.querySelector(".beregn-form");
+  const resultatEl = document.getElementById("resultat");
+
+  if (form && resultatEl) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Læs værdier, sæt default hvis tomt
+      const socStart = parseFloat(document.getElementById("soc-start").value);
+      const socSlut = parseFloat(document.getElementById("soc-slut").value);
+      const kapacitet = parseFloat(document.getElementById("kapacitet").value);
+      const ladetab = parseFloat(document.getElementById("ladetab").value);
+      const ampere = parseFloat(document.getElementById("ampere").value) || 16;
+      const volt = parseFloat(document.getElementById("volt").value) || 230;
+      const faser = parseInt(document.getElementById("faser").value) || 3;
+
+      // Validering
+      if (isNaN(socStart) || isNaN(socSlut) || socStart < 0 || socStart >= socSlut || socSlut > 100) {
+        resultatEl.textContent = "Start SoC skal være mindre end Slut SoC, begge mellem 0 og 100.";
+        return;
+      }
+      if (isNaN(kapacitet) || kapacitet <= 0) {
+        resultatEl.textContent = "Indtast en gyldig batteristørrelse.";
+        return;
+      }
+      if (isNaN(ampere) || ampere <= 0 || isNaN(volt) || volt <= 0 || (faser !== 1 && faser !== 3)) {
+        resultatEl.textContent = "Tjek de tekniske værdier (ampere, volt, faser).";
+        return;
+      }
+      if (isNaN(ladetab) || ladetab < 0 || ladetab > 100) {
+        resultatEl.textContent = "Ladetab skal være mellem 0 og 100%.";
+        return;
+      }
+
+      // Beregning
+      const andel = (socSlut - socStart) / 100;
+      const energibehov = kapacitet * andel;
+      const bruttoKWh = energibehov * (1 + ladetab / 100);
+      const effektKW = (ampere * volt * faser) / 1000;
+
+      if (effektKW <= 0) {
+        resultatEl.textContent = "Effekten kan ikke være nul.";
+        return;
+      }
+
+      const tidTimer = bruttoKWh / effektKW;
+      const totalMinutter = Math.round(tidTimer * 60);
+
+      let tekst = "Estimeret ladetid: ";
+
+      if (totalMinutter < 60) {
+        tekst += `${totalMinutter} minutter`;
+      } else {
+        const dage = Math.floor(totalMinutter / 1440);
+        const timer = Math.floor((totalMinutter % 1440) / 60);
+        const minutter = totalMinutter % 60;
+
+        if (dage > 0) tekst += `${dage} dag${dage > 1 ? "e" : ""} `;
+        if (timer > 0) tekst += `${timer} timer `;
+        if (minutter > 0) tekst += `${minutter} minutter`;
+      }
+
+      tekst += `<br>Energiforbrug: ${bruttoKWh.toFixed(2)} kWh`;
+
+      resultatEl.innerHTML = tekst;
     });
   }
 });
