@@ -2,6 +2,7 @@
 /**/
 html {
   scroll-behavior: smooth;
+  background-color:#fc3;
 }
 body {
   margin: 0;
