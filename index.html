@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+  <title>Ladetidsberegner – Beregn hvor lang tid det tager at lade din elbil hjemme</title>
+
+  <!-- Meta description for SEO -->
+  <meta name="description" content="Beregn hurtigt ladetid på din elbil med vores gratis ladetidsberegner. Indtast batteristørrelse, start- og slutladning, ladeeffekt og få en præcis opladningstid ved hjemmeladning." />
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="Ladetidsberegner – Beregn hvor lang tid det tager at lade din elbil hjemme" />
+  <meta property="og:description" content="Beregn hurtigt opladningstid for din elbil med vores gratis ladetidsberegner. Indtast batteristørrelse, start/slutladning og ladeeffekt." />
+  <meta property="og:image" content="https://ladetidsberegner.github.io/ladetidsberegner/img/hero.jpg" />
+  <meta property="og:url" content="https://ladetidsberegner.github.io/ladetidsberegner/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Ladetidsberegner",
+    "url": "https://ladetidsberegner.github.io/",
+    "description": "Beregn opladningstid for elbil hjemme baseret på batteristørrelse, start/slut SoC, ladeeffekt og ladetab.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "DKK"
+    }
+  }
+  </script>
+
+  <!-- Din CSS -->
+  <link rel="stylesheet2" href="style.css" />
+
+  <!-- Google Tag Manager (Consent Mode + Analytics) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
+    gtag('js', new Date());
+    gtag('config', 'G-ELGNQRMN1X');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Hero sektion -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Ladetidsberegner – Beregn ladetid for elbil ved hjemmeladning</h1>
+      <p>Planlæg opladningen af din elbil bedre med vores gratis ladetidsberegner. Indtast bilens batterikapacitet, start- og slutladningsniveau samt ladeeffekt, og få en præcis beregning af, hvor lang tid det tager at lade din elbil hjemme.</p>
+      <nav><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
+    </div>
+  </section>
+
+  <!-- About sektion -->
+  <section class="about">
+    <div class="about-wrapper">
+      <div class="image-block">
+        <img src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader" />
+      </div>
+      <div class="text-block">
+        <h2>Hvor lang tid tager det at lade en elbil op hjemme?</h2>
+        <p>Det kan være svært at gennemskue, hvor lang tid det tager at lade en elbil, da det afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores ladetidsberegner får du et hurtigt og præcist overblik over opladningstiden, så du kan planlægge din opladning bedre.</p>
+        <a href="#bereger" class="btn">Beregn ladetid på din elbil</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features med billede og trin -->
+  <section class="features-image-with-steps">
+    <div class="features-layout">
+      <div class="features-image animate-on-scroll">
+        <img src="img/elbil-dame-telefon.jpg" alt="Elbil dame med telefon" />
+      </div>
+      <div class="features-steps">
+        <h2>Sådan bruger du ladetidsberegneren</h2>
+        <div class="feature-step step-1 animate-on-scroll">
+          <div class="circle">1</div>
+          <div class="step-content">
+            <h3>Start- og slutladningsniveau</h3>
+            <p>Angiv hvor fyldt batteriet er nu, og hvor meget du ønsker at lade op.</p>
+          </div>
+        </div>
+        <div class="feature-step step-2 animate-on-scroll">
+          <div class="circle">2</div>
+          <div class="step-content">
+            <h3>Batteristørrelse</h3>
+            <p>Indtast hvor mange kWh din elbils batteri rummer.</p>
+          </div>
+        </div>
+        <div class="feature-step step-3 animate-on-scroll">
+          <div class="circle">3</div>
+          <div class="step-content">
+            <h3>Ladeeffekt og ladetab</h3>
+            <p>Vælg ladeeffekt og eventuelt energitab under opladning.</p>
+          </div>
+        </div>
+        <p>Ud fra disse oplysninger beregner vi automatisk den forventede opladningstid.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beregner sektion -->
+<div class="beregner-outer" id="bereger">
+  <div class="beregner-container">
+    <h2 class="beregner-overskrift">Beregn opladningstiden på din hjemmelader nemt og hurtigt</h2>
+
+    <form id="beregn-form">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="soc-start"><a href="#faq-soc" class="label-link">Start SoC (%)</a></label>
+          <input type="number" id="soc-start" min="0" max="100" step="1" required value="20" />
+          <small>
+            Angiv batteriets startprocent inden opladning (0-100%). 
+            <a href="#faq-soc" class="laes-mere-link">Læs mere</a>
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="soc-slut"><a href="#faq-soc" class="label-link">Slut SoC (%)</a></label>
+          <input type="number" id="soc-slut" min="0" max="100" step="1" required value="80" />
+          <small>
+            Angiv ønsket slutprocent (skal være større end start SoC).
+            <a href="#faq-soc" class="laes-mere-link">Læs mere</a>
+          </small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group halv-bredde">
+          <label for="kapacitet"><a href="#faq-batterikapacitet" class="label-link">Batterikapacitet (kWh)</a></label>
+          <input type="number" id="kapacitet" min="0" step="0.1" required value="57.5" />
+          <small>
+            Find din bils batterikapacitet på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>. 
+            <a href="#faq-batterikapacitet" class="laes-mere-link">Læs mere</a>
+          </small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group halv-bredde">
+          <label for="ladetab"><a href="#faq-ladetab" class="label-link">Ladetab (%)</a></label>
+          <input type="number" id="ladetab" min="0" step="0.1" required value="12" />
+          <small>
+            Et typisk energitab ved opladning er omkring 12%, som skyldes varmetab og kabler. 
+            <a href="#faq-ladetab" class="laes-mere-link">Læs mere</a>
+          </small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group halv-bredde">
+          <label for="ladevalg"><a href="#faq-ladeeffekt" class="label-link">Vælg ladeeffekt og antal faser</a></label>
+          <select id="ladevalg" required>
+            <option value="">Vælg</option>
+            <option value="3.7-1">3,7 kW (1 fase)</option>
+            <option value="7.4-1">7,4 kW (1 fase)</option>
+            <option value="11-1">11 kW (1 fase)</option>
+            <option value="11-3" selected>11 kW (3 faser)</option>
+            <option value="22-3">22 kW (3 faser)</option>
+          </select>
+          <small>
+            Vælg den ladeeffekt og antal faser, som passer til din installation og bil. 
+            <a href="#faq-ladeeffekt" class="laes-mere-link">Læs mere</a>
+          </small>
+          <div class="info-text">
+            <p class="ladeeffekt-forklaring">
+              Hvis du vælger 22 kW, skal din bil understøtte denne ladeeffekt for at opnå fuld hastighed.<br>
+              Ellers vil opladningen ske langsommere, svarende til bilens kapacitet.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="beregn-knap">Beregn</button>
+
+      <div id="resultat"></div>
+
+      <div id="ansvarsfraskrivelse">
+        <p class="ladeeffekt-forklaring" style="font-size: small; font-style: italic;">
+          Beregningen er vejledende og kan afvige fra den faktiske opladningstid.<br>
+          Ladehastigheden påvirkes af flere faktorer som bilens specifikationer, batteriets tilstand, temperatur og laderens kapacitet.<br>
+          Vi påtager os ikke ansvar for eventuelle afvigelser eller fejl i beregningen.
+        </p>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+  <!-- Ad efter beregner -->
+  <div class="ad-container">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4322732012925287" data-ad-slot="4377501699" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<!-- Text-image reverse sektion / FAQ -->
+<section class="faq-section">
+<div class="faq">
+
+  <div class="faq-item" id="faq-soc">
+    <button class="faq-question">
+      <span class="faq-icon">▶</span>
+      Hvad betyder start- og slut-SOC?
+    </button>
+    <div class="faq-answer">
+      <p>SOC står for "State of Charge" og angiver, hvor fyldt batteriet er i procent. 
+         Start-SOC er den procent, batteriet har, når du begynder opladningen, 
+         og slut-SOC er den procent, du ønsker at lade op til.</p>
+    </div>
+  </div>
+
+<div class="faq-item" id="faq-batterikapacitet">
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+    Hvad er bilens batterikapacitet?
+  </button>
+  <div class="faq-answer">
+    <p>Batterikapacitet angiver, hvor meget energi bilens batteri kan lagre, og måles i kilowatt-timer (kWh). 
+       Jo større kapacitet, desto længere kan du køre på en opladning – men det afhænger også af bilens effektivitet.</p>
+    <p>Effektivitet måles ofte i kWh pr. 100 km eller km pr. kWh. En effektiv bil kan køre længere på samme mængde energi, 
+       mens en mindre effektiv bil bruger mere energi pr. kilometer.</p>
+    <p>For eksempel kan to biler med samme 60 kWh batteri have meget forskellig rækkevidde:  
+       én der bruger 15 kWh/100 km kan køre ca. 400 km, mens én der bruger 20 kWh/100 km kun kan køre ca. 300 km.</p>
+    <p>Du kan finde din bils batterikapacitet og effektivitet på 
+       <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>.</p>
+  </div>
+</div>
+
+
+<div class="faq-item" id="faq-ladetab">
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+    Hvad er ladetab?
+  </button>
+  <div class="faq-answer">
+    <p>Ladetab er den energi, der går tabt under opladning — typisk omkring 10–15% afhængigt af bil og lader.</p>
+    <p>Et vigtigt punkt er, at <strong>det relative ladetab ofte stiger ved lav ladeeffekt</strong>. Forklaringen er, at dele af ladesystemet (bilens styringselektronik, varme- og kølesystemer mv.) bruger en nogenlunde fast mængde energi uafhængigt af, hvor hurtigt du lader. Når du lader langsomt, fordeles dette faste forbrug over færre kWh, og derfor udgør det en større procentdel af den samlede energi — altså højere procentuelt tab.</p>
+    <p>Praktisk konsekvens: hvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen kan være flaskehals (den bestemmer ofte selv, hvor hurtigt den kan modtage effekt).</p>
+    <p>Hvis du vil vide mere om ladetab for specifikke modeller, kan du tjekke producentens oplysninger eller tests på relevante sites.</p>
+  </div>
+</div>
+
+
+  <div class="faq-item" id="faq-80">
+    <button class="faq-question">
+      <span class="faq-icon">▶</span>
+      Må jeg lade batteriet til mere end 80%?
+    </button>
+    <div class="faq-answer">
+      <p>Det kommer an på bilens batterikemi:</p>
+      <ul>
+        <li><strong>Litium-jernfosfat (LFP)</strong> – Kan uden problemer lades til 100% dagligt. 
+            Faktisk anbefaler nogle producenter, at man gør det for at kalibrere rækkeviddevisningen.</li>
+        <li><strong>Andre litium-ion batterier</strong> – For længere levetid anbefales det ofte at lade til ca. 80% til dagligt, 
+            og kun lade helt op når du skal køre langt.</li>
+      </ul>
+      <p>Du kan finde ud af, hvilken type batteri din bil har, på 
+         <a href="https://www.ev-database.org" target="_blank" rel="noopener" style="text-decoration: underline;">www.ev-database.org</a>.</p>
+      <p>Tjek altid bilens manual eller producentens anbefalinger for præcise tal.</p>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+  <!-- øvrige FAQ items -->
+</section>
+
+  <!-- Cookie-banner -->
+<div id="cookie-banner" style="display:none;">
+  <p>
+    Vi bruger cookies og lokal lagring til at huske dine indstillinger i beregneren, analysere trafik og tilpasse indhold.
+  </p>
+  <button id="accept-cookies">Accepter</button>
+</div>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Ladetidsberegner. Alle rettigheder forbeholdes.</p>
+    </div>
+  </footer>
+
+  <script src="script2.js"></script>
+</body>
+</html>
