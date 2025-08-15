@@ -1,8 +1,6 @@
 /* --- Reset & Base --- */
-/**/
 html {
   scroll-behavior: smooth;
-  background-color:#fc3;
 }
 body {
   margin: 0;
@@ -361,6 +359,36 @@ a {
   font-size: 0.95rem;
   margin-top: 0;
 }
+
+.faq-points {
+  counter-reset: faq-counter;
+  padding-left: 1.5em;
+  margin: 0;
+}
+
+.faq-points li {
+  margin-bottom: 1.5em;
+  line-height: 1.5;
+  position: relative;
+  list-style: decimal;
+}
+
+.faq-points li strong {
+  display: block;
+  margin-bottom: 0.3em;
+  font-size: 1.05em;
+}
+
+/* Eventuelt mobiltilpasning */
+@media (max-width: 600px) {
+  .faq-points {
+    padding-left: 1em;
+  }
+  .faq-points li {
+    margin-bottom: 1em;
+  }
+}
+
 
 /* --- Beregner --- */
 .beregner-outer {
