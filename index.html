@@ -67,18 +67,19 @@
   </section>
 
   <!-- About sektion -->
-  <section class="about">
-    <div class="about-wrapper">
-      <div class="image-block">
-        <img src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader" />
-      </div>
-      <div class="text-block">
-        <h2>Hvor lang tid tager det at lade en elbil op hjemme?</h2>
-        <p>Det kan være svært at gennemskue, hvor lang tid det tager at lade en elbil, da det afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores ladetidsberegner får du et hurtigt og præcist overblik over opladningstiden, så du kan planlægge din opladning bedre.</p>
-        <a href="#bereger" class="btn">Beregn ladetid på din elbil</a>
-      </div>
-    </div>
-  </section>
+<section id="about" class="about">
+  <div class="about-text">
+    <h2>Hvor lang tid tager det at lade en elbil op hjemme?</h2>
+    <p>
+     Det kan være svært at gennemskue, hvor lang tid det tager at lade en elbil, da det afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores ladetidsberegner får du et hurtigt og præcist overblik over opladningstiden, så du kan planlægge din opladning bedre.
+    </p>
+    <a href="#bereger" class="btn">Beregn ladetid på din elbil</a>
+  </div>
+  <div class="about-image">
+    <img src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader">
+  </div>
+</section>
+
 
   <!-- Features med billede og trin -->
 <section class="features-image-with-steps">
@@ -172,13 +173,13 @@
         <div class="form-group halv-bredde">
           <label for="ladevalg"><a href="#faq-ladeeffekt" class="label-link">Vælg ladeeffekt og antal faser</a></label>
           <select id="ladevalg" required>
-            <option value="">Vælg</option>
-            <option value="3.7-1">3,7 kW (1 fase)</option>
-            <option value="7.4-1">7,4 kW (1 fase)</option>
-            <option value="11-1">11 kW (1 fase)</option>
-            <option value="11-3" selected>11 kW (3 faser)</option>
-            <option value="22-3">22 kW (3 faser)</option>
-          </select>
+  <option value="">Vælg</option>
+  <option value="3.7-1">3,7 kW (1 fase)</option>
+  <option value="7.4-1">7,4 kW (1 fase)</option>
+  <option value="11-3" selected>11 kW (3 faser)</option>
+  <option value="22-3">22 kW (3 faser)</option>
+</select>
+
           <small>
             Vælg den ladeeffekt og antal faser, som passer til din installation og bil. 
             <a href="#faq-ladeeffekt" class="laes-mere-link">Læs mere</a>
@@ -280,12 +281,7 @@
       <p>Tjek altid bilens manual eller producentens anbefalinger for præcise tal.</p>
     </div>
   </div>
-
 </div>
-
-
-
-
 
   <!-- øvrige FAQ items -->
 </section>
@@ -306,6 +302,6 @@
     </div>
   </footer>
 
-  <script src="script2.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
