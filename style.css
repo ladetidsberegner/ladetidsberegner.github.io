@@ -177,9 +177,9 @@ a {
 
 /* --- About sektion --- */
 .about {
-  max-width: 900px;;
+  max-width: 900px;
   display: flex;
- align-items: center;
+  align-items: center;
   justify-content: center;
   gap: 40px;
   max-width: 1200px;
