@@ -5,12 +5,17 @@ html {
 body {
   margin: 0;
   font-family: "Helvetica Neue", sans-serif;
-  background-color: #fff;
+  background: #fff url("img/woman-charging-electro-car-by-her-house.jpg") no-repeat center center fixed;
   color: #000;
 }
-a {
+
+a{
+  color: #fff;
   text-decoration: none;
-  color: inherit;
+}
+
+a:hover{
+  text-decoration: underline;
 }
 
 /* --- Knapper --- */
@@ -144,6 +149,7 @@ a {
   padding-bottom: 3rem;
   color: white;
   text-shadow: 0 0 8px rgba(0,0,0,0.7);
+  border-bottom: 1px solid #55ca1c !important;
 }
 .hero-text {
   width: 100%;
@@ -176,13 +182,25 @@ a {
 }
 
 /* --- About sektion --- */
+.about-outer{
+  width: 100vw;              /* fylder hele viewport */
+  background-color: #fff;
+  color: #000;
+  padding: 40px 0;
+  box-sizing: border-box;
+  margin-top: 125px;;
+  margin-bottom: 250px;
+  border-top: 1px solid #55ca1c;
+  border-bottom: 1px solid #55ca1c;;
+}
 .about {
+  background-color: #fff;
   max-width: 900px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 40px;
-  margin: 0 auto;
+  margin: 0 auto 50px auto;
   padding: 60px 20px;
 }
 
@@ -218,6 +236,7 @@ a {
   .about {
     flex-direction: column;
     text-align: left;
+    margin-bottom: 0;
   }
 
   .about-image {
@@ -226,15 +245,34 @@ a {
   }
 }
 
-/* --- FAQ / Text-Image reverse --- */
+/* --- FAQ sektion --- */
 .faq-section {
-  max-width: 800px;
-  margin: 0 auto;
-}
-.faq-item {
+  width: 100vw;              /* fylder hele viewport */
+  background-color: #d0f2cc;;
+  color: #000;
+  padding: 40px 0;
+  box-sizing: border-box;
+  margin-bottom:400px;
+    border-top: 1px solid #55ca1c;
   border-bottom: 1px solid #55ca1c;
 }
+
+/* Begrænser kun teksten, ikke baggrunden */
+.faq-section .faq-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;
+}
+
+/* --- FAQ items --- */
+.faq-item {
+  border-bottom: 1px solid #55ca1c;
+  margin-bottom: 20px;
+}
+
 .faq-question {
+  /*color: #fff;*/
   background: none;
   border: none;
   font-size: 1.1rem;
@@ -247,42 +285,52 @@ a {
   align-items: center;
   gap: 0.6rem;
 }
+
 .faq-icon {
   color: #4CAF50;
   font-size: 1.8rem;
   transition: transform 0.25s ease, color 0.2s ease;
 }
+
 .faq-question:hover .faq-icon {
   color: #43a047;
 }
+
 .faq-item.active .faq-icon {
   transform: rotate(90deg);
 }
+
 .faq-answer {
   height: 0;
   overflow: hidden;
   transition: height 0.3s ease;
 }
+
 .faq-answer.open {
   height: auto;
   overflow: visible;
 }
+
 .toggle-info-box {
   height: 0;
   overflow: hidden;
   transition: height 0.3s ease;
 }
+
+/* --- FAQ points (numeriske punkter) --- */
 .faq-points {
   counter-reset: faq-counter;
   padding-left: 1.5em;
   margin: 0;
 }
+
 .faq-points li {
   margin-bottom: 1.5em;
   line-height: 1.5;
   position: relative;
   list-style: decimal;
 }
+
 .faq-points li strong {
   display: block;
   margin-bottom: 0.3em;
@@ -297,6 +345,8 @@ a {
 .features-image-with-steps {
   padding: 4rem 0;
   background-color: #f3fdf0;
+  border-top: 1px solid #55ca1c;
+  border-bottom: 1px solid #55ca1c;
 }
 
 /* Ydre container for layout */
@@ -446,6 +496,7 @@ a {
   width: 100vw;
   padding: 40px 20px;
   box-sizing: border-box;
+  
 }
 .beregner-container {
   max-width: 900px;
@@ -613,6 +664,7 @@ select:focus {
   padding: 1.5rem 0;
   text-align: center;
   font-size: 0.9rem;
+  border-top: 1px solid #55ca1c;
 }
 
 /* --- Reklamer --- */
