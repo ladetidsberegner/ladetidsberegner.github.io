@@ -1,13 +1,25 @@
 /* --- Reset & Base --- */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+  color: #000;
+}
+
 html {
   scroll-behavior: smooth;
 }
 body {
-  margin: 0;
-  font-family: "Helvetica Neue", sans-serif;
-  background: #fff url("img/woman-charging-electro-car-by-her-house.jpg") no-repeat center center fixed;
-  color: #000;
+  background: url("img/elbil-oplading.jpg") no-repeat center top;
+  background-size: cover; /* fylder hele viewport uden at forvrænge */
+  background-attachment: fixed; /* langsom scroll */
+  background-position: center top;
+  background-repeat: no-repeat;
 }
+
 
 a{
   color: #fff;

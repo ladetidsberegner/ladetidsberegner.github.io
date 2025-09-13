@@ -57,6 +57,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
 </head>
 <body>
+   <div class="background"></div>
   <!-- Hero sektion -->
   <section class="hero">
     <div class="hero-text">
@@ -293,5 +294,14 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+// Langsom parallax-effekt
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  document.body.style.backgroundPositionY = `${scrolled * 0.5}px`; // 0.5 = halvt så hurtigt
+});
+
+</script>
+
 </body>
 </html>
