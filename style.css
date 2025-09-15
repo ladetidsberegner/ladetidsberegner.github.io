@@ -44,6 +44,7 @@ a:hover {
 }
 .btn:hover {
   background-color: #429012;
+  text-decoration: none;
 }
 .knap-deaktiveret {
   background-color: #a0c4a2;
@@ -599,13 +600,49 @@ select:focus {
 /* ===============================
    Footer
 =============================== */
-.footer {
-  background-color: #111;
-  color: #bbb;
-  padding: 1.5rem 0;
+.site-footer {
+  background: #333;
+  color:#fff;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-section h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color:rgb(85,202,28);
+}
+
+.footer-section p,
+.footer-section a {
+  font-size: 14px;
+}
+
+.footer-section img {
+  max-width: 100%;
+  height: auto;
+}
+
+.footer-bottom {
+  background: #000;
+  color: #fff;
   text-align: center;
-  font-size: 0.9rem;
-  border-top: 1px solid #55ca1c;
+  padding: 15px 10px;
+  font-size: 14px;
 }
 
 /* ===============================
