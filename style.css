@@ -717,7 +717,8 @@ select:focus {
   /* FAQ */
   .faq-section .faq-container { 
     padding: 0 1rem; 
- border: none;
+    border: none;
+    color: #000 !important;
 } 
   /* Beregner */
   .form-row { flex-direction: column; }
