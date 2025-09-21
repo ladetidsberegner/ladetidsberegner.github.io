@@ -2,39 +2,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("beregn-form");
   const resultatDiv = document.getElementById("resultat");
 
-  // --- Toggle info bokse ---
-  document.querySelectorAll(".toggle-info").forEach(label => {
-    label.style.cursor = "pointer";
-    label.addEventListener("click", function () {
-      const infoId = this.getAttribute("data-info");
-      const infoBox = document.getElementById(infoId);
-      if (!infoBox) return;
-
-      if (infoBox.style.height && infoBox.style.height !== "0px") {
-        infoBox.style.height = infoBox.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          infoBox.style.height = "0px";
-        });
-      } else {
-        infoBox.style.height = infoBox.scrollHeight + "px";
-        infoBox.addEventListener("transitionend", function handler() {
-          if (infoBox.style.height !== "0px") {
-            infoBox.style.height = "auto";
-          }
-          infoBox.removeEventListener("transitionend", handler);
-        });
-      }
-    });
-  });
-
-  // --- Load gemte værdier eller default ---
+  // Load gemte værdier eller default
   document.getElementById("soc-start").value = localStorage.getItem("socStart") || 20;
   document.getElementById("soc-slut").value = localStorage.getItem("socSlut") || 80;
   document.getElementById("kapacitet").value = localStorage.getItem("kapacitet") || 57.5;
   document.getElementById("ladetab").value = localStorage.getItem("ladetab") || 12;
   document.getElementById("ladevalg").value = localStorage.getItem("ladevalg") || "11-3";
 
-  // --- Beregn ladetid ---
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -62,8 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let tidTekst = "";
     if (tidTimer < 1) {
-      const minutter = Math.round(tidTimer * 60);
-      tidTekst = `${minutter} minutter`;
+      tidTekst = `${Math.round(tidTimer * 60)} minutter`;
     } else {
       const timer = Math.floor(tidTimer);
       const minutter = Math.round((tidTimer - timer) * 60);
@@ -75,32 +48,4 @@ document.addEventListener("DOMContentLoaded", function () {
       <p>Det vil tage cirka <strong>${tidTekst}</strong>.</p>
     `;
   });
-
-  // --- FAQ fold-ud ---
-  document.querySelectorAll(".faq-question").forEach(button => {
-    button.style.cursor = "pointer";
-    button.addEventListener("click", () => {
-      const answer = button.nextElementSibling; 
-      if (!answer) return;
-
-      if (answer.style.height && answer.style.height !== "0px") {
-        answer.style.height = answer.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          answer.style.height = "0px";
-        });
-        answer.classList.remove("open");
-      } else {
-        answer.style.height = answer.scrollHeight + "px";
-        answer.classList.add("open");
-        answer.addEventListener("transitionend", function handler() {
-          if (answer.classList.contains("open")) {
-            answer.style.height = "auto";
-          }
-          answer.removeEventListener("transitionend", handler);
-        });
-      }
-    });
-  });
-
-  // --- Den gamle cookie-banner kode er fjernet ---
 });

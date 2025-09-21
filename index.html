@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="da">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,22 +38,29 @@
   <!-- Din CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Tag Manager (Consent Mode + Analytics) -->
+  <!-- Google Analytics 4 (Consent Mode – default denied) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    // Standard: ingen tracking før samtykke
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied'
     });
+
     gtag('js', new Date());
-    gtag('config', 'G-ELGNQRMN1X');
+
+    // GA4 tracking klar, men venter på samtykke
+    gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
   </script>
 
-  <!-- Google AdSense -->
+  <!-- Google AdSense (klar men afventer også consent) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
 </head>
+
+
 <body>
     <!-- Indhold -->
      <div class="top-bar"></div>
@@ -277,13 +282,36 @@
   </div>
 </section>
 
-  <!-- Cookie-banner -->
-<div id="cookie-banner" style="display:none;">
-  <p>
-    Vi bruger cookies og lokal lagring til at huske dine indstillinger i beregneren, analysere trafik og tilpasse indhold.
-  </p>
-  <button id="accept-cookies">Accepter</button>
+<!-- Cookie Banner -->
+<div id="cookie-banner" class="cookie-banner">
+  <div class="cookie-text">
+    <p>Vi bruger cookies til statistik (Google Analytics) og annoncer (Google AdSense). 
+      <a href="#" id="cookie-policy-link">Læs mere</a>
+    </p>
   </div>
+  <div class="cookie-buttons">
+    <button id="cookie-accept">Accepter</button>
+    <button id="cookie-decline">Afvis</button>
+  </div>
+</div>
+
+<!-- Cookie Policy Popup -->
+<div id="cookie-policy-popup" class="cookie-policy-popup">
+  <div class="cookie-policy-content">
+    <span id="cookie-policy-close" class="close">&times;</span>
+    <h2>Cookiepolitik</h2>
+    <p>Vi bruger cookies til at forbedre din oplevelse:</p>
+    <ul>
+      <li><strong>Statistik:</strong> Hjælper os med at forstå, hvordan siden bruges (Google Analytics).</li>
+      <li><strong>Annoncer:</strong> Gør det muligt at vise relevante annoncer (Google AdSense).</li>
+    </ul>
+    <p>Du kan til enhver tid ændre dit samtykke ved at klikke på “Ændr samtykke” nederst på siden.</p>
+  </div>
+</div>
+
+<!-- Ændr samtykke-knap i footer -->
+<button id="change-cookie-consent" class="change-cookie-consent">Ændr samtykke</button>
+
 
  <footer class="site-footer">
   <div class="footer-content">
@@ -328,7 +356,8 @@
 </div>
 
 
-  <script src="script.js"></script>
-
+  <script src="beregner.js"></script>
+  <script src="cookie.js"></script>
+  <script src="faq.js"></script>
 </body>
 </html>
