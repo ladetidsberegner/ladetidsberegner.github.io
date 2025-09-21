@@ -38,27 +38,35 @@
   <!-- Din CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Analytics 4 (Consent Mode – default denied) -->
+  <!-- Google Analytics 4 og AdSense scripts (klar men afventer samtykke) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
+
+  <!-- Cookie consent håndtering -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-
-    // Standard: ingen tracking før samtykke
-    gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'analytics_storage': 'denied'
-    });
-
+    
+    // Initialiser GA uden tracking indtil samtykke
     gtag('js', new Date());
+    gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true, 'send_page_view': false });
 
-    // GA4 tracking klar, men venter på samtykke
-    gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
+    // Funktion til at aktivere tracking efter samtykke
+    function enableTracking() {
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'granted'
+      });
+      gtag('send', 'pageview'); // sender pageview efter accept
+    }
+
+    // Tjek lokalStorage – hvis allerede accepteret, aktiver tracking
+    if (localStorage.getItem("cookie-consent") === "accepted") {
+      enableTracking();
+    }
   </script>
-
-  <!-- Google AdSense (klar men afventer også consent) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
 </head>
+
 
 
 <body>
