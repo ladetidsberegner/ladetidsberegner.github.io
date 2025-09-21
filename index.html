@@ -38,37 +38,26 @@
   <!-- Din CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Analytics 4 og AdSense scripts (klar men afventer samtykke) -->
+  <!-- Google Analytics 4 (Consent Mode – default denied) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
-
-  <!-- Cookie consent håndtering -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    
-    // Initialiser GA uden tracking indtil samtykke
+
+    // Standard: ingen tracking før samtykke
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
+
     gtag('js', new Date());
-    gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true, 'send_page_view': false });
-
-    // Funktion til at aktivere tracking efter samtykke
-    function enableTracking() {
-      gtag('consent', 'update', {
-        'analytics_storage': 'granted',
-        'ad_storage': 'granted'
-      });
-      gtag('send', 'pageview'); // sender pageview efter accept
-    }
-
-    // Tjek lokalStorage – hvis allerede accepteret, aktiver tracking
-    if (localStorage.getItem("cookie-consent") === "accepted") {
-      enableTracking();
-    }
+    gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
   </script>
+
+  <!-- Google AdSense (klar, men afventer consent, Auto Ads er slået fra i AdSense) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
+
 </head>
-
-
-
 <body>
     <!-- Indhold -->
      <div class="top-bar"></div>
@@ -96,6 +85,23 @@
   </div>
 </section>
 </div>
+
+<!-- Vandret reklame efter About -->
+<div class="adsense-slot" id="ads-about">
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
+     crossorigin="anonymous"></script>
+<!-- AfterAbout -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4322732012925287"
+     data-ad-slot="8964176982"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
 
   <!-- Beregner sektion -->
 <div class="beregner-outer" id="bereger">
@@ -218,15 +224,25 @@
   </div>
 </div>
 
-
   </div>
 </section>
 
-  <!-- Ad efter beregner -->
-  <div class="ad-container">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4322732012925287" data-ad-slot="4377501699" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
+<!-- Vandret reklame efter Features -->
+<div class="adsense-slot" id="ads-features">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
+     crossorigin="anonymous"></script>
+<!-- AfterSteps -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4322732012925287"
+     data-ad-slot="8685524120"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
 
 <!-- Text-image reverse sektion / FAQ -->
 <section class="faq-section">
@@ -289,6 +305,23 @@
     </div>
   </div>
 </section>
+
+<!-- Vandret reklame efter FAQ -->
+<div class="adsense-slot" id="ads-faq">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
+     crossorigin="anonymous"></script>
+<!-- AfterFAQ -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4322732012925287"
+     data-ad-slot="6613894552"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
 
 <!-- Cookie Banner -->
 <div id="cookie-banner" class="cookie-banner">
