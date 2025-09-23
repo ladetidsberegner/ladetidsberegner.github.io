@@ -1,21 +1,21 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Ladetidsberegner",
+  "short_name": "Ladetid",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#268cec",
+  "description": "Beregn hvor lang tid det tager at lade din elbil hjemme.",
   "icons": [
     {
-      "src": "/https://ladetidsberegner.github.io/img/web-app-manifest-192x192.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     },
     {
-      "src": "/https://ladetidsberegner.github.io/img/web-app-manifest-512x512.png",
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }
