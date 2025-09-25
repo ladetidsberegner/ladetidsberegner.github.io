@@ -1,51 +1,75 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("beregn-form");
-  const resultatDiv = document.getElementById("resultat");
+// beregner.js
 
-  // Load gemte værdier eller default
-  document.getElementById("soc-start").value = localStorage.getItem("socStart") || 20;
-  document.getElementById("soc-slut").value = localStorage.getItem("socSlut") || 80;
-  document.getElementById("kapacitet").value = localStorage.getItem("kapacitet") || 57.5;
-  document.getElementById("ladetab").value = localStorage.getItem("ladetab") || 12;
-  document.getElementById("ladevalg").value = localStorage.getItem("ladevalg") || "11-3";
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("beregner-form");
+  const resultEl = document.getElementById("beregner-resultat");
+  const prompt = document.getElementById("bookmark-prompt");
+  const closeBtn = document.getElementById("bookmark-close");
+  const triggerIcon = document.getElementById("bookmark-trigger");
 
-  form.addEventListener("submit", function (e) {
+  // LocalStorage keys
+  const BOOKMARKED_KEY = "site_bookmarked";
+  const PROMPT_COUNT_KEY = "bookmark_prompt_count";
+
+  function hasBookmarked() {
+    return localStorage.getItem(BOOKMARKED_KEY) === "true";
+  }
+
+  function getPromptCount() {
+    return parseInt(localStorage.getItem(PROMPT_COUNT_KEY) || "0", 10);
+  }
+
+  function incrementPromptCount() {
+    let count = getPromptCount() + 1;
+    localStorage.setItem(PROMPT_COUNT_KEY, count);
+  }
+
+  function markBookmarked() {
+    localStorage.setItem(BOOKMARKED_KEY, "true");
+  }
+
+  function showPrompt() {
+    prompt.classList.add("visible");
+    triggerIcon.classList.remove("visible"); // skjul ikon mens prompt er aktiv
+  }
+
+  function hidePrompt() {
+    prompt.classList.remove("visible");
+    triggerIcon.classList.add("visible"); // gør ikon synligt
+  }
+
+  // Beregner-funktion (tilpas din logik her)
+  function beregn() {
+    // Din beregning her
+    resultEl.textContent = "Beregningen er udført!";
+
+    // Bookmark logik
+    if (!hasBookmarked() && getPromptCount() < 5) {
+      incrementPromptCount();
+      showPrompt();
+    }
+  }
+
+  // Event handlers
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
+    beregn();
+  });
 
-    const socStart = parseFloat(document.getElementById("soc-start").value);
-    const socSlut = parseFloat(document.getElementById("soc-slut").value);
-    const kapacitet = parseFloat(document.getElementById("kapacitet").value);
-    const ladetab = parseFloat(document.getElementById("ladetab").value);
-    let [effekt, faser] = document.getElementById("ladevalg").value.split("-");
-    effekt = parseFloat(effekt);
+  closeBtn.addEventListener("click", () => {
+    hidePrompt();
+  });
 
-    localStorage.setItem("socStart", socStart);
-    localStorage.setItem("socSlut", socSlut);
-    localStorage.setItem("kapacitet", kapacitet);
-    localStorage.setItem("ladetab", ladetab);
-    localStorage.setItem("ladevalg", document.getElementById("ladevalg").value);
-
-    if (socSlut <= socStart) {
-      resultatDiv.innerHTML = `<p style="color:red;">Slut SoC skal være større end start SoC.</p>`;
-      return;
+  triggerIcon.addEventListener("mouseenter", () => {
+    // Ved hover på ikonet – vis prompt
+    if (!hasBookmarked()) {
+      showPrompt();
     }
+  });
 
-    const procentAtLade = socSlut - socStart;
-    const kWhAtLade = (kapacitet * (procentAtLade / 100)) * (1 + ladetab / 100);
-    const tidTimer = kWhAtLade / effekt;
-
-    let tidTekst = "";
-    if (tidTimer < 1) {
-      tidTekst = `${Math.round(tidTimer * 60)} minutter`;
-    } else {
-      const timer = Math.floor(tidTimer);
-      const minutter = Math.round((tidTimer - timer) * 60);
-      tidTekst = `${timer} timer${minutter > 0 ? ` og ${minutter} minutter` : ""}`;
-    }
-
-    resultatDiv.innerHTML = `
-      <p>Du skal lade <strong>${kWhAtLade.toFixed(1)} kWh</strong>.</p>
-      <p>Det vil tage cirka <strong>${tidTekst}</strong>.</p>
-    `;
+  // Når brugeren klikker på linket i prompten
+  document.getElementById("bookmark-action").addEventListener("click", () => {
+    markBookmarked();
+    hidePrompt();
   });
 });

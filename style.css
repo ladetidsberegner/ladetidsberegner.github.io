@@ -926,3 +926,80 @@ select:focus {
   }
 
 }
+/* Bookmark prompt */
+#bookmark-prompt {
+  position: fixed;
+  bottom: -200px; /* starter skjult */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #268cec;
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.4;
+  transition: bottom 0.5s ease;
+  z-index: 9999;
+}
+
+#bookmark-prompt.visible {
+  bottom: 30px; /* glider op */
+}
+
+#bookmark-prompt a {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: #55ca1c;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+#bookmark-prompt a:hover {
+  background: #46a517;
+}
+
+#bookmark-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Trigger ikon */
+#bookmark-trigger {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  background: #268cec;
+  color: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 9998;
+}
+
+#bookmark-trigger.visible {
+  opacity: 1;
+}
+
+#bookmark-trigger:hover {
+  background: #1f6fb7;
+}
