@@ -1,197 +1,137 @@
-// beregner.js (ren, samlet og tilpasset din HTML)
+// ================================
+// Hjælp-funktion: detect mobil
+// ================================
+function isMobile() {
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Form + result element IDs som i din HTML
+// ================================
+// Beregner funktion
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("beregn-form");
-  const resultEl = document.getElementById("resultat");
+  const resultat = document.getElementById("resultat");
 
-  // Bookmark UI IDs fra din HTML
-  const prompt = document.getElementById("bookmark-prompt");       // <div id="bookmark-prompt">...
-  const closeBtn = document.getElementById("bookmark-close");      // close-knap i prompt
-  const actionBtn = document.getElementById("bookmark-action");    // "Ja, tilføj som bogmærke"
-  const triggerIcon = document.getElementById("bookmark-trigger"); // lille ikon til at åbne prompt igen
-
-  // LocalStorage keys
-  const ATTEMPTS_KEY = "bookmark_attempts";
-  const ADDED_KEY = "bookmark_added";
-
-  // sikkerheds-check: elementer
-  if (!form) {
-    console.warn("beregner.js: Formular med id 'beregn-form' ikke fundet. Script stoppes.");
-    return;
-  }
-  if (!resultEl) {
-    console.warn("beregner.js: Resultat-element med id 'resultat' ikke fundet.");
-  }
-
-  // Helper: tjek om siden er i standalone (brugeren har tilføjet til homescreen/PWA)
-  function isStandaloneMode() {
-    return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches)
-      || window.navigator.standalone === true;
-  }
-
-  // Helper: tjek om brugeren allerede har markeret at de har gemt/tilføjet siden
-  function hasBookmarked() {
-    if (localStorage.getItem(ADDED_KEY) === "true") return true;
-    if (isStandaloneMode()) {
-      // hvis standalone: marker som gemt, så vi ikke spørger mere
-      try { localStorage.setItem(ADDED_KEY, "true"); } catch (e) {}
-      return true;
-    }
-    return false;
-  }
-
-  // Load attempts (antal gange vi har vist prompt)
-  let attempts = parseInt(localStorage.getItem(ATTEMPTS_KEY) || "0", 10);
-  if (isNaN(attempts)) attempts = 0;
-
-  function saveAttempts() {
-    try { localStorage.setItem(ATTEMPTS_KEY, String(attempts)); } catch (e) {}
-  }
-
-  // VIS / SKJUL prompt - vi toggler både 'show' og 'visible' for at være kompatible med forskellig CSS
-  function showPrompt() {
-    if (!prompt) return;
-    if (hasBookmarked()) return;
-    if (attempts >= 5) return; // maks 5 gange
-
-    if (!prompt.classList.contains("show") && !prompt.classList.contains("visible")) {
-      prompt.classList.add("show");
-      prompt.classList.add("visible");
-      prompt.setAttribute("aria-hidden", "false");
-      // skjul trigger-ikon mens prompt er aktiv (hvis det findes)
-      if (triggerIcon) triggerIcon.classList.remove("visible");
-      // øg tæller nu (vi tæller visninger)
-      attempts++;
-      saveAttempts();
-    }
-  }
-
-  function hidePrompt() {
-    if (!prompt) return;
-    prompt.classList.remove("show");
-    prompt.classList.remove("visible");
-    prompt.setAttribute("aria-hidden", "true");
-    // vis trigger-ikon hvis brugeren ikke har gemt og har set prompt mindst en gang
-    if (triggerIcon && !hasBookmarked() && attempts > 0 && attempts < 5) {
-      triggerIcon.classList.add("visible");
-    }
-  }
-
-  // init trigger visibility (vis kun hvis prompt er tidligere vist og ikke gemt)
-  if (triggerIcon) {
-    if (!hasBookmarked() && attempts > 0 && attempts < 5) {
-      triggerIcon.classList.add("visible");
-    } else {
-      triggerIcon.classList.remove("visible");
-    }
-  }
-
-  // Sæt event på action-knap i prompt (brugeren bekræfter at de har gemt)
-  if (actionBtn) {
-    actionBtn.addEventListener("click", (e) => {
+  if (form) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      try { localStorage.setItem(ADDED_KEY, "true"); } catch (err) {}
-      hidePrompt();
-    });
-  }
 
-  // Luk-knap
-  if (closeBtn) {
-    closeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      hidePrompt();
-    });
-  }
+      const startSoC = parseFloat(document.getElementById("soc-start").value) || 0;
+      const slutSoC = parseFloat(document.getElementById("soc-slut").value) || 100;
+      const batteri = parseFloat(document.getElementById("kapacitet").value) || 0;
+      const ladeValg = document.getElementById("ladevalg").value;
+      const tab = parseFloat(document.getElementById("ladetab").value) || 10;
 
-  // Trigger-icon: åbn prompt ved click/touch/hover (mobil + desktop)
-  if (triggerIcon) {
-    ["click", "touchstart", "mouseenter"].forEach(evt => {
-      triggerIcon.addEventListener(evt, (e) => {
-        // stop dublet default for touchstart
-        if (evt === "touchstart") e.preventDefault && e.preventDefault();
-        if (!hasBookmarked()) showPrompt();
-      }, { passive: false });
-    });
-  }
+      let effekt = 0;
+      let faser = 1;
 
-  // Hvis brugeren installerer PWA mens siden er åben, markér som gemt
-  window.addEventListener("appinstalled", () => {
-    try { localStorage.setItem(ADDED_KEY, "true"); } catch (e) {}
-    // fjern prompt/ikon
-    hidePrompt();
-    if (triggerIcon) triggerIcon.classList.remove("visible");
-  });
+      if (ladeValg) {
+        const parts = ladeValg.split("-");
+        effekt = parseFloat(parts[0]);
+        faser = parseInt(parts[1]);
+      }
 
-  // ---------- BEREGNINGEN ----------
-  form.addEventListener("submit", (e) => {
-    e.preventDefault(); // meget vigtigt for at undgå page reload på mobil/desktop
+      const socDiff = Math.max(0, slutSoC - startSoC);
+      const energi = (batteri * socDiff) / 100; 
+      const bruttoEnergi = energi * (1 + tab / 100);
+      const tid = effekt > 0 ? bruttoEnergi / effekt : 0; 
 
-    // Læs værdier fra din faktiske HTML
-    const socStartEl = document.getElementById("soc-start");
-    const socSlutEl = document.getElementById("soc-slut");
-    const kapEl = document.getElementById("kapacitet");
-    const ladetabEl = document.getElementById("ladetab");
-    const ladevalgEl = document.getElementById("ladevalg");
-
-    // defensive checks
-    if (!socStartEl || !socSlutEl || !kapEl || !ladetabEl || !ladevalgEl) {
-      console.warn("beregner.js: Et eller flere input-elementer mangler (soc-start, soc-slut, kapacitet, ladetab, ladevalg).");
-      if (resultEl) resultEl.textContent = "Der mangler inputfelter på siden. Kontakt udvikler.";
-      return;
-    }
-
-    const socStart = parseFloat(socStartEl.value);
-    const socSlut = parseFloat(socSlutEl.value);
-    const kapacitet = parseFloat(kapEl.value);
-    const ladetab = parseFloat(ladetabEl.value);
-    const ladevalg = ladevalgEl.value; // fx "11-3"
-
-    // validering
-    if (isNaN(socStart) || isNaN(socSlut) || isNaN(kapacitet) || isNaN(ladetab) || !ladevalg) {
-      if (resultEl) resultEl.innerHTML = `<p style="color:red;">Udfyld alle felter korrekt.</p>`;
-      return;
-    }
-
-    if (socSlut <= socStart) {
-      if (resultEl) resultEl.innerHTML = `<p style="color:red;">Slut SoC skal være større end start SoC.</p>`;
-      return;
-    }
-
-    // parse ladevalg (fx "11-3")
-    const parts = ladevalg.split("-");
-    let effekt = parseFloat(parts[0]);
-    if (isNaN(effekt) || effekt <= 0) {
-      if (resultEl) resultEl.innerHTML = `<p style="color:red;">Vælg en gyldig ladeeffekt.</p>`;
-      return;
-    }
-
-    // beregning
-    const procentAtLade = socSlut - socStart;
-    const kWhAtLade = (kapacitet * (procentAtLade / 100)) * (1 + ladetab / 100);
-    const tidTimer = kWhAtLade / effekt;
-
-    // formater output
-    let tidTekst = "";
-    if (tidTimer < 1) {
-      const minutter = Math.round(tidTimer * 60);
-      tidTekst = `${minutter} minutter`;
-    } else {
-      const timer = Math.floor(tidTimer);
-      const minutter = Math.round((tidTimer - timer) * 60);
-      tidTekst = `${timer} timer${minutter > 0 ? ` og ${minutter} minutter` : ""}`;
-    }
-
-    if (resultEl) {
-      resultEl.innerHTML = `
-        <p>Du skal lade <strong>${kWhAtLade.toFixed(1)} kWh</strong>.</p>
-        <p>Det vil tage cirka <strong>${tidTekst}</strong>.</p>
+      resultat.innerHTML = `
+        <p>Ladetid: <strong>${tid.toFixed(2)} timer</strong></p>
+        <p>Brutto energiforbrug: <strong>${bruttoEnergi.toFixed(2)} kWh</strong></p>
       `;
+
+      showBookmarkPopup();
+    });
+  }
+
+  showBookmarkButton();
+});
+
+// ================================
+// Bookmark funktion
+// ================================
+function showBookmarkButton() {
+  let bookmarkBtn = document.getElementById("bookmark-circle");
+
+  if (!bookmarkBtn) {
+    bookmarkBtn = document.createElement("div");
+    bookmarkBtn.id = "bookmark-circle";
+    bookmarkBtn.innerHTML = "★";
+    bookmarkBtn.classList.add("bookmark-circle");
+    document.body.appendChild(bookmarkBtn);
+
+    bookmarkBtn.addEventListener("click", function () {
+      showBookmarkPopup();
+    });
+  }
+}
+
+// ================================
+// Bookmark popup
+// ================================
+function showBookmarkPopup() {
+  let popup = document.getElementById("bookmark-popup");
+
+  if (!popup) {
+    popup = document.createElement("div");
+    popup.id = "bookmark-popup";
+    popup.classList.add("bookmark-popup");
+
+    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    let instructions = "Brug browserens bogmærkefunktion for at gemme siden.";
+    if (isiOS) {
+      instructions =
+        "Tryk på 'Del' → 'Føj til hjemmeskærm' for at gemme siden på din iPhone/iPad.";
+    } else if (isAndroid) {
+      instructions =
+        "Tryk på knappen nedenfor for at tilføje siden til din startskærm.";
     }
 
-    // --- efter beregning: vis bookmark prompt (førstegang, maks 5 gange) ---
-    if (!hasBookmarked() && attempts < 5) {
-      showPrompt();
-    }
-  }); // end form submit
-}); // end DOMContentLoaded
+    popup.innerHTML = `
+      <p>${instructions}</p>
+      <div id="android-install-btn-container"></div>
+      <button id="close-popup">Luk</button>
+    `;
+
+    document.body.appendChild(popup);
+
+    const closeBtn = document.getElementById("close-popup");
+    closeBtn.addEventListener("click", function () {
+      popup.remove();
+    });
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      if (isAndroid) {
+        const container = document.getElementById('android-install-btn-container');
+        const installBtn = document.createElement('button');
+        installBtn.textContent = "Tilføj til startskærm";
+        installBtn.style.marginTop = "10px";
+        installBtn.style.padding = "8px 14px";
+        installBtn.style.borderRadius = "6px";
+        installBtn.style.background = "#55ca1c";
+        installBtn.style.color = "#fff";
+        installBtn.style.border = "none";
+        installBtn.style.cursor = "pointer";
+        container.appendChild(installBtn);
+
+        installBtn.addEventListener('click', async () => {
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          installBtn.style.display = 'none';
+        });
+      }
+    });
+  } else {
+    popup.style.display = 'block';
+  }
+}

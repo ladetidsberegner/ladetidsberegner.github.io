@@ -7,69 +7,31 @@
   <!-- Meta description for SEO -->
   <meta name="description" content="Beregn hurtigt ladetid på din elbil med vores gratis ladetidsberegner. Indtast batteristørrelse, start- og slutladning, ladeeffekt og få en præcis opladningstid ved hjemmeladning." />
 
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="Ladetidsberegner – Beregn hvor lang tid det tager at lade din elbil hjemme" />
-  <meta property="og:description" content="Beregn hurtigt opladningstid for din elbil med vores gratis ladetidsberegner. Indtast batteristørrelse, start/slutladning og ladeeffekt." />
-  <meta property="og:image" content="https://ladetidsberegner.github.io/ladetidsberegner/img/hero.jpg" />
-  <meta property="og:url" content="https://ladetidsberegner.github.io/ladetidsberegner/" />
-  <meta property="og:type" content="website" />
-
-  <!-- Schema.org structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Ladetidsberegner",
-    "url": "https://ladetidsberegner.github.io/",
-    "description": "Beregn opladningstid for elbil hjemme baseret på batteristørrelse, start/slut SoC, ladeeffekt og ladetab.",
-    "applicationCategory": "UtilityApplication",
-    "operatingSystem": "All",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "DKK"
-    }
-  }
-  </script>
+  <!-- Favicon + app icons -->
+  <link rel="icon" href="/img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/icon-192.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#268cec" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Favicon & Web App Icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#268cec">
-
-  <!-- iOS App Settings -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Ladetidsberegner">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-  <!-- Google Analytics 4 (Consent Mode – default denied) -->
+  <!-- Google Analytics (consent mode) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-
-    // Standard: ingen tracking før samtykke
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied'
     });
-
     gtag('js', new Date());
-
-    // GA4 tracking klar, men venter på samtykke
     gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
   </script>
 
-  <!-- Google AdSense (klar men afventer også consent) -->
+  <!-- Google Ads (manual placering) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
 </head>
-
-
 <body>
     <!-- Indhold -->
      <div class="top-bar"></div>
@@ -78,7 +40,7 @@
     <div class="hero-text">
       <h1>Ladetidsberegner – Beregn ladetid for elbil ved hjemmeladning</h1>
       <p>Planlæg opladningen af din elbil bedre med vores gratis ladetidsberegner. Indtast bilens batterikapacitet, start- og slutladningsniveau samt ladeeffekt, og få en præcis beregning af, hvor lang tid det tager at lade din elbil hjemme.</p>
-      <nav><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
+      <a href="#bereger" class="btn">Beregn ladetid nu</a>
     </div>
   </section>
 
@@ -397,6 +359,8 @@
           data-font-color="#ffffff" 
           data-coffee-color="#FFDD00">
   </script>
+  <h4>Kontakt</h4>
+  <p>Hvis du har ris, ros, kommentarer, eller ønsker et samarbejde, er du velkommen til at skrive på <span id="kontakt-mail"></span></p>
 </div>
 
    
@@ -408,21 +372,11 @@
   <p>&copy; 2025 Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
 </div>
 
-<!-- Bookmark prompt -->
-<div id="bookmark-prompt">
-  <button id="bookmark-close">&times;</button>
-  <p>Vil du hurtigt kunne vende tilbage til vores ladetidsberegner?<br>
-  <strong>Tilføj siden som bogmærke på din smartphone!</strong></p>
-  <a href="#" id="bookmark-action">Ja, tilføj som bogmærke</a>
-</div>
 
-<!-- Trigger ikon -->
-<div id="bookmark-trigger" class="">
-  ★
-</div>
 
   <script src="beregner.js"></script>
   <script src="cookie.js"></script>
   <script src="faq.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

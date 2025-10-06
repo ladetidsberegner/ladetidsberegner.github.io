@@ -1,6 +1,13 @@
 {
   "name": "Ladetidsberegner",
   "short_name": "Ladetid",
+  "description": "Beregn opladningstid for elbil hjemme baseret på batteristørrelse, start/slut SoC, ladeeffekt og ladetab.",
+  "start_url": "/?utm_source=homescreen",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#268cec",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -14,8 +21,5 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }
