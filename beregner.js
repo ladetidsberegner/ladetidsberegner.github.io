@@ -100,7 +100,7 @@ function showBookmarkButton() {
     bookmarkBtn.innerHTML = "★";
     bookmarkBtn.classList.add("bookmark-circle");
     bookmarkBtn.style.position = "fixed";
-    bookmarkBtn.style.bottom = "30px";
+    bookmarkBtn.style.bottom = "80px";
     bookmarkBtn.style.right = "30px";
     bookmarkBtn.style.background = "#55ca1c";
     bookmarkBtn.style.color = "#fff";
@@ -131,7 +131,7 @@ function showBookmarkPopup() {
     popup.id = "bookmark-popup";
     popup.classList.add("bookmark-popup");
     popup.style.position = "fixed";
-    popup.style.bottom = "100px";
+    popup.style.bottom = "200px";
     popup.style.right = "30px";
     popup.style.background = "#fff";
     popup.style.padding = "20px";

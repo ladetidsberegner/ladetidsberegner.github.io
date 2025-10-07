@@ -311,7 +311,7 @@ select {
 .biler-grid .bil { background:#fff; padding:12px; border-radius:8px; box-shadow:var(--surface-shadow-sm); display:flex; flex-direction:column; gap:8px; }
 .biler-grid .bil img { width:100%; height:auto; border-radius:6px; object-fit:cover; }
 
-#bookmark-circle { position:fixed; bottom:100px; right:20px; width:50px; height:50px; background-color:#55ca1c; color:#fff; font-size:24px; font-weight:bold; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 8px rgba(0,0,0,0.3); z-index:1000; }
+#bookmark-circle { position:fixed; bottom:200px; right:20px; width:50px; height:50px; background-color:#55ca1c; color:#fff; font-size:24px; font-weight:bold; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 8px rgba(0,0,0,0.3); z-index:1000; }
 #bookmark-popup { position:fixed; bottom:140px; right:20px; max-width:280px; background:#fff; border:1px solid #ccc; padding:15px; border-radius:12px; box-shadow:0 6px 12px rgba(0,0,0,0.25); z-index:1001; display:none; }
 #bookmark-popup p { margin:0 0 10px; font-size:14px; color:#333; }
 #bookmark-popup button { display:inline-block; padding:6px 12px; background-color:#55ca1c; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:14px; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
