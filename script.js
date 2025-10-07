@@ -2,8 +2,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const kontaktEl = document.getElementById("kontakt-mail");
   if (kontaktEl) {
-    const user = "driveon";
-    const domain = "outlook.com";
+    const user = "chargeme";
+    const domain = "outlook.dk";
     const mail = `${user}@${domain}`;
     kontaktEl.innerHTML = `<a href="mailto:${mail}">${mail}</a>`;
   }
