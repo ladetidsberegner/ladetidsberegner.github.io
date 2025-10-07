@@ -16,22 +16,26 @@
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Analytics (consent mode) -->
+  <!-- Google Analytics (manuel samtykke-styring) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    // Hold både analytics og ads tilbage indtil brugeren accepterer via eget banner.
     gtag('consent', 'default', {
       'ad_storage': 'denied',
-      'analytics_storage': 'denied'
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
     });
     gtag('js', new Date());
-    gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
+    // NB: Vi KALDER IKKE gtag('config', ...) her. Analytics aktiveres først
+    // når din cookie-accept-knap kalder enableTracking() (i cookie.js).
   </script>
 
   <!-- Google Ads (manual placering) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <!-- Indhold -->
      <div class="top-bar"></div>
@@ -40,7 +44,7 @@
     <div class="hero-text">
       <h1>Ladetidsberegner – Beregn ladetid for elbil ved hjemmeladning</h1>
       <p>Planlæg opladningen af din elbil bedre med vores gratis ladetidsberegner. Indtast bilens batterikapacitet, start- og slutladningsniveau samt ladeeffekt, og få en præcis beregning af, hvor lang tid det tager at lade din elbil hjemme.</p>
-      <a href="#bereger" class="btn">Beregn ladetid nu</a>
+      <nav><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
     </div>
   </section>
 
@@ -338,7 +342,7 @@
 <div class="footer-section">
   <h4>Vidste du?</h4>
   <ul>
-    <li><span class="icon">⚡</span> 80 % af alle opladninger sker hjemme</li>
+    <li><span class="icon">⚡</span> 80 % af alle opladninger sker hjemme</li>
     <li><span class="icon">⏱</span> Vi hjælper dig med hurtigt og nemt at beregne opladningstiden</li>
     <li><span class="icon">💡</span> Vores værktøj gør det nemt at optimere opladningen</li>
   </ul>
@@ -359,8 +363,6 @@
           data-font-color="#ffffff" 
           data-coffee-color="#FFDD00">
   </script>
-  <h4>Kontakt</h4>
-  <p>Hvis du har ris, ros, kommentarer, eller ønsker et samarbejde, er du velkommen til at skrive på <span id="kontakt-mail"></span></p>
 </div>
 
    
@@ -372,7 +374,18 @@
   <p>&copy; 2025 Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
 </div>
 
+<!-- Bookmark prompt -->
+<div id="bookmark-prompt">
+  <button id="bookmark-close">&times;</button>
+  <p>Vil du hurtigt kunne vende tilbage til vores ladetidsberegner?<br>
+  <strong>Tilføj siden som bogmærke på din smartphone!</strong></p>
+  <a href="#" id="bookmark-action">Ja, tilføj som bogmærke</a>
+</div>
 
+<!-- Trigger ikon -->
+<div id="bookmark-trigger" class="">
+  ★
+</div>
 
   <script src="beregner.js"></script>
   <script src="cookie.js"></script>
