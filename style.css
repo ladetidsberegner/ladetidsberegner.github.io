@@ -64,7 +64,6 @@ a:hover { text-decoration: underline; }
 /* Adsense slot */
 .adsense-slot {
   max-width: var(--max-page-width);
-  background-color: rgba(85,202,28,0.08);
   margin: 20px auto;
   padding: 12px 2rem;
   box-sizing: border-box;
