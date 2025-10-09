@@ -1,8 +1,11 @@
-javascript
+
 /**
  * cookie.js – stabil version uden syntaksfejl
  * Viser eget cookie-banner, husker valg og aktiverer GA/Ads efter accept.
  */
+
+console.log("cookie.js loaded og DOMContentLoaded kører");
+
 
 (function () {
   "use strict";

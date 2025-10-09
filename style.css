@@ -356,3 +356,94 @@ select {
 
 /* Footer bottom */
 .footer-bottom { background:#000; color:#fff; text-align:center; padding:15px 0; font-size:14px; border-top:1px solid var(--brand-green); }
+
+
+/* --- Cookie banner --- */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 15px 20px;
+  z-index: 9999; /* sikrer at banneret ligger øverst */
+}
+
+.cookie-text a {
+  color: #55ca1c;
+  text-decoration: underline;
+}
+
+.cookie-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.cookie-buttons button {
+  background-color: #55ca1c;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 10000;
+}
+
+.cookie-buttons button:hover {
+  background-color: #46a717;
+}
+
+/* --- Cookie policy popup --- */
+.cookie-policy-popup {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.cookie-policy-content {
+  background-color: #fff;
+  color: #000;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  position: relative;
+}
+
+.cookie-policy-content .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* --- Ændr samtykke-knap --- */
+.change-cookie-consent {
+  display: block;
+  margin: 20px auto;
+  background-color: transparent;
+  border: 1px solid #55ca1c;
+  color: #55ca1c;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.change-cookie-consent:hover {
+  background-color: #55ca1c;
+  color: white;
+}
