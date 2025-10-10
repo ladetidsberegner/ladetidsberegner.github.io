@@ -18,10 +18,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Analytics (manual samtykke-styring) -->
-  <!-- Vi loader kun GA4, når brugeren accepterer cookies -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E"></script>
+  <!-- Google Consent Mode initial setup -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -30,16 +27,11 @@
       'analytics_storage': 'denied'
     });
     gtag('js', new Date());
-    // Vi kalder først gtag('config', ...) når brugeren accepterer
   </script>
-  -->
 
-  <!-- Google Ads (manual placering) -->
-  <!-- Vi loader kun Ads, når brugeren accepterer cookies -->
-  <!--
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
-  -->
+  <!-- Google Analytics & Ads loader styres udelukkende via cookie-script -->
 </head>
+
 
 
 <body>

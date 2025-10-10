@@ -8,31 +8,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const policyClose = document.getElementById("cookie-policy-close");
   const changeBtn = document.getElementById("change-cookie-consent");
 
-  // === Start med Ændr samtykke skjult ===
+  // Start med Ændr samtykke skjult
   if (changeBtn) changeBtn.style.display = "none";
 
   // === Google Consent Mode setup ===
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-
   gtag('consent', 'default', {
     'ad_storage': 'denied',
     'analytics_storage': 'denied'
   });
   gtag('js', new Date());
 
-  // === Helper: safe localStorage ===
-  function getConsent() {
-    try { return localStorage.getItem("cookie-consent"); } 
-    catch(e) { return null; }
-  }
-  function setConsent(value) {
-    try { localStorage.setItem("cookie-consent", value); } 
-    catch(e) {}
-  }
-
-  // === Tidligere valg ===
-  const consent = getConsent();
+  // === Tjek tidligere valg ===
+  const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     if (banner) banner.style.display = "flex";
   } else {
@@ -44,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // === Accepter ===
   if (acceptBtn) acceptBtn.addEventListener("click", function() {
-    setConsent("accepted");
+    localStorage.setItem("cookie-consent", "accepted");
     if (banner) banner.style.display = "none";
     if (changeBtn) changeBtn.style.display = "inline-flex";
     enableTracking();
@@ -52,45 +41,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // === Afvis ===
   if (rejectBtn) rejectBtn.addEventListener("click", function() {
-    setConsent("declined");
+    localStorage.setItem("cookie-consent", "declined");
     if (banner) banner.style.display = "none";
     if (changeBtn) changeBtn.style.display = "inline-flex";
     disableTracking();
   });
 
-  // === Åbn/Luk cookie popup ===
-  if (policyLink && policyPopup) {
-    policyLink.addEventListener("click", function(e) {
-      e.preventDefault();
-      policyPopup.style.display = "block";
-    });
-  }
-  if (policyClose && policyPopup) {
-    policyClose.addEventListener("click", function() {
-      policyPopup.style.display = "none";
-    });
-  }
+  // === Åbn/Luk cookie policy-popup ===
+  if (policyLink) policyLink.addEventListener("click", function(e) {
+    e.preventDefault();
+    if (policyPopup) policyPopup.style.display = "block";
+  });
+  if (policyClose) policyClose.addEventListener("click", function() {
+    if (policyPopup) policyPopup.style.display = "none";
+  });
   window.addEventListener("click", function(e) {
-    if (policyPopup && e.target === policyPopup) policyPopup.style.display = "none";
+    if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
   // === Ændr samtykke-knap ===
-  if (changeBtn && banner) {
-    changeBtn.addEventListener("click", function() {
-      banner.style.display = "flex";
-    });
-  }
+  if (changeBtn) changeBtn.addEventListener("click", function() {
+    if (banner) banner.style.display = "flex";
+  });
 
   // === Consent funktioner ===
   function enableTracking() {
-    if (window.gtag) {
-      gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'analytics_storage': 'granted'
-      });
-    }
+    gtag('consent', 'update', {
+      'ad_storage': 'granted',
+      'analytics_storage': 'granted'
+    });
 
-    // === Load GA4 script dynamisk ===
+    // Load GA4 dynamisk
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -99,13 +80,11 @@ document.addEventListener("DOMContentLoaded", function() {
       document.head.appendChild(gaScript);
 
       gaScript.onload = function() {
-        if (window.gtag) {
-          gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
-        }
-      }
+        gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
+      };
     }
 
-    // === Load AdSense script dynamisk ===
+    // Load AdSense dynamisk
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -115,17 +94,21 @@ document.addEventListener("DOMContentLoaded", function() {
       document.head.appendChild(adsScript);
 
       adsScript.onload = function() {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      };
     }
   }
 
   function disableTracking() {
-    if (window.gtag) {
-      gtag('consent', 'update', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied'
-      });
-    }
+    gtag('consent', 'update', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
   }
+
+  // === Sikre at overlays ikke fanger klik ===
+  const overlays = document.querySelectorAll(".hero::before, .site-overlay, .top-bar::before");
+  overlays.forEach(overlay => {
+    overlay.style.pointerEvents = "none";
+  });
 });
