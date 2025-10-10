@@ -19,29 +19,28 @@
   <link rel="stylesheet" href="style.css" />
 
   <!-- Google Analytics (manual samtykke-styring) -->
+  <!-- Vi loader kun GA4, når brugeren accepterer cookies -->
   <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    // Hold både analytics og ads tilbage indtil brugeren accepterer via eget banner.
     gtag('consent', 'default', {
       'ad_storage': 'denied',
-      'analytics_storage': 'denied',
-      'wait_for_update': 500
+      'analytics_storage': 'denied'
     });
     gtag('js', new Date());
-    // NB: Vi KALDER IKKE gtag('config', ...) her. Analytics aktiveres først
-    // når din cookie-accept-knap kalder enableTracking() (i cookie.js).
+    // Vi kalder først gtag('config', ...) når brugeren accepterer
   </script>
   -->
 
   <!-- Google Ads (manual placering) -->
+  <!-- Vi loader kun Ads, når brugeren accepterer cookies -->
   <!--
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287" crossorigin="anonymous"></script>
   -->
-
 </head>
+
 
 <body>
     <!-- Indhold -->
@@ -322,8 +321,9 @@
     </p>
   </div>
   <div class="cookie-buttons">
-    <button id="cookie-accept">Accepter</button>
-    <button id="cookie-decline">Afvis</button>
+  <button id="accept-cookies">Accepter</button>
+  <button id="reject-cookies">Afvis</button>
+
   </div>
 </div>
 
