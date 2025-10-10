@@ -285,6 +285,7 @@ select {
 
 /* Cookie banner & popup */
 .cookie-banner { position:fixed; bottom:0; left:0; right:0; background:#222; color:var(--text-light); padding:15px; display:flex; justify-content:space-between; align-items:center; font-size:14px; z-index:calc(var(--z-top)-1); box-sizing:border-box; }
+
 .cookie-banner a { color:var(--brand-green); text-decoration:underline; cursor:pointer; }
 .cookie-buttons button { margin-left:10px; padding:8px 15px; border-radius:8px; border:none; cursor:pointer; }
 #cookie-accept { background:var(--brand-green); color:var(--text-light); }
@@ -296,6 +297,91 @@ select {
 .cookie-policy-content .close { position:absolute; right:15px; top:10px; font-size:22px; font-weight:bold; cursor:pointer; }
 
 .change-cookie-consent { position:fixed; bottom:40ßpx; right:90px; background:var(--brand-green); color:var(--text-light); border:none; border-radius:8px; padding:8px 12px; cursor:pointer; z-index:calc(var(--z-top)-2); box-shadow:var(--surface-shadow-sm); }
+
+
+/* ====== Cookie-banner: altid øverst og klikbart ====== */
+#cookie-banner,
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  background: #222;              /* mørk baggrund som før */
+  color: #fff;
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.35);
+  z-index: 2147483647;           /* meget høj z-index så intet ligger ovenpå */
+  pointer-events: auto;          /* sikrer at klik registreres */
+}
+
+/* Indhold */
+.cookie-banner .cookie-text {
+  flex: 1 1 auto;
+  margin-right: 12px;
+  font-size: 0.95rem;
+}
+.cookie-banner .cookie-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 2147483647;
+}
+
+/* Knapper: sikre at de har position og z-index */
+.cookie-banner button,
+#cookie-accept,
+#cookie-decline,
+#accept-cookies,
+#reject-cookies {
+  position: relative;
+  z-index: 2147483647;
+  cursor: pointer;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  background: #55ca1c;           /* grøn som resten af sitet */
+  color: #fff;
+  transition: transform .12s ease, filter .12s ease;
+}
+.cookie-banner button:hover,
+#cookie-accept:hover,
+#accept-cookies:hover {
+  transform: translateY(-2px);
+  filter: brightness(.95);
+}
+
+/* Afvis-knap (mørk) hvis du bruger #cookie-decline eller #reject-cookies */
+#cookie-decline,
+#reject-cookies {
+  background: #666;
+}
+
+/* ====== Cookie policy-popup skal ligge over banner ====== */
+#cookie-policy-popup,
+.cookie-policy-popup {
+  z-index: 2147483648 !important; /* noget højere end banner */
+  pointer-events: auto;
+}
+
+/* ====== Hvis en overlay (fx hero::before) utilsigtet fanger klik ======
+   gør overlay ikke-interaktiv (ikke ændre layout) */
+.hero::before,
+.top-bar::before,
+.some-overlay-selector {
+  pointer-events: none; /* forhindrer overlay i at blokere klik */
+}
+
+/* ====== Ekstra forsigtighed: hvis du har en generel "site-overlay" klasse ======
+   (fjern eller tilpas .site-overlay til hvad I har i projektet) */
+.site-overlay {
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
 
 /* Footer */
 .site-footer { background:#333; color:#fff; padding:40px 20px 0; box-sizing:border-box; }
@@ -432,18 +518,30 @@ select {
 
 /* --- Ændr samtykke-knap --- */
 .change-cookie-consent {
-  display: block;
-  margin: 20px auto;
-  background-color: transparent;
-  border: 1px solid #55ca1c;
-  color: #55ca1c;
-  padding: 6px 12px;
-  border-radius: 4px;
+  background-color: var(--brand-green-600);
+  color: #fff;
+  display: inline-flex; /* <— start som inline-flex */
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: var(--radius-base);
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  box-shadow: var(--surface-shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  text-decoration: none;
+  margin: 20px auto;
 }
 
+
 .change-cookie-consent:hover {
-  background-color: #55ca1c;
-  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+  background-color: #4ed01c;
 }
+
+
+

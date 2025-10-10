@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", function() {
   const policyClose = document.getElementById("cookie-policy-close");
   const changeBtn = document.getElementById("change-cookie-consent");
 
+  // === Start med Ændr samtykke skjult ===
+  if (changeBtn) changeBtn.style.display = "none";
+
   // === Google Consent Mode setup ===
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -16,58 +19,78 @@ document.addEventListener("DOMContentLoaded", function() {
     'ad_storage': 'denied',
     'analytics_storage': 'denied'
   });
-
   gtag('js', new Date());
 
+  // === Helper: safe localStorage ===
+  function getConsent() {
+    try { return localStorage.getItem("cookie-consent"); } 
+    catch(e) { return null; }
+  }
+  function setConsent(value) {
+    try { localStorage.setItem("cookie-consent", value); } 
+    catch(e) {}
+  }
+
   // === Tidligere valg ===
-  const consent = localStorage.getItem("cookie-consent");
+  const consent = getConsent();
   if (!consent) {
-    banner.style.display = "flex";
+    if (banner) banner.style.display = "flex";
   } else {
-    banner.style.display = "none";
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
     if (consent === "accepted") enableTracking();
     else disableTracking();
   }
 
   // === Accepter ===
-  acceptBtn.addEventListener("click", function() {
-    localStorage.setItem("cookie-consent", "accepted");
-    banner.style.display = "none";
+  if (acceptBtn) acceptBtn.addEventListener("click", function() {
+    setConsent("accepted");
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
     enableTracking();
   });
 
   // === Afvis ===
-  rejectBtn.addEventListener("click", function() {
-    localStorage.setItem("cookie-consent", "declined");
-    banner.style.display = "none";
+  if (rejectBtn) rejectBtn.addEventListener("click", function() {
+    setConsent("declined");
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
     disableTracking();
   });
 
   // === Åbn/Luk cookie popup ===
-  policyLink.addEventListener("click", function(e) {
-    e.preventDefault();
-    policyPopup.style.display = "block";
-  });
-  policyClose.addEventListener("click", function() {
-    policyPopup.style.display = "none";
-  });
+  if (policyLink && policyPopup) {
+    policyLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      policyPopup.style.display = "block";
+    });
+  }
+  if (policyClose && policyPopup) {
+    policyClose.addEventListener("click", function() {
+      policyPopup.style.display = "none";
+    });
+  }
   window.addEventListener("click", function(e) {
-    if (e.target === policyPopup) policyPopup.style.display = "none";
+    if (policyPopup && e.target === policyPopup) policyPopup.style.display = "none";
   });
 
   // === Ændr samtykke-knap ===
-  changeBtn.addEventListener("click", function() {
-    banner.style.display = "flex";
-  });
+  if (changeBtn && banner) {
+    changeBtn.addEventListener("click", function() {
+      banner.style.display = "flex";
+    });
+  }
 
   // === Consent funktioner ===
   function enableTracking() {
-    gtag('consent', 'update', {
-      'ad_storage': 'granted',
-      'analytics_storage': 'granted'
-    });
+    if (window.gtag) {
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted'
+      });
+    }
 
-    // === Load GA4 script dynamically ===
+    // === Load GA4 script dynamisk ===
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -76,11 +99,13 @@ document.addEventListener("DOMContentLoaded", function() {
       document.head.appendChild(gaScript);
 
       gaScript.onload = function() {
-        gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
+        if (window.gtag) {
+          gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
+        }
       }
     }
 
-    // === Load AdSense script dynamically ===
+    // === Load AdSense script dynamisk ===
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -90,16 +115,17 @@ document.addEventListener("DOMContentLoaded", function() {
       document.head.appendChild(adsScript);
 
       adsScript.onload = function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     }
   }
 
   function disableTracking() {
-    gtag('consent', 'update', {
-      'ad_storage': 'denied',
-      'analytics_storage': 'denied'
-    });
+    if (window.gtag) {
+      gtag('consent', 'update', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied'
+      });
+    }
   }
-
 });
