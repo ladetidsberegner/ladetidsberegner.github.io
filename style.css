@@ -284,7 +284,7 @@ select {
 }
 
 /* Cookie banner & popup */
-.cookie-banner { position:fixed; bottom:0; left:0; right:0; background:#222; color:var(--text-light); padding:15px; display:flex; justify-content:space-between; align-items:center; font-size:14px; z-index:calc(var(--z-top)-1); box-sizing:border-box; }
+.cookie-banner { position:fixed; bottom:0; left:0; right:0; background:#222; color:var(--text-light); padding:15px; display:flex; justify-content:space-between; align-items:center; font-size:15px;font-weight: 700; z-index:calc(var(--z-top)-1); box-sizing:border-box; }
 
 .cookie-banner a { color:var(--brand-green); text-decoration:underline; cursor:pointer; }
 .cookie-buttons button { margin-left:10px; padding:8px 15px; border-radius:8px; border:none; cursor:pointer; }
@@ -296,8 +296,8 @@ select {
 .cookie-policy-content h2 { margin-top:0; }
 .cookie-policy-content .close { position:absolute; right:15px; top:10px; font-size:22px; font-weight:bold; cursor:pointer; }
 
-.change-cookie-consent { position:fixed; bottom:40ßpx; right:90px; background:var(--brand-green); color:var(--text-light); border:none; border-radius:8px; padding:8px 12px; cursor:pointer; z-index:calc(var(--z-top)-2); box-shadow:var(--surface-shadow-sm); }
-
+/*.change-cookie-consent { position:fixed; bottom:40ßpx; right:90px; background:var(--brand-green); color:var(--text-light); border:none; border-radius:8px; padding:8px 12px; cursor:pointer; z-index:calc(var(--z-top)-2); box-shadow:var(--surface-shadow-sm); }
+*/
 
 /* ====== Cookie-banner: altid øverst og klikbart ====== */
 #cookie-banner,
@@ -517,10 +517,14 @@ select {
 }
 
 /* --- Ændr samtykke-knap --- */
+#change-cookie-consent,
 .change-cookie-consent {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   background-color: var(--brand-green-600);
   color: #fff;
-  display: inline-flex; /* <— start som inline-flex */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
@@ -533,15 +537,42 @@ select {
   box-shadow: var(--surface-shadow-sm);
   transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
   text-decoration: none;
-  margin: 20px auto;
+  z-index: 9999;
+}
+
+#change-cookie-consent:hover,
+.change-cookie-consent:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--surface-shadow-md);
+  background-color: #4ab517; /* lidt mørkere grøn ved hover */
 }
 
 
-.change-cookie-consent:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-  background-color: #4ed01c;
+/* Skjul Googles Funding Choices flash */
+iframe[src*="fundingchoicesmessages.google.com"],
+iframe[src*="consent.google.com"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
 }
 
+/* Ens hover-animation på alle .btn-knapper */
+.btn {
+  transition: all 0.3s ease;
+  box-shadow: var(--surface-shadow-sm);
+ 
+}
 
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--surface-shadow-md);
+  background-color: #4ab517; /* lidt mørkere grøn ved hover */
+  cursor: pointer;
+   text-decoration: none;
+}
 
