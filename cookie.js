@@ -8,55 +8,60 @@ document.addEventListener("DOMContentLoaded", function() {
   const policyClose = document.getElementById("cookie-policy-close");
   const changeBtn = document.getElementById("change-cookie-consent");
 
-  // === Start med Ændr samtykke skjult ===
-  if (changeBtn) changeBtn.style.display = "none";
+  // Start med Ændr samtykke skjult
+  changeBtn.style.display = "none";
 
-  // === Google Consent Mode initialiseres kun ved accept ===
+  // Google Consent Mode initial setup
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+  gtag('js', new Date());
 
-  // === Tjek tidligere valg ===
+  // === Tidligere valg ===
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
-    if (banner) banner.style.display = "flex";
+    banner.style.display = "flex";
   } else {
-    if (banner) banner.style.display = "none";
-    if (changeBtn) changeBtn.style.display = "inline-flex"; // vis knappen
+    banner.style.display = "none";
+    changeBtn.style.display = "inline-flex";
     if (consent === "accepted") enableTracking();
     else disableTracking();
   }
 
   // === Accepter ===
-  if (acceptBtn) acceptBtn.addEventListener("click", function() {
+  acceptBtn.addEventListener("click", function() {
     localStorage.setItem("cookie-consent", "accepted");
-    if (banner) banner.style.display = "none";
-    if (changeBtn) changeBtn.style.display = "inline-flex";
+    banner.style.display = "none";
+    changeBtn.style.display = "inline-flex";
     enableTracking();
   });
 
   // === Afvis ===
-  if (rejectBtn) rejectBtn.addEventListener("click", function() {
+  rejectBtn.addEventListener("click", function() {
     localStorage.setItem("cookie-consent", "declined");
-    if (banner) banner.style.display = "none";
-    if (changeBtn) changeBtn.style.display = "inline-flex";
+    banner.style.display = "none";
+    changeBtn.style.display = "inline-flex";
     disableTracking();
   });
 
   // === Åbn/Luk cookie popup ===
-  if (policyLink) policyLink.addEventListener("click", function(e) {
+  policyLink.addEventListener("click", function(e) {
     e.preventDefault();
-    if (policyPopup) policyPopup.style.display = "block";
+    policyPopup.style.display = "block";
   });
-  if (policyClose) policyClose.addEventListener("click", function() {
-    if (policyPopup) policyPopup.style.display = "none";
+  policyClose.addEventListener("click", function() {
+    policyPopup.style.display = "none";
   });
   window.addEventListener("click", function(e) {
     if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
   // === Ændr samtykke-knap ===
-  if (changeBtn) changeBtn.addEventListener("click", function() {
-    if (banner) banner.style.display = "flex";
+  changeBtn.addEventListener("click", function() {
+    banner.style.display = "flex";
   });
 
   // === Consent funktioner ===
@@ -75,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function() {
       document.head.appendChild(gaScript);
 
       gaScript.onload = function() {
-        gtag('js', new Date());
         gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
       }
     }
@@ -90,8 +94,15 @@ document.addEventListener("DOMContentLoaded", function() {
       document.head.appendChild(adsScript);
 
       adsScript.onload = function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        renderAds();
+      };
+
+      adsScript.onerror = function() {
+        console.error("Kunne ikke loade AdSense scriptet.");
       }
+    } else {
+      // Hvis scriptet allerede er loadet, rendér eventuelle manglende slots
+      renderAds();
     }
   }
 
@@ -100,5 +111,23 @@ document.addEventListener("DOMContentLoaded", function() {
       'ad_storage': 'denied',
       'analytics_storage': 'denied'
     });
+  }
+
+  // === Funktion til at rendere alle adsbygoogle slots ===
+  function renderAds() {
+    try {
+      window.adsbygoogle = window.adsbygoogle || [];
+      const slots = document.querySelectorAll('ins.adsbygoogle');
+      slots.forEach(() => {
+        try {
+          window.adsbygoogle.push({});
+        } catch (e) {
+          console.warn("adsbygoogle.push error:", e);
+        }
+      });
+      console.log("AdSense rendered", slots.length, "slots");
+    } catch (err) {
+      console.error("AdSense render error:", err);
+    }
   }
 });
