@@ -7,7 +7,7 @@
   <title>Beregn ladetid for elbil hjemme | Gratis ladetidsberegner online</title>
 
   <!-- Meta description for SEO -->
-  <meta name="description" content="Beregn ladetid på din elbil hjemme på få sekunder. Indtast batterikapacitet, ladeeffekt og SoC – få præcis opladningstid og energiforbrug. Gratis og nem ladetidsberegner." />
+  <meta name="description" content="Beregn ladetid på din elbil hjemme på få sekunder. Indtast batterikapacitet, ladeeffekt og SoC – få præcis opladningstid og energiforbrug. Gratis og nem ladetidsberegner til hjemmeladning." />
 
   <!-- Favicon + app icons -->
   <link rel="icon" href="/img/favicon.ico" />
@@ -18,19 +18,21 @@
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Consent Mode initial setup -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-X3CW94LC7E');
-</script>
+  <!-- Google Consent Mode (initial default, før brugerens valg) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied'
+    });
+  </script>
 
+  <!-- Cookie-håndtering og betinget indlæsning af Analytics & Ads -->
+  <script defer src="cookies.js"></script>
 
-  <!-- Bemærk: GA4 og Google Ads scripts loades udelukkende via cookie.js, når brugeren accepterer -->
 </head>
+
 <body>
     <!-- Indhold -->
      <div class="top-bar"></div>
