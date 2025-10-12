@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow" />
-  <title>Ladetidsberegner – Beregn hvor lang tid det tager at lade din elbil hjemme</title>
+  <title>Beregn ladetid for elbil hjemme | Gratis ladetidsberegner online</title>
 
   <!-- Meta description for SEO -->
-  <meta name="description" content="Beregn hurtigt ladetid på din elbil med vores gratis ladetidsberegner. Indtast batteristørrelse, start- og slutladning, ladeeffekt og få en præcis opladningstid ved hjemmeladning." />
+  <meta name="description" content="Beregn ladetid på din elbil hjemme på få sekunder. Indtast batterikapacitet, ladeeffekt og SoC – få præcis opladningstid og energiforbrug. Gratis og nem ladetidsberegner." />
 
   <!-- Favicon + app icons -->
   <link rel="icon" href="/img/favicon.ico" />
@@ -41,9 +41,10 @@
   <!-- Hero sektion -->
   <section class="hero">
     <div class="hero-text">
-      <h1>Ladetidsberegner – Beregn ladetid for elbil ved hjemmeladning</h1>
-      <p>Planlæg opladningen af din elbil bedre med vores gratis ladetidsberegner. Indtast bilens batterikapacitet, start- og slutladningsniveau samt ladeeffekt, og få en præcis beregning af, hvor lang tid det tager at lade din elbil hjemme.</p>
-      <nav><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
+      <h1>Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
+      <p>Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
+
+<nav><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
     </div>
   </section>
 
@@ -51,10 +52,9 @@
    <div class="about-outer">
 <section id="about" class="about">
   <div class="about-text">
-    <h2>Hvor lang tid tager det at lade en elbil op hjemme?</h2>
-    <p>
-     Det kan være svært at gennemskue, hvor lang tid det tager at lade en elbil, da det afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores ladetidsberegner får du et hurtigt og præcist overblik over opladningstiden, så du kan planlægge din opladning bedre.
-    </p>
+    <h2>Hvor lang tid tager det at lade en elbil hjemme?</h2>
+    <p>Det kan være kompliceret og tidskrævende at finde ud af, hvor lang tid det tager at lade en elbil hjemme. Opladningstiden afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores gratis ladetidsberegner får du hurtigt et klart overblik over opladningstid og energiforbrug, så du nemt kan planlægge hjemmeladningen og optimere din opladning.</p>
+    <P>Få et hurtigt overblik og planlæg opladningstiden optimalt, så du kan vælge det bedste tidspunkt for hjemmeladning og lade mest økonomisk.</P>
     <a href="#bereger" class="btn">Beregn ladetid på din elbil</a>
   </div>
   <div class="about-image">
@@ -85,7 +85,8 @@
   <!-- Beregner sektion -->
 <div class="beregner-outer" id="bereger">
   <div class="beregner-container">
-    <h2 class="beregner-overskrift">Beregn opladningstiden på din hjemmelader nemt og hurtigt</h2>
+<h2 class="beregner-overskrift">Beregn opladningstiden på din elbil hjemme</h2>
+<p>Brug vores ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil hjemme. Indtast batteristørrelse, start- og slutniveau samt ladeeffekt, og få en præcis beregning, så du kan planlægge opladningen optimalt.</p>
 
     <form id="beregn-form">
 
@@ -94,15 +95,16 @@
           <label for="soc-start"><a href="#faq-soc" class="label-link">Start SoC (%)<span class="info-icon">i</span></a></label>
           <input type="number" id="soc-start" min="0" max="100" step="1" required value="20" />
           <small>
-            Angiv batteriets startprocent inden opladning (0-100%). 
-            <a href="#faq-soc" class="laes-mere-link">Læs mere</a>
+         Angiv, hvor meget strøm der allerede er på bilens batteri, inden opladningen starter (0-100%). 
+<a href="#faq-soc" class="laes-mere-link">Læs mere</a>
+
           </small>
         </div>
         <div class="form-group">
           <label for="soc-slut"><a href="#faq-soc" class="label-link">Slut SoC (%)<span class="info-icon">i</span></a></label>
           <input type="number" id="soc-slut" min="0" max="100" step="1" required value="80" />
           <small>
-            Angiv ønsket slutprocent (skal være større end start SoC).
+            Angiv, hvor fuldt du ønsker, at batteriet skal være opladt, når opladningen slutter. (Skal være større end start SoC).
             <a href="#faq-soc" class="laes-mere-link">Læs mere</a>
           </small>
         </div>
@@ -116,9 +118,10 @@
     </label>
     <input type="number" id="kapacitet" min="0" step="0.1" required value="57.5" />
     <small>
-      Find din bils batterikapacitet på 
-      <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>. 
-      <a href="#faq-batterikapacitet" class="laes-mere-link">Læs mere</a>
+     Angiv bilens samlede batterikapacitet (brutto, kWh).  
+  Du kan finde oplysninger om din bil på 
+  <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>. 
+  <a href="#faq-batterikapacitet" class="laes-mere-link">Læs mere</a>
     </small>
   </div>
 
@@ -181,7 +184,7 @@
     <!-- Tekstcontainer -->
 <div class="features-text">
   <div class="text-wrapper">
-    <h2>Sådan bruger du ladetidsberegneren</h2>
+    <h2>Sådan bruger du ladetidsberegneren til at finde ladetiden for din elbil derhjemme</h2>
     <p>Se hvor lang tid det tager at oplade din elbil på din hjemmelader – hurtigt, nemt og præcist!</p>
 
     <ol class="features-steps">
