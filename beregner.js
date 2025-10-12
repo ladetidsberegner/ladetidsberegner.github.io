@@ -110,6 +110,7 @@ function showBookmarkButton() {
     bookmarkBtn.style.display = "flex";
     bookmarkBtn.style.alignItems = "center";
     bookmarkBtn.style.justifyContent = "center";
+    bookmarkBtn.style.transform="translateY(-1px)";
     bookmarkBtn.style.cursor = "pointer";
     bookmarkBtn.style.zIndex = "9999";
     document.body.appendChild(bookmarkBtn);

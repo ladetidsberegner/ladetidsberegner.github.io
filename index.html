@@ -31,10 +31,6 @@
 
   <!-- Bemærk: GA4 og Google Ads scripts loades udelukkende via cookie.js, når brugeren accepterer -->
 </head>
-
-
-
-
 <body>
     <!-- Indhold -->
      <div class="top-bar"></div>
@@ -118,9 +114,7 @@
     </label>
     <input type="number" id="kapacitet" min="0" step="0.1" required value="57.5" />
     <small>
-     Angiv bilens samlede batterikapacitet (brutto, kWh).  
-  Du kan finde oplysninger om din bil på 
-  <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>. 
+     Angiv bilens samlede batterikapacitet (brutto, kWh). Du kan finde oplysninger om din bil på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>. 
   <a href="#faq-batterikapacitet" class="laes-mere-link">Læs mere</a>
     </small>
   </div>
@@ -148,7 +142,7 @@
       <option value="22-3">22 kW (3 faser)</option>
     </select>
     <small>
-      Vælg den ladeeffekt, som passer til din installation og bil. 
+      Vælg ladeeffekt og antal faser, der passer til din bil og hjemmelader.  
       <a href="#faq-ladeeffekt" class="laes-mere-link">Læs mere</a>
     </small>
   </div>
@@ -161,10 +155,10 @@
       <div id="resultat"></div>
 
       <div id="ansvarsfraskrivelse">
-        <p class="ladeeffekt-forklaring" style="font-size: small; font-style: italic;">
-          Beregningen er vejledende og kan afvige fra den faktiske opladningstid.<br>
-          Ladehastigheden påvirkes af flere faktorer som bilens specifikationer, batteriets tilstand, temperatur og laderens kapacitet.<br>
-          Vi påtager os ikke ansvar for eventuelle afvigelser eller fejl i beregningen.
+        <p class="ladeeffekt-forklaring">
+          Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet.  
+          Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige.  
+          Vi påtager os ikke ansvar for eventuelle fejl eller afvigelser i beregningen og kan ikke holdes ansvarlige for tab som følge af brug af værktøjet.
         </p>
       </div>
 
@@ -172,42 +166,43 @@
   </div>
 </div>
 
- <!-- Features med billede og trin -->
-<section class="features-image-with-steps">
+ <section class="features-image-with-steps">
   <div class="features-wrapper">
     
     <!-- Billedcontainer -->
     <div class="features-image">
-      <img src="img/elbil-dame-telefon.jpg" alt="Elbil">
+      <img src="img/elbil-dame-telefon.jpg" alt="Kvinde bruger ladetidsberegner til elbil hjemme">
     </div>
 
     <!-- Tekstcontainer -->
-<div class="features-text">
-  <div class="text-wrapper">
-    <h2>Sådan bruger du ladetidsberegneren til at finde ladetiden for din elbil derhjemme</h2>
-    <p>Se hvor lang tid det tager at oplade din elbil på din hjemmelader – hurtigt, nemt og præcist!</p>
+    <div class="features-text">
+      <div class="text-wrapper">
+        <h2>Sådan bruger du ladetidsberegneren til at finde opladningstiden for din elbil hjemme</h2>
+        <p>Med vores gratis værktøj kan du hurtigt beregne, hvor lang tid det tager at lade din elbil på hjemmeladeren. Det er nemt, præcist og kræver kun få oplysninger.</p>
 
-    <ol class="features-steps">
-      <li>
-        <h3>Vælg start- og slutniveau</h3>
-        <p>Angiv hvor meget strøm der er på batteriet nu, og hvor højt du ønsker at lade op til.</p>
-      </li>
-      <li>
-        <h3>Indtast batterikapacitet</h3>
-        <p>Skriv bilens samlede batteristørrelse i kWh.</p>
-      </li>
-      <li>
-        <h3>Vælg ladeeffekt og faser</h3>
-        <p>Vælg den ladeeffekt, du har til rådighed derhjemme, samt antal faser.</p>
-      </li>
-    </ol>
-  </br>
-    <p><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
-  </div>
-</div>
+        <ol class="features-steps">
+        <li>
+  <h3>1. Vælg start- og slutniveau</h3>
+  <p>Angiv start- og slutniveau på batteriet, så beregneren kan vise, hvor lang tid opladningen vil tage.</p>
+</li>
 
+          <li>
+            <h3>2. Indtast batterikapacitet</h3>
+            <p>Indtast bilens samlede batteristørrelse i kWh, så beregneren kan udregne det samlede energibehov.</p>
+          </li>
+   <li>
+  <h3>3. Vælg ladeeffekt og faser</h3>
+  <p>Vælg ladeeffekten derhjemme og indtast bilens kapacitet, så du realistisk kan planlægge opladningstiden. Beregneren viser, hvor lang tid det vil tage at oplade din elbil hjemme.</p>
+</li>
+
+        </ol>
+
+        <p><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
+      </div>
+    </div>
   </div>
 </section>
+
 
 <!-- Vandret reklame efter Features -->
 <div class="adsense-slot" id="ads-features">
@@ -223,59 +218,95 @@
 <section class="faq-section">
   <div class="faq-container">
     <h2>Ofte stillede spørgsmål</h2>
+    <p class="faq-intro">Få hurtige svar på, hvordan du bedst oplader din elbil derhjemme, forlænger batteriets levetid og forstår de vigtigste begreber.  
+                        I vores FAQ finder du forklaringer på alt fra SoC og batterikapacitet til ladetab, effektivitet og gode opladningsvaner.
+    </p>
+
     <div class="faq">
 
       <div class="faq-item" id="faq-soc">
         <button class="faq-question">
           <span class="faq-icon">▶</span>
-          Hvad betyder start- og slut-SOC?
+          <h3 class="faq-heading">Hvad betyder start- og slut-SOC?</h3>
         </button>
         <div class="faq-answer">
-          <p>SOC står for "State of Charge" og angiver, hvor fyldt batteriet er i procent. Start-SOC er den procent, batteriet har, når du begynder opladningen, og slut-SOC er den procent, du ønsker at lade op til.</p>
+          <p>SOC står for "State of Charge" og viser i procent, hvor meget strøm der er på bilens batteri. Start-SOC er niveauet, inden du begynder at lade, og slut-SOC er, hvor fyldt batteriet er, når opladningen er færdig.</p>
         </div>
       </div>
 
       <div class="faq-item" id="faq-batterikapacitet">
-        <button class="faq-question">
-          <span class="faq-icon">▶</span>
-          Hvad er bilens batterikapacitet?
-        </button>
-        <div class="faq-answer">
-          <p>Batterikapacitet angiver, hvor meget energi bilens batteri kan lagre, og måles i kilowatt-timer (kWh). Jo større kapacitet, desto længere kan du køre på en opladning – men det afhænger også af bilens effektivitet.</p>
-          <p>Effektivitet måles ofte i kWh pr. 100 km eller km pr. kWh. En effektiv bil kan køre længere på samme mængde energi, mens en mindre effektiv bil bruger mere energi pr. kilometer.</p>
-          <p>For eksempel kan to biler med samme 60 kWh batteri have meget forskellig rækkevidde: én der bruger 15 kWh/100 km kan køre ca. 400 km, mens én der bruger 20 kWh/100 km kun kan køre ca. 300 km.</p>
-          <p>Du kan finde din bils batterikapacitet og effektivitet på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>.</p>
-        </div>
-      </div>
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+     <h3 class="faq-heading">Hvad er batterikapacitet?</h3>
+  </button>
+  <div class="faq-answer">
+    <p>Batterikapacitet viser, hvor meget energi bilens batteri kan lagre, og måles i kilowatt-timer (kWh). Man skelner mellem brutto- og nettokapacitet: B rutto er den samlede energi i batteriet, mens nettokapacitet er den del, som faktisk kan bruges til kørsel. Hele batteriet kan ikke anvendes, da det beskytter batteriets levetid og sikkerhed.</p>
+    <p>En større batterikapacitet betyder generelt, at bilen kan køre længere på en opladning. Den praktiske rækkevidde afhænger dog også af bilens effektivitet, altså hvor meget energi bilen bruger pr. kilometer.</p>
+    <p>To biler med samme batterikapacitet kan have meget forskellig rækkevidde. Eksempel: En bil, der bruger 15 kWh/100 km, kan køre ca. 400 km på et 60 kWh batteri, mens en bil, der bruger 20 kWh/100 km, kun kan køre ca. 300 km. <a href="#faq-effektivitet">Se også effektivitet</a></p>
+
+  </div>
+</div>
+
+
+ <div class="faq-item" id="faq-effektivitet">
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+     <h3 class="faq-heading">Hvad påvirker bilens effektivitet og rækkevidde?</h3>
+
+  </button>
+  <div class="faq-answer">
+    <p>Effektiviteten påvirkes af temperatur, brug af varme eller aircondition, og forhold som regn, sne eller koldt vejr. Disse faktorer kan øge energiforbruget og reducere den praktiske rækkevidde.</p>
+    <p>Effektivitet måles ofte i kWh pr. 100 km eller km pr. kWh.</p>
+  </div>
+</div>
+
 
       <div class="faq-item" id="faq-ladetab">
         <button class="faq-question">
           <span class="faq-icon">▶</span>
-          Hvad er ladetab?
+          <h3 class="faq-heading">Hvad er ladetab?</h3>
         </button>
         <div class="faq-answer">
           <p>Ladetab er den energi, der går tabt under opladning — typisk omkring 10–15% afhængigt af bil og lader.</p>
           <p>Et vigtigt punkt er, at <strong>det relative ladetab ofte stiger ved lav ladeeffekt</strong>. Forklaringen er, at dele af ladesystemet (bilens styringselektronik, varme- og kølesystemer mv.) bruger en nogenlunde fast mængde energi uafhængigt af, hvor hurtigt du lader. Når du lader langsomt, fordeles dette faste forbrug over færre kWh, og derfor udgør det en større procentdel af den samlede energi — altså højere procentuelt tab.</p>
-          <p>Praktisk konsekvens: hvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen kan være flaskehals (den bestemmer ofte selv, hvor hurtigt den kan modtage effekt).</p>
+          <p>Praktisk konsekvens: Hßvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen er flaskehals, da den bestemmer, hvor hurtigt den kan modtage effekt.</p>
           <p>Hvis du vil vide mere om ladetab for specifikke modeller, kan du tjekke producentens oplysninger eller tests på relevante sites.</p>
         </div>
       </div>
 
       <div class="faq-item" id="faq-80">
-        <button class="faq-question">
-          <span class="faq-icon">▶</span>
-          Må jeg lade batteriet til mere end 80%?
-        </button>
-        <div class="faq-answer">
-          <p>Det kommer an på bilens batterikemi:</p>
-          <ul class="faq-points">
-            <li><strong>Litium-jernfosfat (LFP)</strong> – Kan uden problemer lades til 100% dagligt. Faktisk anbefaler nogle producenter, at man gør det for at kalibrere rækkeviddevisningen.</li>
-            <li><strong>Andre litium-ion batterier</strong> – For længere levetid anbefales det ofte at lade til ca. 80% til dagligt, og kun lade helt op når du skal køre langt.</li>
-          </ul>
-          <p>Du kan finde ud af, hvilken type batteri din bil har, på <a href="https://www.ev-database.org" target="_blank" rel="noopener" style="text-decoration: underline;">www.ev-database.org</a>.</p>
-          <p>Tjek altid bilens manual eller producentens anbefalinger for præcise tal.</p>
-        </div>
-      </div>
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+    <h3 class="faq-heading">Bør jeg lade min elbil til 80% eller 100%?</h3>
+  </button>
+  <div class="faq-answer">
+    <p>Det afhænger af, hvilken type batteri din elbil bruger. Forskellige batterikemier reagerer forskelligt på høj opladning, og nogle tåler 100% dagligt, mens andre har bedst af at blive ladet til omkring 80% i hverdagen.</p>
+
+    <ul class="faq-points">
+      <li><strong>Litium-jernfosfat (LFP):</strong> Kan uden problemer lades til 100% dagligt. Nogle producenter anbefaler endda fuld opladning med jævne mellemrum for at holde rækkeviddevisningen præcis.</li>
+      <li><strong>Litium-nikkel-mangan-kobolt (NMC):</strong> Har bedst af at blive ladet til 70–80% til dagligt og kun til 100%, når du skal køre langt. Hyppig fuld opladning kan over tid slide på batteriet.</li>
+      <li><strong>Litium-nikkel-kobolt-aluminium (NCA):</strong> Minder meget om NMC, men bruges typisk i Tesla og visse premiumbiler. Også her anbefales daglig opladning til omkring 80% for at forlænge levetiden.</li>
+      <li><strong>Litium-titanat (LTO):</strong> Meget sjælden type med ekstremt lang levetid og høj ladeeffekt. Kan generelt lades til 100% uden problemer, men findes mest i nichekøretøjer.</li>
+    </ul>
+
+    <p>Selv for batterityper, der normalt kun lades til 70–80%, anbefales det at lade helt op til 100% cirka én gang om måneden. Det hjælper bilens batteristyring (BMS) med at kalibrere spænding og kapacitet for hver celle, så visningen af rækkevidde og SoC forbliver nøjagtig.</p>
+    <p>Ved fuld opladning kan bilen udføre såkaldt <em>cellebalancering</em>, hvor små forskelle mellem battericeller udlignes. Det forbedrer både præcisionen i visningen og batteriets langsigtede sundhed.</p>
+    <p>Du kan finde oplysninger om batteritypen i din bils manual eller på <a href="https://www.ev-database.org" target="_blank" rel="noopener">ev-database.org</a>.</p>
+    <p>Som tommelfingerregel: Lad op til 80% SoC til dagligt for de fleste biler, og til 100% cirka én gang om måneden eller inden længere ture. Det forlænger batteriets levetid og holder rækkevidden stabil over tid.</p>
+  </div>
+</div>
+
+
+      <div class="faq-item" id="faq-batterikapacitet-evdb">
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+    <h3 class="faq-heading">Hvor kan jeg finde oplysninger om min bil?</h3>
+  </button>
+  <div class="faq-answer">
+    <p>Du kan finde din bils batterikapacitet og effektivitet på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>.</p>
+  </div>
+</div>
+
 
     </div>
   </div>
@@ -283,7 +314,7 @@
 
 <div class="adsense-slot" id="ads-faq">
   <ins class="adsbygoogle"
-       style="display:block"
+          style="display:block"
        data-ad-client="ca-pub-4322732012925287"
        data-ad-slot="6613894552"
        data-ad-format="auto"
