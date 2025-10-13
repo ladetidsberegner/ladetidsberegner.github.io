@@ -6,10 +6,10 @@
   <meta name="robots" content="index, follow" />
   <title>Beregn ladetid for elbil hjemme | Gratis ladetidsberegner online</title>
 
-  <!-- Meta description for SEO -->
+  <!-- SEO -->
   <meta name="description" content="Beregn ladetid på din elbil hjemme på få sekunder. Indtast batterikapacitet, ladeeffekt og SoC – få præcis opladningstid og energiforbrug. Gratis og nem ladetidsberegner til hjemmeladning." />
 
-  <!-- Favicon + app icons -->
+  <!-- Ikoner -->
   <link rel="icon" href="/img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/img/icon-192.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -18,36 +18,23 @@
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
+  <!-- ===============================
+       Google Consent Mode v2 – Default
+       =============================== -->
   <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent', 'default', {
-    'ad_storage': 'denied',
-    'analytics_storage': 'denied'
-  });
-</script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    // Default indstillinger: ingen cookies før samtykke
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied'
+    });
+  </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E"></script>
-<script>
-  gtag('js', new Date());
-  gtag('config', 'G-X3CW94LC7E');
-</script>
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-ELGNQRMN1X');
-</script>
-
-
-  <!-- Cookie-håndtering og betinget indlæsning af Analytics & Ads -->
-  <script defer src="cookies.js"></script>
-
+  <!-- Cookie-håndtering og betinget indlæsning -->
+  <script defer src="cookie.js"></script>
 </head>
+
 
 <body>
     <!-- Indhold -->
@@ -340,37 +327,38 @@
 </div>
 
 
-
-<!-- Cookie Banner -->
+<!-- === Cookie Banner === -->
 <div id="cookie-banner" class="cookie-banner">
   <div class="cookie-text">
-    <p>Vi bruger cookies til statistik (Google Analytics) og annoncer (Google AdSense). 
-      <a href="#" id="cookie-policy-link">Læs mere</a>
-    </p>
+    Vi bruger cookies til at forbedre din oplevelse og analysere trafik. 
+    Du kan læse mere i vores 
+    <a href="#" id="cookie-policy-link" style="text-decoration:underline;">cookiepolitik</a>.
   </div>
   <div class="cookie-buttons">
-    <button id="cookie-accept" class="btn">Accepter</button>
-    <button id="cookie-decline" class="btn">Afvis</button>
+    <button id="cookie-accept">Accepter</button>
+    <button id="cookie-decline">Afvis</button>
   </div>
 </div>
 
+<!-- === Ændr samtykke-knap === -->
+<button id="change-cookie-consent" class="change-cookie-consent">
+  Ændr cookieindstillinger
+</button>
 
-<!-- Cookie Policy Popup -->
+<!-- === Cookie Politik Popup === -->
 <div id="cookie-policy-popup" class="cookie-policy-popup">
   <div class="cookie-policy-content">
     <span id="cookie-policy-close" class="close">&times;</span>
     <h2>Cookiepolitik</h2>
-    <p>Vi bruger cookies til at forbedre din oplevelse:</p>
-    <ul>
-      <li><strong>Statistik:</strong> Hjælper os med at forstå, hvordan siden bruges (Google Analytics).</li>
-      <li><strong>Annoncer:</strong> Gør det muligt at vise relevante annoncer (Google AdSense).</li>
-    </ul>
-    <p>Du kan til enhver tid ændre dit samtykke ved at klikke på “Ændr samtykke” nederst på siden.</p>
+    <p>
+      Vi anvender cookies for at give dig den bedst mulige oplevelse. 
+      Nogle cookies er nødvendige for at få siden til at fungere korrekt, 
+      mens andre hjælper os med statistik og annoncering. 
+      Du kan altid ændre dit samtykke via knappen 
+      <strong>“Ændr cookieindstillinger”</strong>.
+    </p>
   </div>
 </div>
-
-<!-- Ændr samtykke-knap i footer -->
-<button id="change-cookie-consent" class="btn">Ændr samtykke</button>
 
 
  <footer class="site-footer">
@@ -420,7 +408,6 @@
 </div>
 
   <script src="beregner.js"></script>
-  <script src="cookie.js"></script>
   <script src="faq.js"></script>
   <script src="script.js"></script>
 </body>
