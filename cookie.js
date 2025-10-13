@@ -78,7 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       gaScript.onload = function () {
         gtag('config', 'G-ELGNQRMN1X', { anonymize_ip: true });
+
+        // --- 🔹 Event tracking aktiveres her ---
+        setupInteractionTracking();
       };
+    } else {
+      setupInteractionTracking();
     }
 
     // === Google AdSense ===
@@ -102,6 +107,35 @@ document.addEventListener("DOMContentLoaded", function () {
       'ad_storage': 'denied',
       'analytics_storage': 'denied'
     });
+  }
+
+  // === Event tracking for brugerinteraktion ===
+  function setupInteractionTracking() {
+    // --- Beregn-knap ---
+    const beregnKnap = document.getElementById("beregn-knap");
+    if (beregnKnap) {
+      beregnKnap.addEventListener("click", () => {
+        if (typeof gtag === "function") {
+          gtag("event", "beregn_tryk", {
+            event_category: "interaktion",
+            event_label: "Ladetidsberegner",
+          });
+        }
+      });
+    }
+
+    // --- Bogmærke-knap ---
+    const bookmarkBtn = document.getElementById("bookmark-btn");
+    if (bookmarkBtn) {
+      bookmarkBtn.addEventListener("click", () => {
+        if (typeof gtag === "function") {
+          gtag("event", "bogmaerke_tryk", {
+            event_category: "interaktion",
+            event_label: "Bogmærke-knap",
+          });
+        }
+      });
+    }
   }
 
   // === Vis annoncer, når scriptet er loadet ===
