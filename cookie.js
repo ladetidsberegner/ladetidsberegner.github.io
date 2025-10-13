@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   changeBtn.style.display = "none";
 
-  // === Google Consent Mode initial setup ===
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   gtag('consent', 'default', {
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   gtag('js', new Date());
 
-  // === Tidligere valg ===
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -28,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (consent === "accepted") enableTracking();
   }
 
-  // === Accepter ===
   acceptBtn.addEventListener("click", function () {
     localStorage.setItem("cookie-consent", "accepted");
     banner.style.display = "none";
@@ -36,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
     enableTracking();
   });
 
-  // === Afvis ===
   rejectBtn.addEventListener("click", function () {
     localStorage.setItem("cookie-consent", "declined");
     banner.style.display = "none";
@@ -44,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     disableTracking();
   });
 
-  // === Cookie politik popup ===
   policyLink?.addEventListener("click", function (e) {
     e.preventDefault();
     policyPopup.style.display = "block";
@@ -56,19 +51,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
-  // === Ændr samtykke ===
   changeBtn.addEventListener("click", function () {
     banner.style.display = "flex";
   });
 
-  // === Aktivér sporing og annoncer ===
   function enableTracking() {
     gtag('consent', 'update', {
       'ad_storage': 'granted',
       'analytics_storage': 'granted'
     });
 
-    // === Google Analytics 4 ===
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -78,15 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       gaScript.onload = function () {
         gtag('config', 'G-ELGNQRMN1X', { anonymize_ip: true });
-
-        // --- 🔹 Event tracking aktiveres her ---
         setupInteractionTracking();
       };
     } else {
       setupInteractionTracking();
     }
 
-    // === Google AdSense ===
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -94,14 +83,12 @@ document.addEventListener("DOMContentLoaded", function () {
       adsScript.async = true;
       adsScript.crossOrigin = "anonymous";
       document.head.appendChild(adsScript);
-
       adsScript.onload = renderAds;
     } else {
       renderAds();
     }
   }
 
-  // === Deaktiver sporing ===
   function disableTracking() {
     gtag('consent', 'update', {
       'ad_storage': 'denied',
@@ -109,18 +96,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // === Event tracking for brugerinteraktion ===
   function setupInteractionTracking() {
     // --- Beregn-knap ---
     const beregnKnap = document.getElementById("beregn-knap");
     if (beregnKnap) {
       beregnKnap.addEventListener("click", () => {
-        if (typeof gtag === "function") {
-          gtag("event", "beregn_tryk", {
-            event_category: "interaktion",
-            event_label: "Ladetidsberegner",
-          });
-        }
+        gtag("event", "beregn_tryk", {
+          event_category: "interaktion",
+          event_label: "Ladetidsberegner",
+        });
       });
     }
 
@@ -128,17 +112,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookmarkBtn = document.getElementById("bookmark-btn");
     if (bookmarkBtn) {
       bookmarkBtn.addEventListener("click", () => {
-        if (typeof gtag === "function") {
-          gtag("event", "bogmaerke_tryk", {
+        gtag("event", "bogmaerke_tryk", {
+          event_category: "interaktion",
+          event_label: "Bogmærke-knap",
+        });
+      });
+    }
+
+    // --- Scroll tracking for beregneren ---
+    const beregnerSection = document.getElementById("beregner-section");
+    let scrollTracked = false;
+    if (beregnerSection) {
+      window.addEventListener("scroll", () => {
+        const rect = beregnerSection.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        if (!scrollTracked && rect.top <= windowHeight * 0.9) {
+          scrollTracked = true;
+          gtag("event", "beregner_synlig", {
             event_category: "interaktion",
-            event_label: "Bogmærke-knap",
+            event_label: "Beregn sektion synlig",
           });
         }
       });
     }
   }
 
-  // === Vis annoncer, når scriptet er loadet ===
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
