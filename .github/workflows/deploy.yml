@@ -1,0 +1,70 @@
+name: Deploy Clean Build to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Hent koden
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ Installer Node (behøves for at køre build-script)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 3️⃣ Installer værktøjer til minificering
+      - name: Install minify tools
+        run: |
+          npm install -g html-minifier-terser clean-css-cli terser
+
+      # 4️⃣ Kør build-script (du skal have build.js i roden)
+      - name: Run build script
+        run: |
+          node build.js
+
+      # 5️⃣ Minificér alt output i /dist
+        # HTML
+      - name: Minify HTML
+        run: |
+          find dist -name "*.html" -exec html-minifier-terser --collapse-whitespace --remove-comments --minify-css true --minify-js true -o {} {} \;
+        # CSS
+      - name: Minify CSS
+        run: |
+          find dist -name "*.css" -exec cleancss -o {} {} \;
+        # JS
+      - name: Minify JS
+        run: |
+          find dist -name "*.js" -exec terser {} -o {} \;
+
+      # 6️⃣ Upload til Pages artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # 7️⃣ Deploy til GitHub Pages
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
