@@ -1,7 +1,5 @@
 {
-  "name": "placeholder",
-  "short_name": "placeholder",
-  "description": "empty manifest",
-  "start_url": "/",
+  "name": "Elbil ladetidsberegner",
+  "short_name": "Ladetid",
   "display": "browser"
 }
