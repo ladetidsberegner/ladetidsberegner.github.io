@@ -1,3 +1,4 @@
+// cookie.js – med fuld GA4 tracking på alle beregnknapper
 document.addEventListener("DOMContentLoaded", function () {
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
@@ -9,14 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   changeBtn.style.display = "none";
 
+  // --- Google Consent Mode standard ---
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag('consent', 'default', {
-    'ad_storage': 'denied',
-    'analytics_storage': 'denied'
-  });
-  gtag('js', new Date());
 
+  gtag("consent", "default", {
+    ad_storage: "denied",
+    analytics_storage: "denied"
+  });
+  gtag("js", new Date());
+
+  // --- Check tidligere samtykke ---
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -26,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (consent === "accepted") enableTracking();
   }
 
+  // --- Acceptér cookies ---
   acceptBtn.addEventListener("click", function () {
     localStorage.setItem("cookie-consent", "accepted");
     banner.style.display = "none";
@@ -33,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     enableTracking();
   });
 
+  // --- Afvis cookies ---
   rejectBtn.addEventListener("click", function () {
     localStorage.setItem("cookie-consent", "declined");
     banner.style.display = "none";
@@ -40,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     disableTracking();
   });
 
+  // --- Cookiepolitik popup ---
   policyLink?.addEventListener("click", function (e) {
     e.preventDefault();
     policyPopup.style.display = "block";
@@ -51,16 +58,19 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
+  // --- Ændr samtykke ---
   changeBtn.addEventListener("click", function () {
     banner.style.display = "flex";
   });
 
+  // --- Aktiver tracking ---
   function enableTracking() {
-    gtag('consent', 'update', {
-      'ad_storage': 'granted',
-      'analytics_storage': 'granted'
+    gtag("consent", "update", {
+      ad_storage: "granted",
+      analytics_storage: "granted"
     });
 
+    // Google Analytics 4
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -69,13 +79,14 @@ document.addEventListener("DOMContentLoaded", function () {
       document.head.appendChild(gaScript);
 
       gaScript.onload = function () {
-        gtag('config', 'G-ELGNQRMN1X', { anonymize_ip: true });
+        gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
         setupInteractionTracking();
       };
     } else {
       setupInteractionTracking();
     }
 
+    // Google AdSense
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -89,38 +100,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // --- Deaktiver tracking ---
   function disableTracking() {
-    gtag('consent', 'update', {
-      'ad_storage': 'denied',
-      'analytics_storage': 'denied'
+    gtag("consent", "update", {
+      ad_storage: "denied",
+      analytics_storage: "denied"
     });
   }
 
+  // --- Event-tracking ---
   function setupInteractionTracking() {
-    // --- Beregn-knap ---
-    const beregnKnap = document.getElementById("beregn-knap");
-    if (beregnKnap) {
-      beregnKnap.addEventListener("click", () => {
-        gtag("event", "beregn_tryk", {
-          event_category: "interaktion",
-          event_label: "Ladetidsberegner",
-        });
-      });
-    }
+    // === Beregn-knapper ===
+    const beregnKnapper = [
+      { id: "beregn-soc-btn", label: "Beregn ladetid" },
+      { id: "beregn-tid-btn", label: "Beregn start/sluttidspunkt" },
+      { id: "beregn-soc-tid-btn", label: "Beregn SoC-stigning" }
+    ];
 
-    // --- Bogmærke-knap ---
+    beregnKnapper.forEach(knap => {
+      const element = document.getElementById(knap.id);
+      if (element) {
+        element.addEventListener("click", () => {
+          gtag("event", "klik_beregn_knap", {
+            event_category: "Beregner",
+            event_label: knap.label,
+            value: 1
+          });
+        });
+      }
+    });
+
+    // === Bogmærke-knap ===
     const bookmarkBtn = document.getElementById("bookmark-btn");
     if (bookmarkBtn) {
       bookmarkBtn.addEventListener("click", () => {
         gtag("event", "bogmaerke_tryk", {
-          event_category: "interaktion",
-          event_label: "Bogmærke-knap",
+          event_category: "Interaktion",
+          event_label: "Bogmærke-knap"
         });
       });
     }
 
-    // --- Scroll tracking for beregneren ---
-    const beregnerSection = document.getElementById("beregner-section");
+    // === Scroll-tracking for beregner ===
+    const beregnerSection = document.getElementById("bereger");
     let scrollTracked = false;
     if (beregnerSection) {
       window.addEventListener("scroll", () => {
@@ -129,18 +151,19 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!scrollTracked && rect.top <= windowHeight * 0.9) {
           scrollTracked = true;
           gtag("event", "beregner_synlig", {
-            event_category: "interaktion",
-            event_label: "Beregn sektion synlig",
+            event_category: "Interaktion",
+            event_label: "Beregner synlig på skærmen"
           });
         }
       });
     }
   }
 
+  // --- AdSense renderer ---
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
-      const slots = document.querySelectorAll('ins.adsbygoogle');
+      const slots = document.querySelectorAll("ins.adsbygoogle");
       slots.forEach(() => {
         try {
           window.adsbygoogle.push({});

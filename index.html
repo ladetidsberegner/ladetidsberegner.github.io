@@ -11,8 +11,8 @@
 
   <!-- Ikoner -->
   <link rel="icon" href="/img/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/img/icon-192.png" />
-  <link rel="manifest" href="/manifest.json" />
+<!--  <link rel="apple-touch-icon" sizes="180x180" href="/img/icon-192.png" />-->
+ 
   <meta name="theme-color" content="#268cec" />
 
   <!-- CSS -->
@@ -51,7 +51,7 @@
 
   <!-- About sektion -->
    <div class="about-outer">
-<section id="about" class="about">
+<section id="about" class="about fade-section">
   <div class="about-text">
     <h2>Hvor lang tid tager det at lade en elbil hjemme?</h2>
     <p>Det kan være kompliceret og tidskrævende at finde ud af, hvor lang tid det tager at lade en elbil hjemme. Opladningstiden afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores gratis ladetidsberegner får du hurtigt et klart overblik over opladningstid og energiforbrug, så du nemt kan planlægge hjemmeladningen og optimere din opladning.</p>
@@ -82,96 +82,212 @@
 -->
 </div>
 
-
-  <!-- Beregner sektion -->
+<!-- Beregner sektion -->
+<!-- Beregner sektion -->
 <div class="beregner-outer" id="bereger">
-  <div class="beregner-container">
-<h2 class="beregner-overskrift">Beregn opladningstiden på din elbil hjemme</h2>
-<p>Brug vores ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil hjemme. Indtast batteristørrelse, start- og slutniveau samt ladeeffekt, og få en præcis beregning, så du kan planlægge opladningen optimalt.</p>
+  <div class="beregner-container container fade-section">
 
-    <form id="beregn-form">
+    <h2 class="beregner-overskrift">Beregn opladningstiden på din elbil hjemme</h2>
+    <p class="beregner-intro">Vælg den beregning, du har brug for. Alle tal og tider tager højde for din ladeeffekt og det valgte ladetab.</p>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="soc-start"><a href="#faq-soc" class="label-link">Start SoC (%)<span class="info-icon">i</span></a></label>
-          <input type="number" id="soc-start" min="0" max="100" step="1" required value="20" />
-          <small>
-         Angiv, hvor meget strøm der allerede er på bilens batteri, inden opladningen starter (0-100%). 
-<a href="#faq-soc" class="laes-mere-link">Læs mere</a>
-
-          </small>
+    <!-- Sektion 1: Beregn ladetid -->
+    <div class="calc-section open" id="calc-spor1">
+      <button class="calc-question" aria-expanded="true">
+        <span class="calc-icon">▶</span>
+        <h3 class="calc-heading">Beregn ladetid</h3>
+      </button>
+      <div class="calc-answer" aria-hidden="false">
+        <div class="calc-help top">
+          <p class="help-text">Indtast start- og slut-SoC for at se, hvor længe opladningen varer, samt bruttoforbrug fra laderen.</p>
         </div>
-        <div class="form-group">
-          <label for="soc-slut"><a href="#faq-soc" class="label-link">Slut SoC (%)<span class="info-icon">i</span></a></label>
-          <input type="number" id="soc-slut" min="0" max="100" step="1" required value="80" />
-          <small>
-            Angiv, hvor fuldt du ønsker, at batteriet skal være opladt, når opladningen slutter. (Skal være større end start SoC).
-            <a href="#faq-soc" class="laes-mere-link">Læs mere</a>
-          </small>
+
+        <form class="calc-form" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="soc-start">Start SoC (%)</label>
+              <input type="number" id="soc-start" min="0" max="100" step="1" value="20" inputmode="numeric" />
+            </div>
+            <div class="form-group">
+              <label for="soc-slut">Slut SoC (%)</label>
+              <input type="number" id="soc-slut" min="0" max="100" step="1" value="80" inputmode="numeric" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <button type="button" id="beregn-soc-btn" class="beregn-knap">Beregn</button>
+          </div>
+
+          <div id="resultat-soc" class="resultat-tekst" aria-live="polite"></div>
+
+          <div class="calc-help bottom">
+            <p class="help-text">Tip: Du kan justere batteristørrelse, ladeeffekt og ladetab under <a href="#advanced-fields"><em>indstillinger</em></a> herunder.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+<!--
+        <hr class="beregner-divider" />
+-->
+
+    <!-- Sektion 2: Beregn start-/sluttidspunkt -->
+     <!--
+    <div class="calc-section" id="calc-spor2">
+      <button class="calc-question" aria-expanded="false">
+        <span class="calc-icon">▶</span>
+        <h3 class="calc-heading">Beregn start- eller sluttidspunkt</h3>
+      </button>
+      <div class="calc-answer" aria-hidden="true">
+        <div class="calc-help top">
+          <p class="help-text">Beregn hvornår du skal starte for at være færdig på et bestemt tidspunkt – eller hvornår du er færdig, hvis du starter på et bestemt tidspunkt.</p>
+        </div>
+
+        <form class="calc-form" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="soc-start-2">Start SoC (%)</label>
+              <input type="number" id="soc-start-2" min="0" max="100" step="1" value="20" inputmode="numeric" />
+            </div>
+            <div class="form-group">
+              <label for="soc-slut-2">Slut SoC (%)</label>
+              <input type="number" id="soc-slut-2" min="0" max="100" step="1" value="80" inputmode="numeric" />
+            </div>
+          </div>
+
+          <div class="line-sentence" id="linie-sentence">
+            <label for="beregn-tid-valg" class="inline-label">Hvis ladningen</label>
+            <select id="beregn-tid-valg" class="inline-select">
+              <option value="skal-vaere-faerdig">skal være færdig</option>
+              <option value="starter">starter</option>
+            </select>
+            <label class="inline-label">kl</label>
+            <input type="time" id="tidpunkt-input" class="inline-time" />
+            <span id="linje-resultat" class="inline-result"></span>
+            <button type="button" id="beregn-tid-btn" class="beregn-knap small">Beregn</button>
+          </div>
+
+          <div id="resultat-tid" class="resultat-tekst" aria-live="polite"></div>
+
+          <div class="calc-help bottom">
+            <p class="help-text">Tip: Brug denne funktion, når du planlægger natlig opladning.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <hr class="beregner-divider" />
+      -->
+    <!-- Sektion 3: Beregn SoC-stigning -->
+     <!--
+    <div class="calc-section" id="calc-spor3">
+      <button class="calc-question" aria-expanded="false">
+        <span class="calc-icon">▶</span>
+        <h3 class="calc-heading">Beregn SoC-stigning</h3>
+      </button>
+      <div class="calc-answer" aria-hidden="true">
+        <div class="calc-help top">
+          <p class="help-text">Se hvor meget din SoC stiger i en given periode. Vælg enten varighed (timer/minutter) eller start- og sluttidspunkt.</p>
+        </div>
+
+        <form class="calc-form" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="spor3-soc-start">Start SoC (%)</label>
+              <input type="number" id="spor3-soc-start" min="0" max="100" step="1" value="20" inputmode="numeric" />
+            </div>
+
+            <div class="form-group">
+              <label for="soc-model">Beregn ud fra</label>
+              <select id="soc-model">
+                <option value="varighed" selected>Varighed (timer/minutter)</option>
+                <option value="tidspunkter">Start- og sluttidspunkt</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row soc-varighed">
+            <div class="form-group">
+              <label for="varighed-timer">Timer</label>
+              <input type="number" id="varighed-timer" min="0" step="1" value="0" inputmode="numeric" />
+            </div>
+            <div class="form-group">
+              <label for="varighed-minutter">Minutter</label>
+              <input type="number" id="varighed-minutter" min="0" max="59" step="1" value="0" inputmode="numeric" />
+            </div>
+          </div>
+
+          <div class="form-row soc-tidspunkter" style="display:none;">
+            <div class="form-group">
+              <label for="soc-starttid">Starttidspunkt</label>
+              <input type="time" id="soc-starttid" />
+            </div>
+            <div class="form-group">
+              <label for="soc-sluttid">Sluttidspunkt</label>
+              <input type="time" id="soc-sluttid" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <button type="button" id="beregn-soc-tid-btn" class="beregn-knap">Beregn</button>
+          </div>
+
+          <div id="resultat-soc-tid" class="resultat-tekst" aria-live="polite"></div>
+
+          <div class="calc-help bottom">
+            <p class="help-text">Hvis beregningen overstiger 100 %, viser vi, hvor lang tid der skal lades for at nå 80 % og 100 %, samt bruttoforbrug for disse værdier.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <hr class="beregner-divider" />
+-->
+    <!-- Indstillinger -->
+    <div class="advanced-section" id="advanced-fields">
+      <button class="advanced-question" aria-expanded="true" id="advanced-toggle">
+        <span class="advanced-icon">▶</span>
+        <h3 class="advanced-heading">Indstillinger</h3>
+      </button>
+
+      <div class="advanced-answer" aria-hidden="false">
+        <div class="form-row triple-fields">
+          <div class="form-group">
+            <label for="kapacitet">Batterikapacitet (kWh)</label>
+            <input type="number" id="kapacitet" placeholder="Angiv bilens batteristørrelse (kWh)">
+            <small class="help-text">
+              Beregningen bør tage udgangspunkt i bilens <strong>netto batterikapacitet</strong> – altså den del, der reelt kan bruges.  
+              Se <a href="https://ev-database.org/" target="_blank" rel="noopener">ev-database.org</a> for oplysninger.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="ladetab">Ladetab (%)</label>
+            <input type="number" id="ladetab" min="0" step="0.1" value="12" inputmode="decimal" />
+            <div class="help-text">Ladetab dækker energi tabt i kabler, konvertering og køling.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="ladevalg">Vælg ladeeffekt og antal faser</label>
+            <select id="ladevalg">
+              <option value="">Vælg</option>
+              <option value="3.7-1">3,7 kW (1 fase)</option>
+              <option value="7.4-1">7,4 kW (1 fase)</option>
+              <option value="11-3" selected>11 kW (3 faser)</option>
+              <option value="22-3">22 kW (3 faser)</option>
+            </select>
+            <div class="help-text">Husk: bilen sætter grænsen for, hvor meget effekt der kan udnyttes.</div>
+          </div>
         </div>
       </div>
-
-      <div class="form-row">
-<div class="form-row triple-fields">
-  <div class="form-group">
-    <label for="kapacitet">
-      <a href="#faq-batterikapacitet" class="label-link">Batterikapacitet (kWh)<span class="info-icon">i</span></a>
-    </label>
-    <input type="number" id="kapacitet" min="0" step="0.1" required value="57.5" />
-    <small>
-     Angiv bilens samlede batterikapacitet (brutto, kWh). Du kan finde oplysninger om din bil på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>. 
-  <a href="#faq-batterikapacitet" class="laes-mere-link">Læs mere</a>
-    </small>
-  </div>
-
-  <div class="form-group">
-    <label for="ladetab">
-      <a href="#faq-ladetab" class="label-link">Ladetab (%)<span class="info-icon">i</span></a>
-    </label>
-    <input type="number" id="ladetab" min="0" step="0.1" required value="12" />
-    <small>
-      Et typisk energitab ved opladning er omkring 12%. 
-      <a href="#faq-ladetab" class="laes-mere-link">Læs mere</a>
-    </small>
-  </div>
-
-  <div class="form-group">
-    <label for="ladevalg">
-      <a href="#faq-ladeeffekt" class="label-link">Vælg ladeeffekt og antal faser<span class="info-icon">i</span></a>
-    </label>
-    <select id="ladevalg" required>
-      <option value="">Vælg</option>
-      <option value="3.7-1">3,7 kW (1 fase)</option>
-      <option value="7.4-1">7,4 kW (1 fase)</option>
-      <option value="11-3" selected>11 kW (3 faser)</option>
-      <option value="22-3">22 kW (3 faser)</option>
-    </select>
-    <small>
-      Vælg ladeeffekt og antal faser, der passer til din bil og hjemmelader.  
-      <a href="#faq-ladeeffekt" class="laes-mere-link">Læs mere</a>
-    </small>
+    </div>
+          <p>Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige. Vi påtager os ikke ansvar for eventuelle fejl eller afvigelser i beregningen og kan ikke holdes ansvarlige for tab som følge af brug af værktøjet.</p>
   </div>
 </div>
+<!-- beregner slut -->
 
-      </div>
 
-      <button type="submit" class="beregn-knap">Beregn</button>
+<!--beregner slut-->
 
-      <div id="resultat"></div>
-
-      <div id="ansvarsfraskrivelse">
-        <p class="ladeeffekt-forklaring">
-          Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet.  
-          Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige.  
-          Vi påtager os ikke ansvar for eventuelle fejl eller afvigelser i beregningen og kan ikke holdes ansvarlige for tab som følge af brug af værktøjet.
-        </p>
-      </div>
-
-    </form>
-  </div>
-</div>
-
- <section class="features-image-with-steps">
+ <section class="features-image-with-steps fade-section">
   <div class="features-wrapper">
     
     <!-- Billedcontainer -->
@@ -182,25 +298,42 @@
     <!-- Tekstcontainer -->
     <div class="features-text">
       <div class="text-wrapper">
-        <h2>Sådan bruger du ladetidsberegneren til at finde opladningstiden for din elbil hjemme</h2>
-        <p>Med vores gratis værktøj kan du hurtigt beregne, hvor lang tid det tager at lade din elbil på hjemmeladeren. Det er nemt, præcist og kræver kun få oplysninger.</p>
+        <h2>Sådan finder du hurtigt opladningstiden for din elbil</h2>
+        <p>Beregn opladningstid, planlæg start- eller sluttidspunkt, eller se, hvor meget bilen lader på et bestemt tidsrum – nemt og hurtigt.</p>
 
         <ol class="features-steps">
-        <li>
-  <h3>1. Vælg start- og slutniveau</h3>
-  <p>Angiv start- og slutniveau på batteriet, så beregneren kan vise, hvor lang tid opladningen vil tage.</p>
-</li>
+          <li>
+            <h3>1. Vælg beregningstype</h3>
+            <p>Vælg, om du vil beregne opladningstid, finde start-/sluttidspunkt eller se, hvor meget din SoC stiger i en given periode.</p>
+          </li>
 
           <li>
-            <h3>2. Indtast batterikapacitet</h3>
-            <p>Indtast bilens samlede batteristørrelse i kWh, så beregneren kan udregne det samlede energibehov.</p>
+            <h3>2. Angiv start- og slutniveau (SoC)</h3>
+            <p>Indtast bilens aktuelle ladestand og det ønskede slutniveau – herefter får du vist, hvor lang tid opladningen vil tage.</p>
           </li>
-   <li>
-  <h3>3. Vælg ladeeffekt og faser</h3>
-  <p>Vælg ladeeffekten derhjemme og indtast bilens kapacitet, så du realistisk kan planlægge opladningstiden. Beregneren viser, hvor lang tid det vil tage at oplade din elbil hjemme.</p>
-</li>
 
+         <div class="eller">eller</div>
+
+          <li>
+            <h3>3. Beregn start- eller sluttidspunkt</h3>
+            <p>Angiv, hvornår opladningen skal starte eller være færdig. Beregneren viser sluttidspunktet, hvis du indtaster et starttidspunkt – og omvendt, hvis du angiver et sluttidspunkt.</p>
+          </li>
+
+          <div class="eller">eller</div>
+
+          <li>
+            <h3>4. Beregn SoC-stigning i et tidsrum</h3>
+            <p>Se, hvor meget din bils ladestand stiger, hvis du oplader i et bestemt antal timer – eller mellem to valgte tidspunkter.</p>
+          </li>
+
+          <li>
+            <h3>5. Indtast batteristørrelse og vælg ladeeffekt</h3>
+            <p>Angiv bilens batteristørrelse i kWh, og vælg den ladeeffekt, du lader med. Du kan også justere ladetab for at få et mere realistisk resultat.</p>
+          </li>
         </ol>
+
+        <h3>Planlæg din opladning på få sekunder</h3>
+        <p>Uanset om du vil planlægge opladningen til et bestemt tidspunkt, finde ud af hvor længe bilen skal lade, eller blot få et hurtigt overblik over opladningstiden derhjemme, giver ladetidsberegneren dig svaret på få sekunder.</p>
 
         <p><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
       </div>
@@ -220,7 +353,7 @@
 </div>
 
 <!-- Text-image reverse sektion / FAQ -->
-<section class="faq-section">
+<section class="faq-section fade-section">
   <div class="faq-container">
     <h2>Ofte stillede spørgsmål</h2>
     <p class="faq-intro">Få hurtige svar på, hvordan du bedst oplader din elbil derhjemme, forlænger batteriets levetid og forstår de vigtigste begreber.  
@@ -252,6 +385,17 @@
   </div>
 </div>
 
+<div class="faq-item" id="faq-batterikapacitet-brutto-netto">
+  <button class="faq-question">
+    <span class="faq-icon">▶</span>
+    <h3 class="faq-heading">Hvad er forskellen på brutto og netto batterikapacitet?</h3>
+  </button>
+  <div class="faq-answer">
+    <p><strong>Brutto batterikapacitet</strong> er hele batteriets størrelse, som bilproducenten angiver – inklusive den del, der er reserveret for at beskytte batteriet mod slid.</p>
+    <p><strong>Netto batterikapacitet</strong> er den mængde energi, du faktisk kan bruge til opladning og kørsel. Det er denne værdi, du bør bruge i beregneren, da den giver det mest realistiske resultat for ladetid og energiforbrug.</p>
+    <p>Du kan finde både brutto- og nettokapacitet for din bil på <a href="https://ev-database.org/" target="_blank" rel="noopener">ev-database.org</a>.</p>
+  </div>
+</div>
 
  <div class="faq-item" id="faq-effektivitet">
   <button class="faq-question">
@@ -381,7 +525,7 @@
   <h4>Støt projektet</h4>
   <p>Siden drives på frivillig basis. Alle økonomiske bidrag er velkomne og hjælper os med at holde værktøjet gratis.</p>
   <br />
-  <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" 
+ <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" 
           data-name="bmc-button" 
           data-slug="ladetidsberegner" 
           data-color="#55ca1c" 
@@ -404,11 +548,28 @@
 </footer>
 
 <div class="footer-bottom">
-  <p>&copy; 2025 Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
+  <p>&copy; <span id="current-year">2025</span> Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
 </div>
 
-  <script src="beregner.js"></script>
+
+  <!--<script src="beregner.js"></script>-->
   <script src="faq.js"></script>
   <script src="script.js"></script>
+   <!--<script src="beregner-base.js"></script>-->
+   <script src="beregner-soc.js"></script>
+   <script src="beregner-spor2.js"></script>
+   <script src="beregner-spor3.js"></script>
+
+
+<!-- === Bookmark-knap === -->
+<button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">
+  *
+</button>
+
+<script src="sw-cleanup.js"></script>
+
+
+
+
 </body>
 </html>
