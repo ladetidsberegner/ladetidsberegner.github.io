@@ -1,4 +1,4 @@
-// cookie.js – med fuld GA4 tracking på alle beregnknapper
+// cookie.js – med fuld GA4 tracking og korrekt AdSense-håndtering
 document.addEventListener("DOMContentLoaded", function () {
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
@@ -86,18 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
       setupInteractionTracking();
     }
 
-    // Google AdSense
-    if (!document.getElementById("adsense-script")) {
-      const adsScript = document.createElement("script");
-      adsScript.id = "adsense-script";
-      adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
-      adsScript.async = true;
-      adsScript.crossOrigin = "anonymous";
-      document.head.appendChild(adsScript);
-      adsScript.onload = renderAds;
-    } else {
-      renderAds();
-    }
+    // AdSense (renderer eksisterende slots)
+    setTimeout(renderAds, 1000);
   }
 
   // --- Deaktiver tracking ---
@@ -110,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- Event-tracking ---
   function setupInteractionTracking() {
-    // === Beregn-knapper ===
     const beregnKnapper = [
       { id: "beregn-soc-btn", label: "Beregn ladetid" },
       { id: "beregn-tid-btn", label: "Beregn start/sluttidspunkt" },
@@ -130,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // === Bogmærke-knap ===
+    // Bogmærke-knap
     const bookmarkBtn = document.getElementById("bookmark-btn");
     if (bookmarkBtn) {
       bookmarkBtn.addEventListener("click", () => {
@@ -141,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // === Scroll-tracking for beregner ===
+    // Scroll-tracking for beregner
     const beregnerSection = document.getElementById("bereger");
     let scrollTracked = false;
     if (beregnerSection) {
@@ -164,7 +153,9 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       const slots = document.querySelectorAll("ins.adsbygoogle");
-      slots.forEach(() => {
+      slots.forEach(slot => {
+        // Fjern status så de kan rendere igen
+        slot.removeAttribute("data-adsbygoogle-status");
         try {
           window.adsbygoogle.push({});
         } catch (e) {
