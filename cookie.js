@@ -1,18 +1,30 @@
-// ===========================================================
-// cookie.js – med fuld GA4 tracking og korrekt AdSense-håndtering
-// ===========================================================
-document.addEventListener("DOMContentLoaded", function () {
-  const banner = document.getElementById("cookie-banner");
-  const acceptBtn = document.getElementById("cookie-accept");
-  const rejectBtn = document.getElementById("cookie-decline");
-  const changeBtn = document.getElementById("change-cookie-consent");
-  const policyLink = document.getElementById("cookie-policy-link");
-  const policyPopup = document.getElementById("cookie-policy-popup");
-  const policyClose = document.getElementById("cookie-policy-close");
+// ==============================
+// cookie.js – stabil og rettet version
+// Loader kun AdSense efter samtykke
+// Virker i Chrome, Safari og Firefox
+// ==============================
+(function () {
+  console.log("🧩 Cookie.js initialiseret");
 
-  changeBtn.style.display = "none";
+  // --- Helper ---
+  function $(id) { return document.getElementById(id); }
 
-  // --- Google Consent Mode standard ---
+  const banner = $("cookie-banner");
+  const acceptBtn = $("cookie-accept");
+  const rejectBtn = $("cookie-decline");
+  const changeBtn = $("change-cookie-consent");
+  const policyLink = $("cookie-policy-link");
+  const policyPopup = $("cookie-policy-popup");
+  const policyClose = $("cookie-policy-close");
+
+  if (!banner) {
+    console.warn("⚠️ Intet cookie-banner fundet i DOM.");
+    return;
+  }
+
+  if (changeBtn) changeBtn.style.display = "none";
+
+  // --- Consent Mode init ---
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
 
@@ -22,225 +34,146 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   gtag("js", new Date());
 
-  // --- Check tidligere samtykke ---
+  // --- Global scope ---
+  window.enableTracking = enableTracking;
+  window.disableTracking = disableTracking;
+
+  // --- Håndtér tidligere samtykke ---
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
   } else {
     banner.style.display = "none";
-    changeBtn.style.display = "inline-flex";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
     if (consent === "accepted") enableTracking();
   }
 
-  // --- Acceptér cookies ---
-  acceptBtn.addEventListener("click", function () {
-    localStorage.setItem("cookie-consent", "accepted");
-    banner.style.display = "none";
-    changeBtn.style.display = "inline-flex";
-    enableTracking();
-  });
+  // --- Klik-håndtering ---
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", () => {
+      console.log("✅ Klik: accepter cookies");
+      localStorage.setItem("cookie-consent", "accepted");
+      banner.style.display = "none";
+      if (changeBtn) changeBtn.style.display = "inline-flex";
+      enableTracking();
+    });
+  }
 
-  // --- Afvis cookies ---
-  rejectBtn.addEventListener("click", function () {
-    localStorage.setItem("cookie-consent", "declined");
-    banner.style.display = "none";
-    changeBtn.style.display = "inline-flex";
-    disableTracking();
-  });
+  if (rejectBtn) {
+    rejectBtn.addEventListener("click", () => {
+      console.log("❌ Klik: afvis cookies");
+      localStorage.setItem("cookie-consent", "declined");
+      banner.style.display = "none";
+      if (changeBtn) changeBtn.style.display = "inline-flex";
+      disableTracking();
+    });
+  }
 
-  // --- Cookiepolitik popup ---
-  policyLink?.addEventListener("click", function (e) {
-    e.preventDefault();
-    policyPopup.style.display = "block";
-  });
-  policyClose?.addEventListener("click", function () {
-    policyPopup.style.display = "none";
-  });
-  window.addEventListener("click", function (e) {
-    if (e.target === policyPopup) policyPopup.style.display = "none";
-  });
+  if (changeBtn) {
+    changeBtn.addEventListener("click", () => {
+      banner.style.display = "flex";
+    });
+  }
 
-  // --- Ændr samtykke ---
-  changeBtn.addEventListener("click", function () {
-    banner.style.display = "flex";
-  });
+  // --- Politik-popup ---
+  if (policyLink && policyPopup && policyClose) {
+    policyLink.addEventListener("click", e => {
+      e.preventDefault();
+      policyPopup.style.display = "block";
+    });
+    policyClose.addEventListener("click", () => policyPopup.style.display = "none");
+    window.addEventListener("click", e => {
+      if (e.target === policyPopup) policyPopup.style.display = "none";
+    });
+  }
 
-  // ===========================================================
-  // Aktiver tracking og annoncer
-  // ===========================================================
+  // --- Trackingfunktioner ---
   function enableTracking() {
+    console.log("🚀 enableTracking()");
     gtag("consent", "update", {
       ad_storage: "granted",
       analytics_storage: "granted"
     });
 
-    // --- Google Analytics 4 ---
+    // GA4
     if (!document.getElementById("ga4-script")) {
-      const gaScript = document.createElement("script");
-      gaScript.id = "ga4-script";
-      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
-      gaScript.async = true;
-      document.head.appendChild(gaScript);
-      gaScript.onload = function () {
+      const s = document.createElement("script");
+      s.id = "ga4-script";
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
+      s.onload = () => {
         gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
-        setupInteractionTracking();
+        setupTrackingEvents();
       };
+      document.head.appendChild(s);
     } else {
-      setupInteractionTracking();
+      setupTrackingEvents();
     }
 
-    // --- Google AdSense (script er allerede i head) ---
-    const ready = () =>
-      typeof window.adsbygoogle !== "undefined" &&
-      typeof window.adsbygoogle.push === "function";
-
-    if (ready()) {
-      console.log("✅ AdSense allerede klar – renderer nu");
-      renderAds();
+    // AdSense — kun her!
+    if (!document.getElementById("adsense-script")) {
+      const ad = document.createElement("script");
+      ad.id = "adsense-script";
+      ad.async = true;
+      ad.crossOrigin = "anonymous";
+      ad.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
+      ad.onload = renderAds;
+      document.head.appendChild(ad);
     } else {
-      console.log("⏳ Venter på AdSense-script...");
-      const start = Date.now();
-      const timer = setInterval(() => {
-        if (ready()) {
-          clearInterval(timer);
-          console.log("✅ AdSense klar – renderer nu");
-          renderAds();
-        } else if (Date.now() - start > 8000) {
-          clearInterval(timer);
-          console.warn("⚠️ AdSense ikke klar efter 8 sekunder");
-        }
-      }, 250);
+      renderAds();
     }
   }
 
-  // --- Deaktiver tracking ---
   function disableTracking() {
+    console.log("🛑 disableTracking()");
     gtag("consent", "update", {
       ad_storage: "denied",
       analytics_storage: "denied"
     });
   }
 
-  // ===========================================================
-  // Event-tracking (GA4 interaktioner)
-  // ===========================================================
-  function setupInteractionTracking() {
-    const beregnKnapper = [
+  // --- Tracking events ---
+  function setupTrackingEvents() {
+    console.log("📊 setupTrackingEvents()");
+    const btns = [
       { id: "beregn-soc-btn", label: "Beregn ladetid" },
       { id: "beregn-tid-btn", label: "Beregn start/sluttidspunkt" },
       { id: "beregn-soc-tid-btn", label: "Beregn SoC-stigning" }
     ];
-
-    beregnKnapper.forEach(knap => {
-      const element = document.getElementById(knap.id);
-      if (element) {
-        element.addEventListener("click", () => {
-          gtag("event", "klik_beregn_knap", {
-            event_category: "Beregner",
-            event_label: knap.label,
-            value: 1
-          });
+    btns.forEach(b => {
+      const el = $(b.id);
+      if (el) el.addEventListener("click", () => {
+        gtag("event", "klik_beregn_knap", {
+          event_category: "Beregner",
+          event_label: b.label
         });
-      }
+        console.log("📈 GA4:", b.label);
+      });
     });
 
-    // Bogmærke-knap
-    const bookmarkBtn = document.getElementById("bookmark-btn");
-    if (bookmarkBtn) {
-      bookmarkBtn.addEventListener("click", () => {
-        gtag("event", "bogmaerke_tryk", {
-          event_category: "Interaktion",
-          event_label: "Bogmærke-knap"
-        });
+    const bm = $("bookmark-btn");
+    if (bm) bm.addEventListener("click", () => {
+      gtag("event", "bogmaerke_tryk", {
+        event_category: "Interaktion",
+        event_label: "Bogmærke-knap"
       });
-    }
-
-    // Scroll-tracking for beregner
-    const beregnerSection = document.getElementById("bereger");
-    let scrollTracked = false;
-    if (beregnerSection) {
-      window.addEventListener("scroll", () => {
-        const rect = beregnerSection.getBoundingClientRect();
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-        if (!scrollTracked && rect.top <= windowHeight * 0.9) {
-          scrollTracked = true;
-          gtag("event", "beregner_synlig", {
-            event_category: "Interaktion",
-            event_label: "Beregner synlig på skærmen"
-          });
-        }
-      });
-    }
+    });
   }
 
-  // ===========================================================
-  // AdSense renderer
-  // ===========================================================
+  // --- AdSense-rendering ---
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       const slots = document.querySelectorAll("ins.adsbygoogle");
+      let rendered = 0;
       slots.forEach(slot => {
         slot.removeAttribute("data-adsbygoogle-status");
-        try {
-          window.adsbygoogle.push({});
-        } catch (e) {
-          console.warn("adsbygoogle.push fejl:", e);
-        }
+        window.adsbygoogle.push({});
+        rendered++;
       });
-      console.log("AdSense renderet:", slots.length);
+      console.log("✅ AdSense renderet:", rendered);
     } catch (err) {
-      console.error("Fejl ved AdSense-rendering:", err);
+      console.warn("⚠️ AdSense fejl:", err);
     }
   }
-});
-
-// ===========================================================
-// Diagnostisk overvågning af AdSense-slots
-// ===========================================================
-window.addEventListener("load", function () {
-  setTimeout(() => {
-    const slots = document.querySelectorAll("ins.adsbygoogle");
-    console.group("📊 AdSense-slotdiagnose");
-    console.log("Fundne slots på siden:", slots.length);
-
-    if (slots.length === 0) {
-      console.warn("Ingen <ins class='adsbygoogle'> fundet – tjek HTML-strukturen.");
-    } else {
-      slots.forEach((slot, i) => {
-        const client = slot.getAttribute("data-ad-client");
-        const slotId = slot.getAttribute("data-ad-slot");
-        const format = slot.getAttribute("data-ad-format");
-        const display = getComputedStyle(slot).display;
-        const size = `${slot.offsetWidth}x${slot.offsetHeight}`;
-
-        console.log(
-          `Slot #${i + 1}:`,
-          "\n → data-ad-client:", client,
-          "\n → data-ad-slot:", slotId,
-          "\n → format:", format,
-          "\n → display:", display,
-          "\n → størrelse (px):", size,
-          "\n → synlig i viewport:", isInViewport(slot)
-        );
-      });
-    }
-
-    if (window.adsbygoogle && window.adsbygoogle.push) {
-      console.log("✅ adsbygoogle-objekt findes – klar til at vise annoncer");
-    } else {
-      console.warn("❌ adsbygoogle er ikke initialiseret – tjek samtykke og scriptindlæsning");
-    }
-
-    console.groupEnd();
-  }, 2000);
-});
-
-// Hjælpefunktion: tjek om elementet er i viewport
-function isInViewport(el) {
-  const rect = el.getBoundingClientRect();
-  return (
-    rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.bottom > 0
-  );
-}
+})();
