@@ -404,3 +404,47 @@ ins.adsbygoogle iframe {
   z-index: -999999 !important;
 }
 
+/* ========================================
+   📦 AdSense Slot Styling – stabil visning
+   ======================================== */
+
+/* Ens udseende på alle enheder */
+.adsense-slot {
+  width: 100%;
+  text-align: center;
+  margin: 20px auto;
+  padding: 0;
+  background: transparent;
+  min-height: 90px; /* sikrer plads mens annoncen loader */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Google annoncer (inden load) */
+.adsense-slot ins.adsbygoogle {
+  background-color: #f3fdf0; /* diskret grønlig nuance */
+  border: 1px solid #55ca1c33;
+  width: 100%;
+  min-height: 90px;
+  display: block;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* På mobil (mindre højde for auto-format) */
+@media (max-width: 600px) {
+  .adsense-slot {
+    min-height: 70px;
+  }
+  .adsense-slot ins.adsbygoogle {
+    min-height: 70px;
+  }
+}
+
+/* Når Google har indlæst annoncen */
+.adsense-slot ins.adsbygoogle[data-adsbygoogle-status="done"] {
+  background: none;
+  border: none;
+  min-height: auto;
+}
