@@ -1,4 +1,6 @@
-// cookie.js – fuld version med GA4 tracking og stabil AdSense-håndtering
+// ===========================================================
+// cookie.js – med fuld GA4 tracking og korrekt AdSense-håndtering
+// ===========================================================
 document.addEventListener("DOMContentLoaded", function () {
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
@@ -63,14 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
     banner.style.display = "flex";
   });
 
-  // --- Aktiver tracking ---
+  // ===========================================================
+  // Aktiver tracking og annoncer
+  // ===========================================================
   function enableTracking() {
     gtag("consent", "update", {
       ad_storage: "granted",
       analytics_storage: "granted"
     });
 
-    // Google Analytics 4
+    // --- Google Analytics 4 ---
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -85,26 +89,27 @@ document.addEventListener("DOMContentLoaded", function () {
       setupInteractionTracking();
     }
 
-    // === AdSense ===
-    if (!document.getElementById("adsense-script")) {
-      const adsScript = document.createElement("script");
-      adsScript.id = "adsense-script";
-      adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
-      adsScript.async = true;
-      adsScript.crossOrigin = "anonymous";
-      document.head.appendChild(adsScript);
+    // --- Google AdSense (script er allerede i head) ---
+    const ready = () =>
+      typeof window.adsbygoogle !== "undefined" &&
+      typeof window.adsbygoogle.push === "function";
 
-      // ✅ Vent til scriptet ER loadet før renderAds()
-      adsScript.addEventListener("load", function () {
-        console.log("✅ AdSense script loaded — rendering ads now...");
-        renderAds();
-      });
-
-      adsScript.addEventListener("error", function () {
-        console.error("❌ AdSense script failed to load.");
-      });
-    } else {
+    if (ready()) {
+      console.log("✅ AdSense allerede klar – renderer nu");
       renderAds();
+    } else {
+      console.log("⏳ Venter på AdSense-script...");
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (ready()) {
+          clearInterval(timer);
+          console.log("✅ AdSense klar – renderer nu");
+          renderAds();
+        } else if (Date.now() - start > 8000) {
+          clearInterval(timer);
+          console.warn("⚠️ AdSense ikke klar efter 8 sekunder");
+        }
+      }, 250);
     }
   }
 
@@ -116,7 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- Event-tracking ---
+  // ===========================================================
+  // Event-tracking (GA4 interaktioner)
+  // ===========================================================
   function setupInteractionTracking() {
     const beregnKnapper = [
       { id: "beregn-soc-btn", label: "Beregn ladetid" },
@@ -166,7 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // --- AdSense renderer ---
+  // ===========================================================
+  // AdSense renderer
+  // ===========================================================
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
@@ -186,7 +195,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// === Diagnostisk overvågning af AdSense-slots ===
+// ===========================================================
+// Diagnostisk overvågning af AdSense-slots
+// ===========================================================
 window.addEventListener("load", function () {
   setTimeout(() => {
     const slots = document.querySelectorAll("ins.adsbygoogle");
