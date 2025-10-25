@@ -1,4 +1,4 @@
-// cookie.js – med fuld GA4 tracking og korrekt AdSense-håndtering
+// cookie.js – med GA4 tracking, forbedret AdSense og visuelle slot-markører (debug)
 document.addEventListener("DOMContentLoaded", function () {
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   gtag("js", new Date());
 
-  // --- Check tidligere samtykke ---
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (consent === "accepted") enableTracking();
   }
 
-  // --- Acceptér cookies ---
   acceptBtn.addEventListener("click", function () {
     localStorage.setItem("cookie-consent", "accepted");
     banner.style.display = "none";
@@ -38,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
     enableTracking();
   });
 
-  // --- Afvis cookies ---
   rejectBtn.addEventListener("click", function () {
     localStorage.setItem("cookie-consent", "declined");
     banner.style.display = "none";
@@ -46,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
     disableTracking();
   });
 
-  // --- Cookiepolitik popup ---
   policyLink?.addEventListener("click", function (e) {
     e.preventDefault();
     policyPopup.style.display = "block";
@@ -58,12 +54,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
-  // --- Ændr samtykke ---
   changeBtn.addEventListener("click", function () {
     banner.style.display = "flex";
   });
 
-  // --- Aktiver tracking ---
   function enableTracking() {
     gtag("consent", "update", {
       ad_storage: "granted",
@@ -86,11 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
       setupInteractionTracking();
     }
 
-    // AdSense (renderer eksisterende slots)
-    setTimeout(renderAds, 1000);
+    // Render annoncer
+    setTimeout(renderAds, 1500);
   }
 
-  // --- Deaktiver tracking ---
   function disableTracking() {
     gtag("consent", "update", {
       ad_storage: "denied",
@@ -98,28 +91,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- Event-tracking ---
+  // === GA4 Event Tracking ===
   function setupInteractionTracking() {
     const beregnKnapper = [
       { id: "beregn-soc-btn", label: "Beregn ladetid" },
       { id: "beregn-tid-btn", label: "Beregn start/sluttidspunkt" },
       { id: "beregn-soc-tid-btn", label: "Beregn SoC-stigning" }
     ];
-
     beregnKnapper.forEach(knap => {
       const element = document.getElementById(knap.id);
       if (element) {
         element.addEventListener("click", () => {
           gtag("event", "klik_beregn_knap", {
             event_category: "Beregner",
-            event_label: knap.label,
-            value: 1
+            event_label: knap.label
           });
         });
       }
     });
 
-    // Bogmærke-knap
     const bookmarkBtn = document.getElementById("bookmark-btn");
     if (bookmarkBtn) {
       bookmarkBtn.addEventListener("click", () => {
@@ -129,91 +119,82 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
     }
-
-    // Scroll-tracking for beregner
-    const beregnerSection = document.getElementById("bereger");
-    let scrollTracked = false;
-    if (beregnerSection) {
-      window.addEventListener("scroll", () => {
-        const rect = beregnerSection.getBoundingClientRect();
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-        if (!scrollTracked && rect.top <= windowHeight * 0.9) {
-          scrollTracked = true;
-          gtag("event", "beregner_synlig", {
-            event_category: "Interaktion",
-            event_label: "Beregner synlig på skærmen"
-          });
-        }
-      });
-    }
   }
 
-  // --- AdSense renderer ---
+  // === Forbedret AdSense renderer (debug med farvekoder) ===
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       const slots = document.querySelectorAll("ins.adsbygoogle");
-      slots.forEach(slot => {
-        // Fjern status så de kan rendere igen
-        slot.removeAttribute("data-adsbygoogle-status");
-        try {
-          window.adsbygoogle.push({});
-        } catch (e) {
-          console.warn("adsbygoogle.push fejl:", e);
-        }
+
+      console.log("📊 AdSense-slotdiagnose");
+      console.log("Fundne slots på siden:", slots.length);
+
+      slots.forEach((slot, i) => {
+        // Tilføj midlertidig debugramme
+        slot.style.outline = "3px solid gray";
+        slot.style.position = "relative";
+        slot.insertAdjacentHTML("beforeend", `
+          <div style="
+            position:absolute;
+            top:4px; right:4px;
+            background:rgba(80,80,80,0.85);
+            color:#fff;
+            font-size:12px;
+            padding:2px 6px;
+            border-radius:4px;
+            font-family:sans-serif;
+          ">⏳ Slot ${i + 1}</div>`);
+
+        setTimeout(() => {
+          try {
+            slot.removeAttribute("data-adsbygoogle-status");
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            slot.style.outline = "3px solid #55ca1c";
+            slot.querySelector("div").textContent = `✅ Slot ${i + 1}`;
+            slot.querySelector("div").style.background = "#55ca1c";
+            console.log(`✅ Slot ${i + 1} initialiseret`);
+          } catch (e) {
+            slot.style.outline = "3px solid red";
+            slot.querySelector("div").textContent = `⚠️ Fejl i slot ${i + 1}`;
+            slot.querySelector("div").style.background = "red";
+            console.warn(`⚠️ Fejl ved slot ${i + 1}:`, e);
+          }
+        }, 1500 + i * 1000);
       });
-      console.log("AdSense renderet:", slots.length);
     } catch (err) {
       console.error("Fejl ved AdSense-rendering:", err);
     }
   }
 });
 
-// === Diagnostisk overvågning af AdSense-slots ===
+// === Diagnostisk overvågning ===
 window.addEventListener("load", function () {
   setTimeout(() => {
     const slots = document.querySelectorAll("ins.adsbygoogle");
     console.group("📊 AdSense-slotdiagnose");
     console.log("Fundne slots på siden:", slots.length);
 
-    if (slots.length === 0) {
-      console.warn("Ingen <ins class='adsbygoogle'> fundet – tjek HTML-strukturen.");
-    } else {
-      slots.forEach((slot, i) => {
-        const client = slot.getAttribute("data-ad-client");
-        const slotId = slot.getAttribute("data-ad-slot");
-        const format = slot.getAttribute("data-ad-format");
-        const display = getComputedStyle(slot).display;
-        const size = `${slot.offsetWidth}x${slot.offsetHeight}`;
+    slots.forEach((slot, i) => {
+      const client = slot.getAttribute("data-ad-client");
+      const slotId = slot.getAttribute("data-ad-slot");
+      const format = slot.getAttribute("data-ad-format");
+      const size = `${slot.offsetWidth}x${slot.offsetHeight}`;
+      console.log(
+        `Slot #${i + 1}:`,
+        "\n → client:", client,
+        "\n → slot:", slotId,
+        "\n → format:", format,
+        "\n → size:", size
+      );
+    });
 
-        console.log(
-          `Slot #${i + 1}:`,
-          "\n → data-ad-client:", client,
-          "\n → data-ad-slot:", slotId,
-          "\n → format:", format,
-          "\n → display:", display,
-          "\n → størrelse (px):", size,
-          "\n → synlig i viewport:", isInViewport(slot)
-        );
-      });
-    }
-
-    // Test om AdSense-objekt er initialiseret korrekt
     if (window.adsbygoogle && window.adsbygoogle.push) {
       console.log("✅ adsbygoogle-objekt findes – klar til at vise annoncer");
     } else {
-      console.warn("❌ adsbygoogle er ikke initialiseret – tjek samtykke og scriptindlæsning");
+      console.warn("❌ adsbygoogle ikke initialiseret");
     }
 
     console.groupEnd();
-  }, 2000); // vent et par sekunder efter load
+  }, 2500);
 });
-
-// Hjælpefunktion: tjek om elementet er i viewport
-function isInViewport(el) {
-  const rect = el.getBoundingClientRect();
-  return (
-    rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.bottom > 0
-  );
-}
