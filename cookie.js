@@ -168,3 +168,52 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+// === Diagnostisk overvågning af AdSense-slots ===
+window.addEventListener("load", function () {
+  setTimeout(() => {
+    const slots = document.querySelectorAll("ins.adsbygoogle");
+    console.group("📊 AdSense-slotdiagnose");
+    console.log("Fundne slots på siden:", slots.length);
+
+    if (slots.length === 0) {
+      console.warn("Ingen <ins class='adsbygoogle'> fundet – tjek HTML-strukturen.");
+    } else {
+      slots.forEach((slot, i) => {
+        const client = slot.getAttribute("data-ad-client");
+        const slotId = slot.getAttribute("data-ad-slot");
+        const format = slot.getAttribute("data-ad-format");
+        const display = getComputedStyle(slot).display;
+        const size = `${slot.offsetWidth}x${slot.offsetHeight}`;
+
+        console.log(
+          `Slot #${i + 1}:`,
+          "\n → data-ad-client:", client,
+          "\n → data-ad-slot:", slotId,
+          "\n → format:", format,
+          "\n → display:", display,
+          "\n → størrelse (px):", size,
+          "\n → synlig i viewport:", isInViewport(slot)
+        );
+      });
+    }
+
+    // Test om AdSense-objekt er initialiseret korrekt
+    if (window.adsbygoogle && window.adsbygoogle.push) {
+      console.log("✅ adsbygoogle-objekt findes – klar til at vise annoncer");
+    } else {
+      console.warn("❌ adsbygoogle er ikke initialiseret – tjek samtykke og scriptindlæsning");
+    }
+
+    console.groupEnd();
+  }, 2000); // vent et par sekunder efter load
+});
+
+// Hjælpefunktion: tjek om elementet er i viewport
+function isInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.bottom > 0
+  );
+}
