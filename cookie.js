@@ -21,7 +21,6 @@
     return;
   }
 
-  // Skjul “ændr cookies” knap ved start
   if (changeBtn) changeBtn.style.display = "none";
 
   // --- Consent Mode init ---
@@ -106,7 +105,6 @@
       setupTrackingEvents();
     }
 
-    // Aktiver AdSense (slots er allerede i DOM)
     renderAds();
   }
 
@@ -149,47 +147,34 @@
       });
   }
 
-  // --- AdSense render ---
+  // --- AdSense render (forbedret version) ---
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
+
       const slots = document.querySelectorAll("ins.adsbygoogle");
       if (slots.length === 0) {
         console.log("ℹ️ Ingen adsbygoogle-slots fundet.");
         return;
       }
-      slots.forEach(slot => {
-        slot.removeAttribute("data-adsbygoogle-status");
-        delete slot.dataset.adsbygoogleStatus;
-        window.adsbygoogle.push({});
-      });
-      console.log("✅ AdSense genindlæst:", slots.length);
+
+      // Vent til scriptet er klart
+      if (!window.adsbygoogle.loaded) {
+        console.log("⏳ AdSense-script ikke klar – prøver igen om 1s");
+        setTimeout(renderAds, 1000);
+        return;
+      }
+
+      setTimeout(() => {
+        slots.forEach(slot => {
+          slot.removeAttribute("data-adsbygoogle-status");
+          delete slot.dataset.adsbygoogleStatus;
+          window.adsbygoogle.push({});
+        });
+        console.log("✅ AdSense re-rendered efter accept:", slots.length);
+      }, 500);
     } catch (err) {
       console.warn("⚠️ AdSense fejl:", err);
     }
   }
 })();
-// --- AdSense render ---
-function renderAds() {
-  try {
-    window.adsbygoogle = window.adsbygoogle || [];
-
-    const slots = document.querySelectorAll("ins.adsbygoogle");
-    if (slots.length === 0) {
-      console.log("ℹ️ Ingen adsbygoogle-slots fundet.");
-      return;
-    }
-
-    // Ny linje: sikrer at scriptet har kørt færdig, før push
-    setTimeout(() => {
-      slots.forEach(slot => {
-        slot.removeAttribute("data-adsbygoogle-status");
-        delete slot.dataset.adsbygoogleStatus;
-        window.adsbygoogle.push({});
-      });
-      console.log("✅ AdSense re-rendered efter accept:", slots.length);
-    }, 1000);
-  } catch (err) {
-    console.warn("⚠️ AdSense fejl:", err);
-  }
-}
