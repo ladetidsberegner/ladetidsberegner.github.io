@@ -1,8 +1,8 @@
 // ==============================
-// cookie.js – stabil og rettet version
-// Loader kun AdSense efter samtykke
+// cookie.js – stabil version (2025-10)
 // Virker i Chrome, Safari og Firefox
 // ==============================
+
 (function () {
   console.log("🧩 Cookie.js initialiseret");
 
@@ -34,7 +34,7 @@
   });
   gtag("js", new Date());
 
-  // --- Global scope ---
+  // --- Global scope (så de findes overalt) ---
   window.enableTracking = enableTracking;
   window.disableTracking = disableTracking;
 
@@ -95,7 +95,7 @@
       analytics_storage: "granted"
     });
 
-    // GA4
+    // --- GA4 ---
     if (!document.getElementById("ga4-script")) {
       const s = document.createElement("script");
       s.id = "ga4-script";
@@ -110,14 +110,17 @@
       setupTrackingEvents();
     }
 
-    // AdSense — kun her!
+    // --- AdSense ---
     if (!document.getElementById("adsense-script")) {
       const ad = document.createElement("script");
       ad.id = "adsense-script";
       ad.async = true;
       ad.crossOrigin = "anonymous";
       ad.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
-      ad.onload = renderAds;
+      ad.onload = () => {
+        console.log("📦 AdSense script indlæst – renderer annoncer");
+        renderAds(); // renderer slots, når scriptet er klar
+      };
       document.head.appendChild(ad);
     } else {
       renderAds();
@@ -165,13 +168,17 @@
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       const slots = document.querySelectorAll("ins.adsbygoogle");
-      let rendered = 0;
+      if (slots.length === 0) {
+        console.log("ℹ️ Ingen adsbygoogle-slots fundet.");
+        return;
+      }
       slots.forEach(slot => {
+        // nulstil status, så AdSense kan prøve igen
         slot.removeAttribute("data-adsbygoogle-status");
+        delete slot.dataset.adsbygoogleStatus;
         window.adsbygoogle.push({});
-        rendered++;
       });
-      console.log("✅ AdSense renderet:", rendered);
+      console.log("✅ AdSense genindlæst:", slots.length);
     } catch (err) {
       console.warn("⚠️ AdSense fejl:", err);
     }
