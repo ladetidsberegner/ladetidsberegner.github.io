@@ -1,44 +1,35 @@
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".faq-question").forEach(button => {
-    button.style.cursor = "pointer";
-    button.addEventListener("click", () => {
-      const answer = button.nextElementSibling; 
-      if (!answer) return;
+// faq.js — styrer FAQ fold-ud og pilrotation
+document.addEventListener("DOMContentLoaded", () => {
+  const faqItems = document.querySelectorAll(".faq-item");
 
-      if (answer.style.height && answer.style.height !== "0px") {
+  faqItems.forEach(item => {
+    const question = item.querySelector(".faq-question");
+    const answer = item.querySelector(".faq-answer");
+    const icon = item.querySelector(".faq-icon");
+
+    question.addEventListener("click", () => {
+      const isOpen = item.classList.contains("open");
+
+      // Luk alle andre
+      faqItems.forEach(i => {
+        i.classList.remove("open");
+        i.querySelector(".faq-answer").style.height = "0";
+        i.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+        i.querySelector(".faq-answer").setAttribute("aria-hidden", "true");
+      });
+
+      // Åbn/luk den valgte
+      if (!isOpen) {
+        item.classList.add("open");
         answer.style.height = answer.scrollHeight + "px";
-        requestAnimationFrame(() => { answer.style.height = "0px"; });
-        answer.classList.remove("open");
+        question.setAttribute("aria-expanded", "true");
+        answer.setAttribute("aria-hidden", "false");
       } else {
-        answer.style.height = answer.scrollHeight + "px";
-        answer.classList.add("open");
-        answer.addEventListener("transitionend", function handler() {
-          if (answer.classList.contains("open")) answer.style.height = "auto";
-          answer.removeEventListener("transitionend", handler);
-        });
-      }
-    });
-  });
-
-  // Toggle info bokse (valgfrit, hvis du vil have det samlet her)
-  document.querySelectorAll(".toggle-info").forEach(label => {
-    label.style.cursor = "pointer";
-    label.addEventListener("click", function () {
-      const infoId = this.getAttribute("data-info");
-      const infoBox = document.getElementById(infoId);
-      if (!infoBox) return;
-
-      if (infoBox.style.height && infoBox.style.height !== "0px") {
-        infoBox.style.height = infoBox.scrollHeight + "px";
-        requestAnimationFrame(() => { infoBox.style.height = "0px"; });
-      } else {
-        infoBox.style.height = infoBox.scrollHeight + "px";
-        infoBox.addEventListener("transitionend", function handler() {
-          if (infoBox.style.height !== "0px") infoBox.style.height = "auto";
-          infoBox.removeEventListener("transitionend", handler);
-        });
+        item.classList.remove("open");
+        answer.style.height = "0";
+        question.setAttribute("aria-expanded", "false");
+        answer.setAttribute("aria-hidden", "true");
       }
     });
   });
 });
-ß
