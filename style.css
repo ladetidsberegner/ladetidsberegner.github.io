@@ -302,21 +302,58 @@ label { font-weight: 600; margin: 0 0 6px; color: #fff; }
 .site-overlay{pointer-events:none !important;z-index:0 !important}
 iframe[src*="fundingchoicesmessages.google.com"],iframe[src*="consent.google.com"]{opacity:0 !important;pointer-events:none !important;width:0 !important;height:0 !important;border:0 !important;position:absolute !important;bottom:0;right:0}
 
-/* --- Footer --- */
+/* --- Footer (opdateret, centreret og responsiv) --- */
 .site-footer {
-  background: #333; color: #fff; padding: 40px 20px 0;
+  background: #333;
+  color: #fff;
+  padding: 40px 20px 0;
 }
+
+/* Indholdet i footer */
 .footer-content {
-  max-width: var(--max-page-width); margin: 0 auto;
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 30px; padding: 20px 0;
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 20px 0;
 }
-.footer-section h3 { color: var(--brand-green); margin-bottom: 10px; }
-.footer-section p, .footer-section li { font-size: 14px; line-height: 1.6; }
+
+/* Typografi */
+.footer-section h3,
+.footer-section h4 {
+  color: var(--brand-green);
+  margin-bottom: 10px;
+}
+
+.footer-section p,
+.footer-section li {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Nederste linje */
 .footer-bottom {
-  background: #000; color: #fff; text-align: center;
-  padding: 15px 0; font-size: 14px; border-top: 1px solid var(--brand-green);
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  border-top: 1px solid var(--brand-green);
 }
+
+/* --- Responsivt layout --- */
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;   /* kolonner under hinanden */
+    gap: 24px;
+    text-align: left;
+  }
+  .footer-section {
+    width: 100%;
+  }
+}
+
 
 /* === Scroll fade for hele sektioner === */
 .fade-section {
@@ -346,8 +383,6 @@ iframe[src*="fundingchoicesmessages.google.com"],iframe[src*="consent.google.com
 .fade-in-child:nth-child(5) { transition-delay: 0.5s; }
 
 /* === Bookmark-knap – stabil Safari-version (justeret mod cookie-knap) === */
-/* === Bookmark-knap – endelig stabil version === */
-/* === Bookmark-knap – stabil version uden "spøgelses"-klik === */
 .bookmark-btn {
   position: fixed;
   bottom: 70px; /* flyt lidt op fra cookieknappen */
