@@ -91,6 +91,16 @@
        Cookie-system – aktiverer GA4 + Ads efter accept
   =============================== -->
   <script src="cookie.js" defer></script>
+
+  <!-- 🔍 Midlertidig GA4-test -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ELGNQRMN1X', {debug_mode:true});
+</script>
+
 </head>
 
 
