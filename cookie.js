@@ -1,13 +1,12 @@
 // ==============================
-// cookie.js – stabil version (2025-10)
-// Virker i Chrome, Safari og Firefox
+// cookie.js – stabil version (Consent Mode v2 + AdSense fix)
 // ==============================
 
 (function () {
   console.log("🧩 Cookie.js initialiseret");
 
   // --- Helper ---
-  function $(id) { return document.getElementById(id); }
+  const $ = id => document.getElementById(id);
 
   const banner = $("cookie-banner");
   const acceptBtn = $("cookie-accept");
@@ -22,6 +21,7 @@
     return;
   }
 
+  // Skjul “ændr cookies” knap ved start
   if (changeBtn) changeBtn.style.display = "none";
 
   // --- Consent Mode init ---
@@ -34,11 +34,7 @@
   });
   gtag("js", new Date());
 
-  // --- Global scope (så de findes overalt) ---
-  window.enableTracking = enableTracking;
-  window.disableTracking = disableTracking;
-
-  // --- Håndtér tidligere samtykke ---
+  // --- Tidligere valg ---
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -48,7 +44,7 @@
     if (consent === "accepted") enableTracking();
   }
 
-  // --- Klik-håndtering ---
+  // --- Klik på knapper ---
   if (acceptBtn) {
     acceptBtn.addEventListener("click", () => {
       console.log("✅ Klik: accepter cookies");
@@ -75,7 +71,7 @@
     });
   }
 
-  // --- Politik-popup ---
+  // --- Cookiepolitik popup ---
   if (policyLink && policyPopup && policyClose) {
     policyLink.addEventListener("click", e => {
       e.preventDefault();
@@ -87,7 +83,7 @@
     });
   }
 
-  // --- Trackingfunktioner ---
+  // --- Aktiver tracking ---
   function enableTracking() {
     console.log("🚀 enableTracking()");
     gtag("consent", "update", {
@@ -95,7 +91,7 @@
       analytics_storage: "granted"
     });
 
-    // --- GA4 ---
+    // GA4
     if (!document.getElementById("ga4-script")) {
       const s = document.createElement("script");
       s.id = "ga4-script";
@@ -110,23 +106,11 @@
       setupTrackingEvents();
     }
 
-    // --- AdSense ---
-    if (!document.getElementById("adsense-script")) {
-      const ad = document.createElement("script");
-      ad.id = "adsense-script";
-      ad.async = true;
-      ad.crossOrigin = "anonymous";
-      ad.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
-      ad.onload = () => {
-        console.log("📦 AdSense script indlæst – renderer annoncer");
-        renderAds(); // renderer slots, når scriptet er klar
-      };
-      document.head.appendChild(ad);
-    } else {
-      renderAds();
-    }
+    // Aktiver AdSense (slots er allerede i DOM)
+    renderAds();
   }
 
+  // --- Deaktiver tracking ---
   function disableTracking() {
     console.log("🛑 disableTracking()");
     gtag("consent", "update", {
@@ -135,7 +119,7 @@
     });
   }
 
-  // --- Tracking events ---
+  // --- GA4 events ---
   function setupTrackingEvents() {
     console.log("📊 setupTrackingEvents()");
     const btns = [
@@ -145,25 +129,27 @@
     ];
     btns.forEach(b => {
       const el = $(b.id);
-      if (el) el.addEventListener("click", () => {
-        gtag("event", "klik_beregn_knap", {
-          event_category: "Beregner",
-          event_label: b.label
+      if (el)
+        el.addEventListener("click", () => {
+          gtag("event", "klik_beregn_knap", {
+            event_category: "Beregner",
+            event_label: b.label
+          });
+          console.log("📈 GA4:", b.label);
         });
-        console.log("📈 GA4:", b.label);
-      });
     });
 
     const bm = $("bookmark-btn");
-    if (bm) bm.addEventListener("click", () => {
-      gtag("event", "bogmaerke_tryk", {
-        event_category: "Interaktion",
-        event_label: "Bogmærke-knap"
+    if (bm)
+      bm.addEventListener("click", () => {
+        gtag("event", "bogmaerke_tryk", {
+          event_category: "Interaktion",
+          event_label: "Bogmærke-knap"
+        });
       });
-    });
   }
 
-  // --- AdSense-rendering ---
+  // --- AdSense render ---
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
@@ -173,7 +159,6 @@
         return;
       }
       slots.forEach(slot => {
-        // nulstil status, så AdSense kan prøve igen
         slot.removeAttribute("data-adsbygoogle-status");
         delete slot.dataset.adsbygoogleStatus;
         window.adsbygoogle.push({});
