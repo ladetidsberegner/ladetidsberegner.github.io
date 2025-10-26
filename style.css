@@ -442,17 +442,13 @@ ins.adsbygoogle iframe {
   }
 }
 
-/* Når Google har indlæst annoncen */
-.adsense-slot ins.adsbygoogle[data-adsbygoogle-status="done"] {
-  background: none;
-  border: none;
-  min-height: auto;
+/* midlertidig debug, så du altid ser en boks */
+ins.adsbygoogle {
+  display: block !important;
+  min-height: 120px;    /* vandret auto-ad */
 }
-.adsense-slot {
-  display: block;
-  min-height: 120px;   /* gør boksen synlig */
-  text-align: center;
-  background: #f3f3f3; /* lys grå baggrund, så man kan se placeringen */
-  border-radius: 8px;
-  margin: 16px auto;
+.adsense-slot.vertical ins.adsbygoogle {
+  min-height: 600px;    /* fx skyscraper */
+  min-width: 160px;
 }
+

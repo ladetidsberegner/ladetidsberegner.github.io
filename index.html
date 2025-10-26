@@ -124,13 +124,19 @@
   </div>
 
   <!-- Vandret reklame efter About -->
-<meta name="google-adsense-account" content="ca-pub-4322732012925287">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
-        crossorigin="anonymous"></script>
-<script src="cookie.js" defer></script>
+<div class="adsense-slot" id="ads-about">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4322732012925287"
+       data-ad-slot="1234567890"
+       data-ad-test="on"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
 
 
-<i>test 6</i>
+
+<i>test 7</i>
 
   <!-- Beregner sektion -->
   <div class="beregner-outer" id="bereger">
@@ -600,14 +606,19 @@
   <script src="sw-cleanup.js"></script>
 
   <!-- Manuelt ad refresh (try/catch så den ikke fejler uden samtykke) -->
-  <script>
-    window.addEventListener("load", function() {
-      try {
+<script>
+  window.addEventListener("load", function() {
+    try {
+      if (localStorage.getItem("cookie-consent") === "accepted") {
         (adsbygoogle = window.adsbygoogle || []).push({});
-        console.log("🔁 Ads manually refreshed");
-      } catch(e) { console.warn(e); }
-    });
-  </script>
+        console.log("🔁 Ads manually refreshed (consent=accepted)");
+      } else {
+        console.log("⏸️ Skipper manual ad refresh (consent!=accepted)");
+      }
+    } catch(e) { console.warn(e); }
+  });
+</script>
+
 
 </body>
 </html>
