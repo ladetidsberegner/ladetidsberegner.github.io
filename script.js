@@ -110,16 +110,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // === Fjern uønskede Google-overlays løbende (Safari fix) ===
-setInterval(() => {
-  document.querySelectorAll(
-    'iframe[src*="fundingchoicesmessages.google.com"], ' +
-    'iframe[src*="consent.google.com"], ' +
-    'iframe[src*="googleads.g.doubleclick.net"], ' +
-    'iframe[style*="z-index: 2147483647"]'
-  ).forEach(el => {
-    el.remove();
-  });
-}, 3000);
+// setInterval(() => {
+//   document.querySelectorAll(
+//     'iframe[src*="fundingchoicesmessages.google.com"], ' +
+//     'iframe[src*="consent.google.com"], ' +
+//     'iframe[src*="googleads.g.doubleclick.net"], ' +
+//     'iframe[style*="z-index: 2147483647"]'
+//   ).forEach(el => {
+//     el.remove();
+//   });
+// }, 3000);
 
 
 // === 👻 Safari Spøgelsesdetektor ===
