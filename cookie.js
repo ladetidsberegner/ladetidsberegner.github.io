@@ -169,3 +169,27 @@
     }
   }
 })();
+// --- AdSense render ---
+function renderAds() {
+  try {
+    window.adsbygoogle = window.adsbygoogle || [];
+
+    const slots = document.querySelectorAll("ins.adsbygoogle");
+    if (slots.length === 0) {
+      console.log("ℹ️ Ingen adsbygoogle-slots fundet.");
+      return;
+    }
+
+    // Ny linje: sikrer at scriptet har kørt færdig, før push
+    setTimeout(() => {
+      slots.forEach(slot => {
+        slot.removeAttribute("data-adsbygoogle-status");
+        delete slot.dataset.adsbygoogleStatus;
+        window.adsbygoogle.push({});
+      });
+      console.log("✅ AdSense re-rendered efter accept:", slots.length);
+    }, 1000);
+  } catch (err) {
+    console.warn("⚠️ AdSense fejl:", err);
+  }
+}
