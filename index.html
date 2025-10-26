@@ -626,6 +626,44 @@
   });
 </script>
 
+<script>
+(function(){
+  console.log("🔎 AdSense diagnostic start");
+
+  // Vent lidt, til alt er loadet
+  window.addEventListener("load", function(){
+    // Er AdSense-objektet der?
+    if (window.adsbygoogle && window.adsbygoogle.loaded) {
+      console.log("✅ adsbygoogle object findes");
+    } else {
+      console.warn("⚠️ adsbygoogle object mangler eller ikke loaded");
+    }
+
+    // Hent alle annonce-slots
+    const slots = document.querySelectorAll("ins.adsbygoogle");
+    console.log("📦 Fundne slots:", slots.length);
+
+    slots.forEach((slot, i) => {
+      const slotId = slot.getAttribute("data-ad-slot");
+      const status = slot.getAttribute("data-adsbygoogle-status");
+      console.log(`➡️ Slot ${i+1}: id=${slotId}, status=${status}`);
+    });
+
+    // Tjek samtykke
+    try {
+      console.log("🧠 Samtykke:", localStorage.getItem("cookie-consent"));
+    } catch(e){}
+
+    // Forsøg at pushe en annonce manuelt (kun test)
+    try {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      console.log("🪄 Manual push udført");
+    } catch(err){
+      console.error("❌ Manual push fejl:", err);
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
