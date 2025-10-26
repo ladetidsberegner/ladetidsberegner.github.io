@@ -33,7 +33,7 @@
   });
   gtag("js", new Date());
 
-  // --- Tidligere valg ---
+  // --- Tjek tidligere valg ---
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -76,7 +76,7 @@
       e.preventDefault();
       policyPopup.style.display = "block";
     });
-    policyClose.addEventListener("click", () => policyPopup.style.display = "none");
+    policyClose.addEventListener("click", () => (policyPopup.style.display = "none"));
     window.addEventListener("click", e => {
       if (e.target === policyPopup) policyPopup.style.display = "none";
     });
@@ -105,6 +105,7 @@
       setupTrackingEvents();
     }
 
+    // Aktiver AdSense-annoncer
     renderAds();
   }
 
@@ -147,21 +148,20 @@
       });
   }
 
-  // --- AdSense render (forbedret version) ---
-  function renderAds() {
+  // --- AdSense render ---
+  function renderAds(retryCount = 0) {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
-
       const slots = document.querySelectorAll("ins.adsbygoogle");
       if (slots.length === 0) {
         console.log("ℹ️ Ingen adsbygoogle-slots fundet.");
         return;
       }
 
-      // Vent til scriptet er klart
-      if (!window.adsbygoogle.loaded) {
+      // Hvis scriptet ikke er klart endnu, prøv igen
+      if (!window.adsbygoogle.loaded && retryCount < 5) {
         console.log("⏳ AdSense-script ikke klar – prøver igen om 1s");
-        setTimeout(renderAds, 1000);
+        setTimeout(() => renderAds(retryCount + 1), 1000);
         return;
       }
 
