@@ -1,13 +1,10 @@
 // ==============================
-// cookie.js – stabil version (Consent Mode v2 + AdSense fix)
+// cookie.js – Stabil version (Consent Mode v2 + GA4 fix + debug logging)
 // ==============================
-
 (function () {
   console.log("🧩 Cookie.js initialiseret");
 
-  // --- Helper ---
   const $ = id => document.getElementById(id);
-
   const banner = $("cookie-banner");
   const acceptBtn = $("cookie-accept");
   const rejectBtn = $("cookie-decline");
@@ -25,15 +22,16 @@
 
   // --- Consent Mode init ---
   window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
+  function gtag(){ dataLayer.push(arguments); }
 
   gtag("consent", "default", {
     ad_storage: "denied",
-    analytics_storage: "denied"
+    analytics_storage: "denied",
+    wait_for_update: 500
   });
   gtag("js", new Date());
 
-  // --- Tjek tidligere valg ---
+  // --- Læs tidligere samtykke ---
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -43,32 +41,26 @@
     if (consent === "accepted") enableTracking();
   }
 
-  // --- Klik på knapper ---
-  if (acceptBtn) {
-    acceptBtn.addEventListener("click", () => {
-      console.log("✅ Klik: accepter cookies");
-      localStorage.setItem("cookie-consent", "accepted");
-      banner.style.display = "none";
-      if (changeBtn) changeBtn.style.display = "inline-flex";
-      enableTracking();
-    });
-  }
+  // --- Knapper ---
+  if (acceptBtn) acceptBtn.addEventListener("click", () => {
+    console.log("✅ Klik: accepter cookies");
+    localStorage.setItem("cookie-consent", "accepted");
+    banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+    enableTracking();
+  });
 
-  if (rejectBtn) {
-    rejectBtn.addEventListener("click", () => {
-      console.log("❌ Klik: afvis cookies");
-      localStorage.setItem("cookie-consent", "declined");
-      banner.style.display = "none";
-      if (changeBtn) changeBtn.style.display = "inline-flex";
-      disableTracking();
-    });
-  }
+  if (rejectBtn) rejectBtn.addEventListener("click", () => {
+    console.log("❌ Klik: afvis cookies");
+    localStorage.setItem("cookie-consent", "declined");
+    banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+    disableTracking();
+  });
 
-  if (changeBtn) {
-    changeBtn.addEventListener("click", () => {
-      banner.style.display = "flex";
-    });
-  }
+  if (changeBtn) changeBtn.addEventListener("click", () => {
+    banner.style.display = "flex";
+  });
 
   // --- Cookiepolitik popup ---
   if (policyLink && policyPopup && policyClose) {
@@ -76,7 +68,7 @@
       e.preventDefault();
       policyPopup.style.display = "block";
     });
-    policyClose.addEventListener("click", () => (policyPopup.style.display = "none"));
+    policyClose.addEventListener("click", () => policyPopup.style.display = "none");
     window.addEventListener("click", e => {
       if (e.target === policyPopup) policyPopup.style.display = "none";
     });
@@ -90,26 +82,35 @@
       analytics_storage: "granted"
     });
 
-    // GA4
+    // === GA4 INITIALISERING ===
     if (!document.getElementById("ga4-script")) {
       const s = document.createElement("script");
       s.id = "ga4-script";
       s.async = true;
       s.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
       s.onload = () => {
-        gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
+        console.log("📡 GA4 script indlæst, sender config...");
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true, debug_mode: true });
+        gtag("event", "page_view");
+        console.log("📈 GA4 tracking aktiveret og page_view sendt");
         setupTrackingEvents();
       };
       document.head.appendChild(s);
     } else {
+      console.log("📡 GA4-script allerede til stede, sender config igen...");
+      gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true, debug_mode: true });
+      gtag("event", "page_view");
+      console.log("📈 GA4 reaktiveret og page_view sendt");
       setupTrackingEvents();
     }
 
-    // Aktiver AdSense-annoncer
+    // === AdSense ===
     renderAds();
   }
 
-  // --- Deaktiver tracking ---
   function disableTracking() {
     console.log("🛑 disableTracking()");
     gtag("consent", "update", {
@@ -118,7 +119,7 @@
     });
   }
 
-  // --- GA4 events ---
+  // --- Tracking events ---
   function setupTrackingEvents() {
     console.log("📊 setupTrackingEvents()");
     const btns = [
@@ -134,22 +135,13 @@
             event_category: "Beregner",
             event_label: b.label
           });
-          console.log("📈 GA4:", b.label);
+          console.log("📈 GA4 event sendt:", b.label);
         });
     });
-
-    const bm = $("bookmark-btn");
-    if (bm)
-      bm.addEventListener("click", () => {
-        gtag("event", "bogmaerke_tryk", {
-          event_category: "Interaktion",
-          event_label: "Bogmærke-knap"
-        });
-      });
   }
 
   // --- AdSense render ---
-  function renderAds(retryCount = 0) {
+  function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       const slots = document.querySelectorAll("ins.adsbygoogle");
@@ -157,14 +149,6 @@
         console.log("ℹ️ Ingen adsbygoogle-slots fundet.");
         return;
       }
-
-      // Hvis scriptet ikke er klart endnu, prøv igen
-      if (!window.adsbygoogle.loaded && retryCount < 5) {
-        console.log("⏳ AdSense-script ikke klar – prøver igen om 1s");
-        setTimeout(() => renderAds(retryCount + 1), 1000);
-        return;
-      }
-
       setTimeout(() => {
         slots.forEach(slot => {
           slot.removeAttribute("data-adsbygoogle-status");
@@ -172,7 +156,7 @@
           window.adsbygoogle.push({});
         });
         console.log("✅ AdSense re-rendered efter accept:", slots.length);
-      }, 500);
+      }, 1000);
     } catch (err) {
       console.warn("⚠️ AdSense fejl:", err);
     }
