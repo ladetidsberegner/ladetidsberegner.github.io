@@ -1,4 +1,10 @@
+// ==============================
+// cookie.js – Stabil version (fungerende model + GA4 opdateret)
+// ==============================
+
 document.addEventListener("DOMContentLoaded", function() {
+  console.log("🧩 Cookie.js initialiseret");
+
   // === Elementer ===
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
@@ -8,10 +14,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const policyClose = document.getElementById("cookie-policy-close");
   const changeBtn = document.getElementById("change-cookie-consent");
 
-  // Start med Ændr samtykke skjult
-  changeBtn.style.display = "none";
+  if (!banner) {
+    console.warn("⚠️ Cookie-banner ikke fundet i DOM.");
+    return;
+  }
 
-  // Google Consent Mode initial setup
+  if (changeBtn) changeBtn.style.display = "none";
+
+  // === Google Consent Mode (default: denied) ===
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
@@ -26,46 +36,53 @@ document.addEventListener("DOMContentLoaded", function() {
     banner.style.display = "flex";
   } else {
     banner.style.display = "none";
-    changeBtn.style.display = "inline-flex";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
     if (consent === "accepted") enableTracking();
     else disableTracking();
   }
 
-  // === Accepter ===
-  acceptBtn.addEventListener("click", function() {
-    localStorage.setItem("cookie-consent", "accepted");
-    banner.style.display = "none";
-    changeBtn.style.display = "inline-flex";
-    enableTracking();
-  });
+  // === Klik-håndtering ===
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", function() {
+      console.log("✅ Klik: accepter cookies");
+      localStorage.setItem("cookie-consent", "accepted");
+      banner.style.display = "none";
+      if (changeBtn) changeBtn.style.display = "inline-flex";
+      enableTracking();
+    });
+  }
 
-  // === Afvis ===
-  rejectBtn.addEventListener("click", function() {
-    localStorage.setItem("cookie-consent", "declined");
-    banner.style.display = "none";
-    changeBtn.style.display = "inline-flex";
-    disableTracking();
-  });
+  if (rejectBtn) {
+    rejectBtn.addEventListener("click", function() {
+      console.log("❌ Klik: afvis cookies");
+      localStorage.setItem("cookie-consent", "declined");
+      banner.style.display = "none";
+      if (changeBtn) changeBtn.style.display = "inline-flex";
+      disableTracking();
+    });
+  }
 
-  // === Åbn/Luk cookie popup ===
-  policyLink.addEventListener("click", function(e) {
-    e.preventDefault();
-    policyPopup.style.display = "block";
-  });
-  policyClose.addEventListener("click", function() {
-    policyPopup.style.display = "none";
-  });
-  window.addEventListener("click", function(e) {
-    if (e.target === policyPopup) policyPopup.style.display = "none";
-  });
+  if (changeBtn) {
+    changeBtn.addEventListener("click", function() {
+      banner.style.display = "flex";
+    });
+  }
 
-  // === Ændr samtykke-knap ===
-  changeBtn.addEventListener("click", function() {
-    banner.style.display = "flex";
-  });
+  // === Cookiepolitik popup ===
+  if (policyLink && policyPopup && policyClose) {
+    policyLink.addEventListener("click", e => {
+      e.preventDefault();
+      policyPopup.style.display = "block";
+    });
+    policyClose.addEventListener("click", () => policyPopup.style.display = "none");
+    window.addEventListener("click", e => {
+      if (e.target === policyPopup) policyPopup.style.display = "none";
+    });
+  }
 
-  // === Consent funktioner ===
+  // === Aktiver tracking og annoncer ===
   function enableTracking() {
+    console.log("🚀 enableTracking()");
     gtag('consent', 'update', {
       'ad_storage': 'granted',
       'analytics_storage': 'granted'
@@ -75,59 +92,63 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
-      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E";
       gaScript.async = true;
+      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
       document.head.appendChild(gaScript);
 
       gaScript.onload = function() {
-        gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
-      }
+        console.log("📡 GA4 script indlæst, sender config...");
+        gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
+        console.log("📈 GA4 tracking aktiveret og page_view sendt");
+      };
     }
 
     // === Load AdSense script dynamisk ===
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
-      adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
       adsScript.async = true;
       adsScript.crossOrigin = "anonymous";
+      adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
       document.head.appendChild(adsScript);
 
       adsScript.onload = function() {
+        console.log("📢 AdSense script indlæst – klar til render");
         renderAds();
       };
 
       adsScript.onerror = function() {
-        console.error("Kunne ikke loade AdSense scriptet.");
-      }
+        console.error("⚠️ Kunne ikke loade AdSense scriptet.");
+      };
     } else {
-      // Hvis scriptet allerede er loadet, rendér eventuelle manglende slots
       renderAds();
     }
   }
 
   function disableTracking() {
+    console.log("🛑 disableTracking()");
     gtag('consent', 'update', {
       'ad_storage': 'denied',
       'analytics_storage': 'denied'
     });
   }
 
-  // === Funktion til at rendere alle adsbygoogle slots ===
+  // === Render alle AdSense-slots ===
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       const slots = document.querySelectorAll('ins.adsbygoogle');
+      console.log(`🧩 Fundet ${slots.length} AdSense-slots – forsøger at rendere...`);
       slots.forEach(() => {
         try {
           window.adsbygoogle.push({});
         } catch (e) {
-          console.warn("adsbygoogle.push error:", e);
+          console.warn("adsbygoogle.push fejl:", e);
         }
       });
-      console.log("AdSense rendered", slots.length, "slots");
+      console.log("✅ AdSense re-rendered:", slots.length);
     } catch (err) {
-      console.error("AdSense render error:", err);
+      console.error("⚠️ AdSense render fejl:", err);
     }
   }
 });
