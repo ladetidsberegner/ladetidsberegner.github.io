@@ -448,3 +448,11 @@ ins.adsbygoogle iframe {
   border: none;
   min-height: auto;
 }
+.adsense-slot {
+  display: block;
+  min-height: 120px;   /* gør boksen synlig */
+  text-align: center;
+  background: #f3f3f3; /* lys grå baggrund, så man kan se placeringen */
+  border-radius: 8px;
+  margin: 16px auto;
+}
