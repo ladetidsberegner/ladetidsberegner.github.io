@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+  // === Elementer ===
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
   const rejectBtn = document.getElementById("cookie-decline");
@@ -7,8 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
   const policyClose = document.getElementById("cookie-policy-close");
   const changeBtn = document.getElementById("change-cookie-consent");
 
+  // Start med Ændr samtykke skjult
   changeBtn.style.display = "none";
 
+  // Google Consent Mode initial setup
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
@@ -17,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   gtag('js', new Date());
 
+  // === Tidligere valg ===
   const consent = localStorage.getItem("cookie-consent");
   if (!consent) {
     banner.style.display = "flex";
@@ -27,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     else disableTracking();
   }
 
+  // === Accepter ===
   acceptBtn.addEventListener("click", function() {
     localStorage.setItem("cookie-consent", "accepted");
     banner.style.display = "none";
@@ -34,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     enableTracking();
   });
 
+  // === Afvis ===
   rejectBtn.addEventListener("click", function() {
     localStorage.setItem("cookie-consent", "declined");
     banner.style.display = "none";
@@ -41,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
     disableTracking();
   });
 
+  // === Åbn/Luk cookie popup ===
   policyLink.addEventListener("click", function(e) {
     e.preventDefault();
     policyPopup.style.display = "block";
@@ -52,28 +59,32 @@ document.addEventListener("DOMContentLoaded", function() {
     if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
+  // === Ændr samtykke-knap ===
   changeBtn.addEventListener("click", function() {
     banner.style.display = "flex";
   });
 
+  // === Consent funktioner ===
   function enableTracking() {
     gtag('consent', 'update', {
       'ad_storage': 'granted',
       'analytics_storage': 'granted'
     });
 
+    // === Load GA4 script dynamisk ===
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
-      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
+      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E";
       gaScript.async = true;
       document.head.appendChild(gaScript);
 
       gaScript.onload = function() {
-        gtag('config', 'G-ELGNQRMN1X', { 'anonymize_ip': true });
+        gtag('config', 'G-X3CW94LC7E', { 'anonymize_ip': true });
       }
     }
 
+    // === Load AdSense script dynamisk ===
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -90,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Kunne ikke loade AdSense scriptet.");
       }
     } else {
+      // Hvis scriptet allerede er loadet, rendér eventuelle manglende slots
       renderAds();
     }
   }
@@ -101,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  // === Funktion til at rendere alle adsbygoogle slots ===
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
