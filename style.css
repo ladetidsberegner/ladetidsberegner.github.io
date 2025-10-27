@@ -66,6 +66,7 @@ a:hover{text-decoration:underline;}
 .faq-item.open .faq-icon{transform:rotate(90deg);}
 .faq-answer{height:0;overflow:hidden;transition:height .3s ease;}
 .faq-answer.open{height:auto;overflow:visible;}
+.faq-disclaimer{max-width:900px;margin:25px auto 0;background:#f8fff7;border:1px solid #55ca1c44;border-radius:8px;padding:14px 20px;color:#333;font-size:.95rem;text-align:center;font-style:italic;box-shadow:0 2px 8px rgba(0,0,0,0.05)}.faq-disclaimer strong{color:var(--brand-green)}@media(max-width:768px){.faq-disclaimer{margin:20px 12px 0;padding:12px 14px;font-size:.9rem}}
 
 /* --- Beregner --- */
 #bereger{scroll-margin-top:70px;}
