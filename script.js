@@ -1,161 +1,125 @@
-// Beskyt e-mail mod spambots
-document.addEventListener("DOMContentLoaded", () => {
-  const kontaktEl = document.getElementById("kontakt-mail");
-  if (kontaktEl) {
-    const user = "chargeme";
-    const domain = "outlook.dk";
-    const mail = `${user}@${domain}`;
-    kontaktEl.innerHTML = `<a href="mailto:${mail}">${mail}</a>`;
-  }
-});
-
-
-// Smooth scroll til #bereger — virker i Safari/Chrome/Firefox + fallback
-document.addEventListener("DOMContentLoaded", () => {
-  const TARGET_ID = "bereger";
-
-  function getScrollTop() {
-    return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  }
-
-  function animateTo(y, duration = 1400) {//sæt frt her
-    const start = getScrollTop();
-    const dist = y - start;
-    const ease = t => 1 - Math.pow(1 - t, 3); // easeOutCubic
-    let t0 = null;
-
-    function step(ts) {
-      if (!t0) t0 = ts;
-      const p = Math.min((ts - t0) / duration, 1);
-      const cur = start + dist * ease(p);
-      window.scrollTo(0, cur);
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  document.addEventListener("click", (e) => {
-    const a = e.target.closest('a[href="#bereger"]');
-    if (!a) return;
-
-    const el = document.getElementById(TARGET_ID);
-    if (!el) return;
-
-    e.preventDefault();
-
-    // 1) Prøv native scrollIntoView (respekterer CSS: #bereger { scroll-margin-top: 70px; })
-    const before = getScrollTop();
-    try {
-      el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-    } catch (_) {
-      // ignorer
-    }
-
-    // 2) Hvis vi ikke flytter os (Safari der “hopper”/ignorerer), kør fallback-animation
-    setTimeout(() => {
-      const after = getScrollTop();
-      if (Math.abs(after - before) < 2) {
-        // Beregn mål uden at stole på smooth behavior
-        const rect = el.getBoundingClientRect();
-        const targetY = rect.top + getScrollTop() - 70; // samme offset som din CSS scroll-margin-top
-        animateTo(targetY, 1400);//sæt fart her
-      }
-    }, 120);
-  });
-});
-
-// === Scroll animationer ===
-document.addEventListener("DOMContentLoaded", () => {
-  const fadeSections = document.querySelectorAll(".fade-section");
-
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-
-        // Find børneelementer, der skal fade ind separat
-        const children = entry.target.querySelectorAll("h1, h2, h3, p, li, .calc-section, .faq-item");
-        children.forEach((child, i) => {
-          child.classList.add("fade-in-child");
-          setTimeout(() => child.classList.add("visible"), i * 120);
-        });
-
-        sectionObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.2
-  });
-
-  fadeSections.forEach(sec => sectionObserver.observe(sec));
-});
-// === Bookmark-knap – vis altid (også efter reload) ===
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("bookmark-btn");
-  if (!btn) return;
-
-  // Vis altid efter 2 sekunder
-  setTimeout(() => {
-    btn.classList.add("show");
-  }, 2000);
-
-  // Klikhåndtering
-  btn.addEventListener("click", () => {
-    alert("📱 Tilføj Ladetidsberegner.dk til din hjemmeskærm via din browsers menu.");
-    // Skjul kun midlertidigt
-    btn.classList.remove("show");
-    setTimeout(() => btn.classList.add("show"), 5000);
-  });
-});
-
-
-// === Fjern uønskede Google-overlays løbende (Safari fix) ===
-// setInterval(() => {
-//   document.querySelectorAll(
-//     'iframe[src*="fundingchoicesmessages.google.com"], ' +
-//     'iframe[src*="consent.google.com"], ' +
-//     'iframe[src*="googleads.g.doubleclick.net"], ' +
-//     'iframe[style*="z-index: 2147483647"]'
-//   ).forEach(el => {
-//     el.remove();
-//   });
-// }, 3000);
-
-
-// === 👻 Safari Spøgelsesdetektor ===
-document.addEventListener("DOMContentLoaded", () => {
-  // 1️⃣ Tjek for manifest-link i <head>
-  const manifest = document.querySelector('link[rel="manifest"], link[rel="webmanifest"]');
-  if (manifest) {
-    console.warn("⚠️ Der er stadig et manifest-link i <head>:", manifest.href);
-  } else {
-    console.log("✅ Ingen manifest fundet – godt tegn!");
-  }
-
-  // 2️⃣ Tjek for registreret Service Worker
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistrations().then(regs => {
-      if (regs.length > 0) {
-        console.warn("👻 Advarsel: Service Worker registreret!", regs);
-      } else {
-        console.log("✅ Ingen aktive Service Workers fundet.");
-      }
-    }).catch(err => {
-      console.error("Fejl under SW-tjek:", err);
-    });
-  } else {
-    console.log("ℹ️ Browseren understøtter ikke Service Workers (eller de er slået fra).");
-  }
-
-  // 3️⃣ Ekstra: advar, hvis Safari opretter en PWADataStore i runtime
-  if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
-    console.warn("👀 Safari kører i 'standalone' tilstand — mulig gammel PWA-cache.");
-  }
-});
-
-
-// Automatisk opdatering af årstal i footer
 document.addEventListener("DOMContentLoaded", function () {
-  const yearEl = document.getElementById("current-year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  // 🔒 Singleton-guard: kør kun én gang, uanset hvor mange gange filen er inkluderet
+  if (window.__cookieInit) return;
+  window.__cookieInit = true;
+
+  // === Elementer ===
+  const banner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("cookie-accept");
+  const rejectBtn = document.getElementById("cookie-decline");
+  const policyLink = document.getElementById("cookie-policy-link");
+  const policyPopup = document.getElementById("cookie-policy-popup");
+  const policyClose = document.getElementById("cookie-policy-close");
+  const changeBtn = document.getElementById("change-cookie-consent");
+
+  if (changeBtn) changeBtn.style.display = "none";
+
+  // Google Consent Mode initial setup
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied' });
+  gtag('js', new Date());
+
+  // === Tidligere valg ===
+  const consent = localStorage.getItem("cookie-consent");
+  if (!consent) {
+    if (banner) banner.style.display = "flex";
+  } else {
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+    if (consent === "accepted") enableTracking();
+    else disableTracking();
+  }
+
+  // === Accepter ===
+  acceptBtn?.addEventListener("click", function () {
+    localStorage.setItem("cookie-consent", "accepted");
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+    enableTracking();
+  }, { once: true }); // <- undgå dobbelt-kald
+
+  // === Afvis ===
+  rejectBtn?.addEventListener("click", function () {
+    localStorage.setItem("cookie-consent", "declined");
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+    disableTracking();
+  }, { once: true });
+
+  // === Åbn/Luk cookie popup ===
+  policyLink?.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (policyPopup) policyPopup.style.display = "block";
+  });
+  policyClose?.addEventListener("click", function () {
+    if (policyPopup) policyPopup.style.display = "none";
+  });
+  window.addEventListener("click", function (e) {
+    if (e.target === policyPopup) policyPopup.style.display = "none";
+  });
+
+  // === Ændr samtykke-knap ===
+  changeBtn?.addEventListener("click", function () {
+    if (banner) banner.style.display = "flex";
+  });
+
+  // 🚦 sørg for idempotens
+  let trackingEnabled = false;
+
+  function enableTracking() {
+    if (trackingEnabled) return; // <- vigtig idempotens
+    trackingEnabled = true;
+
+    gtag('consent', 'update', { ad_storage: 'granted', analytics_storage: 'granted' });
+
+    // === Load GA4 script dynamisk ===
+    if (!document.getElementById("ga4-script")) {
+      const gaScript = document.createElement("script");
+      gaScript.id = "ga4-script";
+      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-X3CW94LC7E";
+      gaScript.async = true;
+      gaScript.onload = function () {
+        gtag('config', 'G-X3CW94LC7E', { anonymize_ip: true });
+      };
+      document.head.appendChild(gaScript);
+    }
+
+    // === Load AdSense script dynamisk ===
+    if (!document.getElementById("adsense-script")) {
+      const adsScript = document.createElement("script");
+      adsScript.id = "adsense-script";
+      adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
+      adsScript.async = true;
+      adsScript.crossOrigin = "anonymous";
+      adsScript.onload = function () { renderAds(); };
+      adsScript.onerror = function () { console.error("Kunne ikke loade AdSense scriptet."); };
+      document.head.appendChild(adsScript);
+    } else {
+      renderAds();
+    }
+  }
+
+  function disableTracking() {
+    gtag('consent', 'update', { ad_storage: 'denied', analytics_storage: 'denied' });
+  }
+
+  // === Rendér kun slots der IKKE allerede er "done"
+  function renderAds() {
+    try {
+      window.adsbygoogle = window.adsbygoogle || [];
+      const slots = document.querySelectorAll('ins.adsbygoogle');
+      let pushed = 0;
+      slots.forEach((slot) => {
+        const status = slot.getAttribute('data-adsbygoogle-status');
+        if (status !== 'done') {
+          try { window.adsbygoogle.push({}); pushed++; }
+          catch (e) { console.warn("adsbygoogle.push error:", e); }
+        }
+      });
+      // console.log("AdSense render forsøgt på", pushed, "nye slots (ud af", slots.length, ")");
+    } catch (err) {
+      console.error("AdSense render error:", err);
+    }
+  }
 });
