@@ -119,6 +119,8 @@ label{font-weight:600;margin:0 0 6px;color:#fff;}
 /* --- Change consent --- */
 #change-cookie-consent,.change-cookie-consent{position:fixed;bottom:20px;right:20px;background-color:var(--brand-green-600);color:#fff;display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:var(--radius-base);border:none;cursor:pointer;font-weight:700;font-size:15px;line-height:1;box-shadow:var(--surface-shadow-sm);transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease;text-decoration:none;z-index:9999;}
 #change-cookie-consent:hover,.change-cookie-consent:hover{transform:translateY(-1px);box-shadow:var(--surface-shadow-md);background-color:#4ab517;}
+.cookie-policy-content .cookie-buttons button {border: none;padding: 8px 14px;border-radius: 6px; font-weight: 600; cursor: pointer; transition: transform .12s ease, filter .12s ease;}
+.cookie-policy-content .cookie-buttons button:hover {transform: translateY(-2px); filter: brightness(.95);}
 
 /* --- Overlays --- */
 .hero::before,.top-bar::before,.some-overlay-selector{pointer-events:none;}
