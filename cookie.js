@@ -64,9 +64,19 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target === policyPopup) policyPopup.style.display = "none";
   });
 
-  // === ⚙️ Ændr cookieindstillinger ===
+  // === ⚙️ Ændr cookieindstillinger (nulstiller valg og viser banner igen) ===
   changeBtn?.addEventListener("click", function () {
+    // nulstil tidligere valg
+    localStorage.removeItem("cookie-consent");
+
+    // skjul reklamer og tracking straks
+    disableTracking();
+
+    // vis banner igen
     if (banner) banner.style.display = "flex";
+
+    // skjul ændr-knap midlertidigt
+    if (changeBtn) changeBtn.style.display = "none";
   });
 
   // === 🧠 Idempotent tracking flag ===
@@ -109,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // === 🚫 Deaktivér tracking ===
   function disableTracking() {
     gtag('consent', 'update', { ad_storage: 'denied', analytics_storage: 'denied' });
-    // skjul alle reklameslots
     document.querySelectorAll('.adsense-slot').forEach(slot => slot.style.display = "none");
   }
 
