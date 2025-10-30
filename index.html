@@ -11,7 +11,9 @@
   <meta name="theme-color" content="#268cec">
   <link rel="canonical" href="https://ladetidsberegner.github.io/">
   <link rel="icon" href="/img/favicon.ico">
+
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="accordionStyle.css">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -96,7 +98,7 @@
        data-full-width-responsive="true"></ins>
 </div>
 
-  <!-- Beregner sektion -->
+   <!-- Beregner sektion -->
   <div class="beregner-outer" id="bereger">
     <div class="beregner-container container fade-section">
 
@@ -139,12 +141,9 @@
         </div>
       </div>
 
-      <!--
       <hr class="beregner-divider" />
-      -->
 
-      <!-- Sektion 2: Beregn start-/sluttidspunkt (UDKOMMENTERET – BEHOLDT) -->
-      <!--
+      <!-- Sektion 2 -->
       <div class="calc-section" id="calc-spor2">
         <button class="calc-question" aria-expanded="false">
           <span class="calc-icon">▶</span>
@@ -152,119 +151,36 @@
         </button>
         <div class="calc-answer" aria-hidden="true">
           <div class="calc-help top">
-            <p class="help-text">Beregn hvornår du skal starte for at være færdig på et bestemt tidspunkt – eller hvornår du er færdig, hvis du starter på et bestemt tidspunkt.</p>
+            <p><em>Kommende funktion</em> – her vil du snart kunne beregne hvornår du skal starte opladningen for at være færdig på et bestemt tidspunkt, eller se hvornår bilen er fuldt opladet, hvis du starter på et bestemt tidspunkt.</p>
           </div>
-
-          <form class="calc-form" onsubmit="return false;">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="soc-start-2">Start SoC (%)</label>
-                <input type="number" id="soc-start-2" min="0" max="100" step="1" value="20" inputmode="numeric" />
-              </div>
-              <div class="form-group">
-                <label for="soc-slut-2">Slut SoC (%)</label>
-                <input type="number" id="soc-slut-2" min="0" max="100" step="1" value="80" inputmode="numeric" />
-              </div>
-            </div>
-
-            <div class="line-sentence" id="linie-sentence">
-              <label for="beregn-tid-valg" class="inline-label">Hvis ladningen</label>
-              <select id="beregn-tid-valg" class="inline-select">
-                <option value="skal-vaere-faerdig">skal være færdig</option>
-                <option value="starter">starter</option>
-              </select>
-              <label class="inline-label">kl</label>
-              <input type="time" id="tidpunkt-input" class="inline-time" />
-              <span id="linje-resultat" class="inline-result"></span>
-              <button type="button" id="beregn-tid-btn" class="beregn-knap small">Beregn</button>
-            </div>
-
-            <div id="resultat-tid" class="resultat-tekst" aria-live="polite"></div>
-
-            <div class="calc-help bottom">
-              <p class="help-text">Tip: Brug denne funktion, når du planlægger natlig opladning.</p>
-            </div>
-          </form>
         </div>
       </div>
 
       <hr class="beregner-divider" />
-      -->
 
-      <!-- Sektion 3: Beregn SoC-stigning (UDKOMMENTERET – BEHOLDT) -->
-      <!--
+      <!-- Sektion 3 -->
       <div class="calc-section" id="calc-spor3">
         <button class="calc-question" aria-expanded="false">
           <span class="calc-icon">▶</span>
-          <h3 class="calc-heading">Beregn SoC-stigning</h3>
+          <h3 class="calc-heading">Beregn SoC-stigning i et tidsrum</h3>
         </button>
         <div class="calc-answer" aria-hidden="true">
           <div class="calc-help top">
-            <p class="help-text">Se, hvor meget din SoC stiger i en given periode. Vælg enten varighed (timer/minutter) eller start- og sluttidspunkt.</p>
+            <p><em>Kommende funktion</em> – her vil du kunne se, hvor meget din bils ladestand (SoC) stiger i en given opladningsperiode, fx 2 timer eller mellem to tidspunkter.</p>
           </div>
-
-          <form class="calc-form" onsubmit="return false;">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="spor3-soc-start">Start SoC (%)</label>
-                <input type="number" id="spor3-soc-start" min="0" max="100" step="1" value="20" inputmode="numeric" />
-              </div>
-
-              <div class="form-group">
-                <label for="soc-model">Beregn ud fra</label>
-                <select id="soc-model">
-                  <option value="varighed" selected>Varighed (timer/minutter)</option>
-                  <option value="tidspunkter">Start- og sluttidspunkt</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-row soc-varighed">
-              <div class="form-group">
-                <label for="varighed-timer">Timer</label>
-                <input type="number" id="varighed-timer" min="0" step="1" value="0" inputmode="numeric" />
-              </div>
-              <div class="form-group">
-                <label for="varighed-minutter">Minutter</label>
-                <input type="number" id="varighed-minutter" min="0" max="59" step="1" value="0" inputmode="numeric" />
-              </div>
-            </div>
-
-            <div class="form-row soc-tidspunkter" style="display:none;">
-              <div class="form-group">
-                <label for="soc-starttid">Starttidspunkt</label>
-                <input type="time" id="soc-starttid" />
-              </div>
-              <div class="form-group">
-                <label for="soc-sluttid">Sluttidspunkt</label>
-                <input type="time" id="soc-sluttid" />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <button type="button" id="beregn-soc-tid-btn" class="beregn-knap">Beregn</button>
-            </div>
-
-            <div id="resultat-soc-tid" class="resultat-tekst" aria-live="polite"></div>
-
-            <div class="calc-help bottom">
-              <p class="help-text">Hvis beregningen overstiger 100 %, viser vi, hvor lang tid der skal lades for at nå 80 % og 100 %, samt bruttoforbrug for disse værdier.</p>
-            </div>
-          </form>
         </div>
       </div>
 
       <hr class="beregner-divider" />
-      -->
 
       <!-- Indstillinger -->
       <div class="advanced-section" id="advanced-fields">
-        <button class="advanced-question" aria-expanded="true" id="advanced-toggle">
+        <button class="advanced-question">
           <span class="advanced-icon">▶</span>
           <h3 class="advanced-heading">Indstillinger</h3>
         </button>
 
-        <div class="advanced-answer" aria-hidden="false">
+        <div class="advanced-answer" aria-hidden="true">
           <div class="form-row triple-fields">
             <div class="form-group">
               <label for="kapacitet">Batterikapacitet (kWh)</label>
@@ -296,11 +212,11 @@
         </div>
       </div>
 
-      <p>Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige. Vi påtager os ikke ansvar for eventuelle fejl eller afvigelser i beregningen og kan ikke holdes ansvarlige for tab som følge af brug af værktøjet.</p>
+      <p>Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige.</p>
     </div>
   </div>
-  <!-- beregner slut -->
 
+  <!--Beregner slut-->
   <section class="features-image-with-steps fade-section">
     <div class="features-wrapper">
       <!-- Billedcontainer -->
@@ -482,7 +398,7 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- === Cookie Banner === -->
+  <!--  Cookie Banner  -->
   <div id="cookie-banner" class="cookie-banner">
     <div class="cookie-text">
       Vi bruger cookies til at forbedre din oplevelse og analysere trafik. 
@@ -495,12 +411,12 @@
     </div>
   </div>
 
-  <!-- === Ændr samtykke-knap === -->
+  <!--  Ændr samtykke-knap  -->
   <button id="change-cookie-consent" class="change-cookie-consent">
     Ændr cookieindstillinger
   </button>
 
-  <!-- === Cookie Politik Popup === -->
+  <!--  Cookie Politik Popup  -->
 <div id="cookie-policy-popup" class="cookie-policy-popup">
   <div class="cookie-policy-content">
     <span id="cookie-policy-close" class="close">&times;</span>
@@ -557,15 +473,17 @@
     <p>&copy; <span id="current-year">2025</span> Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
   </div>
 
-  <!-- === Bookmark-knap === -->
+  <!--  Bookmark-knap -->
   <button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">*</button>
 
-<script src="faq.js"></script>
+
+<script src="accordion.js"></script>
 <script src="script.js"></script>
 <script src="beregner-soc.js"></script>
 <script src="beregner-spor2.js"></script>
 <script src="beregner-spor3.js"></script>
 <script src="cookie.js" defer></script>
+
 
 </body>
 </html>

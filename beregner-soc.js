@@ -1,4 +1,4 @@
-// beregner-soc.js — Spor 1 (tid & bruttoforbrug ud fra start/slut SoC)
+// beregner-soc.js — KUN beregning (ingen accordion/toggle her)
 (function () {
   const $ = (s, r = document) => r.querySelector(s);
   const ce = (t) => document.createElement(t);
@@ -85,68 +85,4 @@
       if (isNaN(eff)   || eff   <= 0) $("#ladevalg")?.classList.add("input-error");
     }
   });
-
-  // Fold-ud (en åben ad gangen) + Indstillinger toggle (lokal lager)
-  document.querySelectorAll(".calc-question").forEach((button) => {
-    button.style.cursor = "pointer";
-    button.addEventListener("click", () => {
-      const answer = button.nextElementSibling;
-      if (!answer) return;
-      document.querySelectorAll(".calc-answer").forEach((a) => {
-        if (a !== answer) {
-          a.style.height = a.scrollHeight + "px";
-          requestAnimationFrame(() => { a.style.height = "0px"; });
-          a.classList.remove("open"); a.setAttribute("aria-hidden", "true");
-          a.previousElementSibling?.setAttribute("aria-expanded", "false");
-        }
-      });
-      if (answer.style.height && answer.style.height !== "0px") {
-        answer.style.height = answer.scrollHeight + "px";
-        requestAnimationFrame(() => { answer.style.height = "0px"; });
-        answer.classList.remove("open"); answer.setAttribute("aria-hidden", "true");
-        button.setAttribute("aria-expanded", "false");
-      } else {
-        answer.style.height = answer.scrollHeight + "px";
-        answer.classList.add("open");
-        answer.addEventListener("transitionend", function handler() {
-          if (answer.classList.contains("open")) answer.style.height = "auto";
-          answer.removeEventListener("transitionend", handler);
-        });
-        answer.setAttribute("aria-hidden", "false");
-        button.setAttribute("aria-expanded", "true");
-      }
-    });
-  });
-
-  const adv = document.getElementById("advanced-fields");
-  if (adv) {
-    const advBtn = adv.querySelector(".advanced-question");
-    const advAns = adv.querySelector(".advanced-answer");
-    if (advBtn && advAns) {
-      const key = "calc-adv-open";
-      const saved = localStorage.getItem(key);
-      const shouldOpen = saved === null ? "true" : saved;
-      if (shouldOpen === "true") {
-        advAns.style.height = "auto"; adv.classList.add("open");
-        advBtn.setAttribute("aria-expanded", "true");
-      } else {
-        advAns.style.height = "0px"; adv.classList.remove("open");
-        advBtn.setAttribute("aria-expanded", "false");
-      }
-      advBtn.addEventListener("click", () => {
-        const isOpen = adv.classList.contains("open");
-        if (isOpen) { advAns.style.height = advAns.scrollHeight + "px"; requestAnimationFrame(() => { advAns.style.height = "0px"; }); }
-        else {
-          advAns.style.height = advAns.scrollHeight + "px";
-          advAns.addEventListener("transitionend", function handler() {
-            if (adv.classList.contains("open")) advAns.style.height = "auto";
-            advAns.removeEventListener("transitionend", handler);
-          });
-        }
-        adv.classList.toggle("open");
-        advBtn.setAttribute("aria-expanded", String(!isOpen));
-        localStorage.setItem(key, String(!isOpen));
-      });
-    }
-  }
 })();
