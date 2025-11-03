@@ -19,66 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
   gtag("consent", "default", { ad_storage: "denied", analytics_storage: "denied" });
   gtag("js", new Date());
 
-  const consent = localStorage.getItem("cookie-consent");
-
-  // === Initial visning ===
-  if (!consent) {
-    if (banner) banner.style.display = "flex";
-  } else {
-    if (banner) banner.style.display = "none";
-    if (changeBtn) changeBtn.style.display = "inline-flex";
-
-    if (consent === "accepted") enableTracking();
-    else disableTracking();
-  }
-
-  // === Knapper ===
-  acceptBtn?.addEventListener("click", () => {
-    localStorage.setItem("cookie-consent", "accepted");
-    hideBanner();
-    enableTracking();
-  });
-
-  rejectBtn?.addEventListener("click", () => {
-    localStorage.setItem("cookie-consent", "declined");
-    hideBanner();
-    disableTracking(true); // true = reload for at rydde scripts
-  });
-
-  function hideBanner() {
-    if (banner) banner.style.display = "none";
-    if (changeBtn) changeBtn.style.display = "inline-flex";
-  }
-
-  // === Cookiepolitik popup ===
-  policyLink?.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (policyPopup) {
-      policyPopup.style.display = "block";
-      addPolicyButtons();
-    }
-  });
-
-  policyClose?.addEventListener("click", () => {
-    if (policyPopup) policyPopup.style.display = "none";
-  });
-
-  window.addEventListener("click", (e) => {
-    if (e.target === policyPopup) policyPopup.style.display = "none";
-  });
-
-  changeBtn?.addEventListener("click", () => {
-    if (banner) banner.style.display = "flex";
-  });
-
-  // === Gør det muligt at ændre efter afvisning ===
-  if (consent === "declined" && changeBtn) {
-    changeBtn.style.display = "inline-flex";
-    changeBtn.addEventListener("click", () => {
-      if (banner) banner.style.display = "flex";
-    });
-  }
-
   let trackingEnabled = false;
 
   // === Aktiver tracking ===
@@ -122,22 +62,16 @@ document.addEventListener("DOMContentLoaded", function () {
       ad_storage: "denied",
       analytics_storage: "denied",
     });
-    if (forceReload) {
-      setTimeout(() => location.reload(), 500);
-    }
+    if (forceReload) setTimeout(() => location.reload(), 500);
   }
 
-  // === Gør klar og vis annoncer ===
+  // === Vis annoncer ===
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       document.querySelectorAll("ins.adsbygoogle").forEach((slot) => {
         if (slot.getAttribute("data-adsbygoogle-status") !== "done") {
-          try {
-            window.adsbygoogle.push({});
-          } catch (e) {
-            console.warn("adsbygoogle.push error:", e);
-          }
+          window.adsbygoogle.push({});
         }
       });
     } catch (err) {
@@ -171,6 +105,65 @@ document.addEventListener("DOMContentLoaded", function () {
       policyPopup.style.display = "none";
       disableTracking(true);
       hideBanner();
+    });
+  }
+
+  // === Hovedlogik ===
+  const consent = localStorage.getItem("cookie-consent");
+
+  if (!consent) {
+    if (banner) banner.style.display = "flex";
+  } else {
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+
+    if (consent === "accepted") enableTracking();
+    else disableTracking();
+  }
+
+  // === Knapper ===
+  acceptBtn?.addEventListener("click", () => {
+    localStorage.setItem("cookie-consent", "accepted");
+    hideBanner();
+    enableTracking();
+  });
+
+  rejectBtn?.addEventListener("click", () => {
+    localStorage.setItem("cookie-consent", "declined");
+    hideBanner();
+    disableTracking(true);
+  });
+
+  function hideBanner() {
+    if (banner) banner.style.display = "none";
+    if (changeBtn) changeBtn.style.display = "inline-flex";
+  }
+
+  // === Cookiepolitik popup ===
+  policyLink?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (policyPopup) {
+      policyPopup.style.display = "block";
+      addPolicyButtons();
+    }
+  });
+
+  policyClose?.addEventListener("click", () => {
+    if (policyPopup) policyPopup.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === policyPopup) policyPopup.style.display = "none";
+  });
+
+  changeBtn?.addEventListener("click", () => {
+    if (banner) banner.style.display = "flex";
+  });
+
+  if (consent === "declined" && changeBtn) {
+    changeBtn.style.display = "inline-flex";
+    changeBtn.addEventListener("click", () => {
+      if (banner) banner.style.display = "flex";
     });
   }
 });
