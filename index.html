@@ -12,10 +12,10 @@
   <link rel="canonical" href="https://ladetidsberegner.github.io/">
   <link rel="icon" href="/img/favicon.ico">
 
+  <!-- Samlet stil -->
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="accordionStyle.css">
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ladetidsberegner.github.io/">
   <meta property="og:title" content="Beregn ladetid for elbil hjemme – Gratis og nem beregner">
@@ -24,7 +24,6 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="da_DK">
-  <meta property="fb:app_id" content="999999999999999">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -52,60 +51,57 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      analytics_storage: 'denied'
-    });
+    gtag('consent', 'default', { ad_storage:'denied', analytics_storage:'denied' });
     gtag('js', new Date());
   </script>
 </head>
 
 <body>
-  <!-- Indhold -->
+  <!-- Top bar (reserveret til landevælger el.lign.) -->
   <div class="top-bar"></div>
 
-  <!-- Hero sektion -->
+  <!-- Hero -->
   <section class="hero">
     <div class="hero-text">
-      <h1>Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
-      <p>Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
-      <nav><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
+      <h1 class="fade-up">Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
+      <p class="fade-up">Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
+      <nav class="fade-up"><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
     </div>
   </section>
 
-  <!-- About sektion -->
+  <!-- About -->
   <div class="about-outer">
     <section id="about" class="about fade-section">
       <div class="about-text">
-        <h2>Hvor lang tid tager det at lade en elbil hjemme?</h2>
-        <p>Det kan være kompliceret og tidskrævende at finde ud af, hvor lang tid det tager at lade en elbil hjemme. Opladningstiden afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores gratis ladetidsberegner får du hurtigt et klart overblik over opladningstid og energiforbrug, så du nemt kan planlægge hjemmeladningen og optimere din opladning.</p>
-        <p>Få et hurtigt overblik og planlæg opladningstiden optimalt, så du kan vælge det bedste tidspunkt for hjemmeladning og lade mest økonomisk.</p>
-        <a href="#bereger" class="btn">Beregn ladetid på din elbil</a>
+        <h2 class="fade-left">Hvor lang tid tager det at lade en elbil hjemme?</h2>
+        <p class="fade-left">Det kan være kompliceret og tidskrævende at finde ud af, hvor lang tid det tager at lade en elbil hjemme. Opladningstiden afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores gratis ladetidsberegner får du hurtigt et klart overblik over opladningstid og energiforbrug, så du nemt kan planlægge hjemmeladningen og optimere din opladning.</p>
+        <p class="fade-left">Få et hurtigt overblik og planlæg opladningstiden optimalt, så du kan vælge det bedste tidspunkt for hjemmeladning og lade mest økonomisk.</p>
+        <p class="fade-left"><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
       </div>
       <div class="about-image">
-        <img src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader">
+        <img class="fade-right" src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader">
       </div>
     </section>
   </div>
 
-<!-- Vandret reklame efter About -->
-<div class="adsense-slot" id="ads-about">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-4322732012925287"
-       data-ad-slot="8964176982"  
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-</div>
+  <!-- Ad: efter About -->
+  <div class="adsense-slot fade-section" id="ads-about">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4322732012925287"
+         data-ad-slot="8964176982"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
 
-   <!-- Beregner sektion -->
+  <!-- Beregner -->
   <div class="beregner-outer" id="bereger">
     <div class="beregner-container container fade-section">
 
-      <h2 class="beregner-overskrift">Beregn opladningstiden på din elbil hjemme</h2>
-      <p class="beregner-intro">Vælg den beregning, du har brug for. Alle tal og tider tager højde for din ladeeffekt og det valgte ladetab.</p>
+      <h2 class="beregner-overskrift fade-up">Beregn opladningstiden på din elbil hjemme</h2>
+      <p class="beregner-intro fade-up">Vælg den beregning, du har brug for. Alle tal og tider tager højde for din ladeeffekt og det valgte ladetab.</p>
 
-      <!-- Sektion 1: Beregn ladetid -->
+      <!-- Spor 1 -->
       <div class="calc-section open" id="calc-spor1">
         <button class="calc-question" aria-expanded="true">
           <span class="calc-icon">▶</span>
@@ -143,7 +139,7 @@
 
       <hr class="beregner-divider" />
 
-      <!-- Sektion 2 -->
+      <!-- Spor 2 (placeholder-tekst indtil din funktion er live) -->
       <div class="calc-section" id="calc-spor2">
         <button class="calc-question" aria-expanded="false">
           <span class="calc-icon">▶</span>
@@ -158,7 +154,7 @@
 
       <hr class="beregner-divider" />
 
-      <!-- Sektion 3 -->
+      <!-- Spor 3 (placeholder-tekst indtil din funktion er live) -->
       <div class="calc-section" id="calc-spor3">
         <button class="calc-question" aria-expanded="false">
           <span class="calc-icon">▶</span>
@@ -175,7 +171,7 @@
 
       <!-- Indstillinger -->
       <div class="advanced-section" id="advanced-fields">
-        <button class="advanced-question">
+        <button class="advanced-question" aria-expanded="false">
           <span class="advanced-icon">▶</span>
           <h3 class="advanced-heading">Indstillinger</h3>
         </button>
@@ -212,68 +208,66 @@
         </div>
       </div>
 
-      <p>Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige.</p>
+      <p class="fade-up">Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige.</p>
     </div>
   </div>
 
-  <!--Beregner slut-->
+  <!-- Features / trin -->
   <section class="features-image-with-steps fade-section">
     <div class="features-wrapper">
-      <!-- Billedcontainer -->
       <div class="features-image">
-        <img src="img/elbil-dame-telefon.jpg" alt="Kvinde bruger ladetidsberegner til elbil hjemme">
+        <img class="fade-right" src="img/elbil-dame-telefon.jpg" alt="Kvinde bruger ladetidsberegner til elbil hjemme">
       </div>
 
-      <!-- Tekstcontainer -->
       <div class="features-text">
         <div class="text-wrapper">
-          <h2>Sådan finder du hurtigt opladningstiden for din elbil</h2>
-          <p>Beregn opladningstid, planlæg start- eller sluttidspunkt, eller se, hvor meget bilen lader på et bestemt tidsrum – nemt og hurtigt.</p>
+          <h2 class="fade-left">Sådan finder du hurtigt opladningstiden for din elbil</h2>
+          <p class="fade-left">Beregn opladningstid, planlæg start- eller sluttidspunkt, eller se, hvor meget bilen lader på et bestemt tidsrum – nemt og hurtigt.</p>
 
           <ol class="features-steps">
-            <li>
+            <li class="fade-left">
               <h3>Vælg beregningstype</h3>
               <p>Vælg, om du vil beregne opladningstid, finde start-/sluttidspunkt eller se, hvor meget din SoC stiger i en given periode.</p>
             </li>
 
-            <li>
+            <li class="fade-left">
               <h3>Angiv start- og slutniveau (SoC)</h3>
               <p>Indtast bilens aktuelle ladestand og det ønskede slutniveau – herefter får du vist, hvor lang tid opladningen vil tage.</p>
             </li>
 
-            <div class="eller">eller</div>
+            <div class="eller fade-up">eller</div>
 
-            
-              <h3 style="margin-left: 80px;margin-bottom: -40px">Beregn start- eller sluttidspunkt</h3>
-              <p style="margin-left: 80px;">Angiv, hvornår opladningen skal starte eller være færdig. Beregneren viser sluttidspunktet, hvis du indtaster et starttidspunkt – og omvendt, hvis du angiver et sluttidspunkt.</p>
-              <p style="margin-left: 80px; margin-bottom: -40px;;"><i>Kommende funktion</i></p>
-           
+            <div class="fade-left" style="margin-left:80px">
+              <h3 style="margin-bottom:0">Beregn start- eller sluttidspunkt</h3>
+              <p>Angiv, hvornår opladningen skal starte eller være færdig. Beregneren viser sluttidspunktet, hvis du indtaster et starttidspunkt – og omvendt, hvis du angiver et sluttidspunkt.</p>
+              <p style="margin-bottom:-40px"><i>Kommende funktion</i></p>
+            </div>
 
-            <div class="eller">eller</div>
+            <div class="eller fade-up">eller</div>
 
-           
-              <h3 style="margin-left: 80px; margin-bottom: -40px">Beregn SoC-stigning i et tidsrum</h3>
-              <p style="margin-left: 80px;">Se, hvor meget din bils ladestand stiger, hvis du oplader i et bestemt antal timer – eller mellem to valgte tidspunkter.</p>
-              <p style="margin-left: 80px; margin-bottom: -40px;"><i>Kommende funktion</i></p>
-            
+            <div class="fade-left" style="margin-left:80px">
+              <h3 style="margin-bottom:0px">Beregn SoC-stigning i et tidsrum</h3>
+              <p>Se, hvor meget din bils ladestand stiger, hvis du oplader i et bestemt antal timer – eller mellem to valgte tidspunkter.</p>
+              <p style="margin-bottom:0px"><i>Kommende funktion</i></p>
+            </div>
 
-            <li>
+            <li class="fade-left">
               <h3>Indtast batteristørrelse og vælg ladeeffekt</h3>
               <p>Angiv bilens batteristørrelse i kWh, og vælg den ladeeffekt, du lader med. Du kan også justere ladetab for at få et mere realistisk resultat.</p>
             </li>
           </ol>
 
-          <h3>Planlæg din opladning på få sekunder</h3>
-          <p>Uanset om du vil planlægge opladningen til et bestemt tidspunkt, finde ud af hvor længe bilen skal lade, eller blot få et hurtigt overblik over opladningstiden derhjemme, giver ladetidsberegneren dig svaret på få sekunder.</p>
+          <h3 class="fade-left">Planlæg din opladning på få sekunder</h3>
+          <p class="fade-left">Uanset om du vil planlægge opladningen til et bestemt tidspunkt, finde ud af hvor længe bilen skal lade, eller blot få et hurtigt overblik over opladningstiden derhjemme, giver ladetidsberegneren dig svaret på få sekunder.</p>
 
-          <p><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
+          <p class="fade-left"><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Vandret reklame efter Features -->
-  <div class="adsense-slot" id="ads-features">
+  <!-- Ad: efter Features -->
+  <div class="adsense-slot fade-section" id="ads-features">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-4322732012925287"
@@ -282,16 +276,17 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- Text-image reverse sektion / FAQ -->
+  <!-- FAQ -->
   <section class="faq-section fade-section">
     <div class="faq-container">
-      <h2>Ofte stillede spørgsmål</h2>
-      <p class="faq-intro">Få hurtige svar på, hvordan du bedst oplader din elbil derhjemme, forlænger batteriets levetid og forstår de vigtigste begreber. </p>
-      <p class="faq-intro">I vores FAQ finder du forklaringer på SoC og batterikapacitet, hvorfor ladetab opstår, effektivitet og gode opladningsvaner.</p>
+      <h2 class="fade-up">Ofte stillede spørgsmål</h2>
+      <p class="faq-intro fade-left">Få hurtige svar på, hvordan du bedst oplader din elbil derhjemme, forlænger batteriets levetid og forstår de vigtigste begreber.</p>
+      <p class="faq-intro fade-left">I vores FAQ finder du forklaringer på SoC og batterikapacitet, hvorfor ladetab opstår, effektivitet og gode opladningsvaner.</p>
 
       <div class="faq">
 
-        <div class="faq-item" id="faq-soc">
+        <!-- SOC -->
+        <div class="faq-item fade-up" id="faq-soc">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Hvad betyder start- og slut-SOC?</h3>
@@ -301,19 +296,21 @@
           </div>
         </div>
 
-        <div class="faq-item" id="faq-batterikapacitet">
+        <!-- Batterikapacitet -->
+        <div class="faq-item fade-up" id="faq-batterikapacitet">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Hvad er batterikapacitet?</h3>
           </button>
           <div class="faq-answer">
-            <p>Batterikapacitet viser, hvor meget energi bilens batteri kan lagre, og måles i kilowatt-timer (kWh). Man skelner mellem brutto- og nettokapacitet: B rutto er den samlede energi i batteriet, mens nettokapacitet er den del, som faktisk kan bruges til kørsel. Hele batteriet kan ikke anvendes, da det beskytter batteriets levetid og sikkerhed.</p>
+            <p>Batterikapacitet viser, hvor meget energi bilens batteri kan lagre, og måles i kilowatt-timer (kWh). Man skelner mellem brutto- og nettokapacitet: Brutto er den samlede energi i batteriet, mens nettokapacitet er den del, som faktisk kan bruges til kørsel. Hele batteriet kan ikke anvendes, da det beskytter batteriets levetid og sikkerhed.</p>
             <p>En større batterikapacitet betyder generelt, at bilen kan køre længere på en opladning. Den praktiske rækkevidde afhænger dog også af bilens effektivitet, altså hvor meget energi bilen bruger pr. kilometer.</p>
             <p>To biler med samme batterikapacitet kan have meget forskellig rækkevidde. Eksempel: En bil, der bruger 15 kWh/100 km, kan køre ca. 400 km på et 60 kWh batteri, mens en bil, der bruger 20 kWh/100 km, kun kan køre ca. 300 km. <a href="#faq-effektivitet">Se også effektivitet</a></p>
           </div>
         </div>
 
-        <div class="faq-item" id="faq-batterikapacitet-brutto-netto">
+        <!-- Brutto vs netto -->
+        <div class="faq-item fade-up" id="faq-batterikapacitet-brutto-netto">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Hvad er forskellen på brutto og netto batterikapacitet?</h3>
@@ -325,7 +322,8 @@
           </div>
         </div>
 
-        <div class="faq-item" id="faq-effektivitet">
+        <!-- Effektivitet -->
+        <div class="faq-item fade-up" id="faq-effektivitet">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Hvad påvirker bilens effektivitet og rækkevidde?</h3>
@@ -336,7 +334,8 @@
           </div>
         </div>
 
-        <div class="faq-item" id="faq-ladetab">
+        <!-- Ladetab -->
+        <div class="faq-item fade-up" id="faq-ladetab">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Hvad er ladetab?</h3>
@@ -344,34 +343,33 @@
           <div class="faq-answer">
             <p>Ladetab er den energi, der går tabt under opladning — typisk omkring 10–15% afhængigt af bil og lader.</p>
             <p>Et vigtigt punkt er, at <strong>det relative ladetab ofte stiger ved lav ladeeffekt</strong>. Forklaringen er, at dele af ladesystemet (bilens styringselektronik, varme- og kølesystemer mv.) bruger en nogenlunde fast mængde energi uafhængigt af, hvor hurtigt du lader. Når du lader langsomt, fordeles dette faste forbrug over færre kWh, og derfor udgør det en større procentdel af den samlede energi — altså højere procentuelt tab.</p>
-            <p>Praktisk konsekvens: Hßvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen er flaskehals, da den bestemmer, hvor hurtigt den kan modtage effekt.</p>
-            <p>Hvis du vil vide mere om ladetab for specifikke modeller, kan du tjekke producentens oplysninger eller tests på relevante sites.</p>
+            <p>Praktisk konsekvens: Hvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen er flaskehals, da den bestemmer, hvor hurtigt den kan modtage effekt.</p>
           </div>
         </div>
 
-        <div class="faq-item" id="faq-80">
+        <!-- 80% eller 100% -->
+        <div class="faq-item fade-up" id="faq-80">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Bør jeg lade min elbil til 80% eller 100%?</h3>
           </button>
           <div class="faq-answer">
             <p>Det afhænger af, hvilken type batteri din elbil bruger. Forskellige batterikemier reagerer forskelligt på høj opladning, og nogle tåler 100% dagligt, mens andre har bedst af at blive ladet til omkring 80% i hverdagen.</p>
-
             <ul class="faq-points">
               <li><strong>Litium-jernfosfat (LFP):</strong> Kan uden problemer lades til 100% dagligt. Nogle producenter anbefaler endda fuld opladning med jævne mellemrum for at holde rækkeviddevisningen præcis.</li>
               <li><strong>Litium-nikkel-mangan-kobolt (NMC):</strong> Har bedst af at blive ladet til 70–80% til dagligt og kun til 100%, når du skal køre langt. Hyppig fuld opladning kan over tid slide på batteriet.</li>
               <li><strong>Litium-nikkel-kobolt-aluminium (NCA):</strong> Minder meget om NMC, men bruges typisk i Tesla og visse premiumbiler. Også her anbefales daglig opladning til omkring 80% for at forlænge levetiden.</li>
               <li><strong>Litium-titanat (LTO):</strong> Meget sjælden type med ekstremt lang levetid og høj ladeeffekt. Kan generelt lades til 100% uden problemer, men findes mest i nichekøretøjer.</li>
             </ul>
-
             <p>Selv for batterityper, der normalt kun lades til 70–80%, anbefales det at lade helt op til 100% cirka én gang om måneden. Det hjælper bilens batteristyring (BMS) med at kalibrere spænding og kapacitet for hver celle, så visningen af rækkevidde og SoC forbliver nøjagtig.</p>
             <p>Ved fuld opladning kan bilen udføre såkaldt <em>cellebalancering</em>, hvor små forskelle mellem battericeller udlignes. Det forbedrer både præcisionen i visningen og batteriets langsigtede sundhed.</p>
             <p>Du kan finde oplysninger om batteritypen i din bils manual eller på <a href="https://www.ev-database.org" target="_blank" rel="noopener">ev-database.org</a>.</p>
-            <p>Som tommelfingerregel: Lad op til 80% SoC til dagligt for de fleste biler, og til 100% cirka én gang om måneden eller inden længere ture. Det forlænger batteriets levetid og holder rækkevidden stabil over tid.</p>
+            <p>Som tommelfingerregel: Lad op til 80% SoC til dagligt for de fleste biler, og til 100% cirka én gang om måneden eller inden længere ture.</p>
           </div>
         </div>
 
-        <div class="faq-item" id="faq-batterikapacitet-evdb">
+        <!-- Hvor finder jeg data -->
+        <div class="faq-item fade-up" id="faq-batterikapacitet-evdb">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
             <h3 class="faq-heading">Hvor kan jeg finde oplysninger om min bil?</h3>
@@ -380,16 +378,40 @@
             <p>Du kan finde din bils batterikapacitet og effektivitet på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>.</p>
           </div>
         </div>
-        
-        <div class="faq-disclaimer">
-           <p><strong>Bemærk:</strong> Der tages forbehold for eventuelle fejl eller urigtige oplysninger i spørgsmål og svar.</p>
+
+        <!-- AC vs DC opladning -->
+        <div class="faq-item fade-up" id="faq-ac-dc">
+          <button class="faq-question">
+            <span class="faq-icon">▶</span>
+            <h3 class="faq-heading">Hvad er forskellen på AC- og DC-opladning?</h3>
+          </button>
+          <div class="faq-answer">
+            <p><strong>AC-opladning</strong> er typisk hjemmeladning med 1–3 faser (f.eks. 3,7–22 kW), hvor bilens indbyggede lader omdanner vekselstrøm til jævnstrøm til batteriet.</p>
+            <p><strong>DC-opladning</strong> (lynladning) sker ved høj effekt på offentlige stationer, hvor omformeren sidder i laderen – ikke i bilen. Det muliggør væsentligt højere effekter end bilens AC-lader kan klare.</p>
+          </div>
+        </div>
+
+        <!-- Delvis opladning -->
+        <div class="faq-item fade-up" id="faq-daglig-opladning">
+          <button class="faq-question">
+            <span class="faq-icon">▶</span>
+            <h3 class="faq-heading">Er det bedst at lade lidt og ofte eller sjældent og meget?</h3>
+          </button>
+          <div class="faq-answer">
+            <p>For de fleste batterityper (NMC/NCA) er det bedst at lade lidt og ofte og typisk holde sig til 70–80% i hverdagen, men køre helt til 100% før længere ture. LFP-batterier kan uden problemer lades til 100% dagligt.</p>
+          </div>
+        </div>
+
+        <div class="faq-disclaimer fade-up">
+          <p><strong>Bemærk:</strong> Der tages forbehold for eventuelle fejl eller urigtige oplysninger i spørgsmål og svar.</p>
         </div>
 
       </div>
     </div>
   </section>
 
-  <div class="adsense-slot" id="ads-faq">
+  <!-- Ad: efter FAQ -->
+  <div class="adsense-slot fade-section" id="ads-faq">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-4322732012925287"
@@ -398,11 +420,11 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!--  Cookie Banner  -->
+  <!-- Cookie banner -->
   <div id="cookie-banner" class="cookie-banner">
     <div class="cookie-text">
-      Vi bruger cookies til at forbedre din oplevelse og analysere trafik. 
-      Du kan læse mere i vores 
+      Vi bruger cookies til at forbedre din oplevelse og analysere trafik.
+      Du kan læse mere i vores
       <a href="#" id="cookie-policy-link" style="text-decoration:underline;">cookiepolitik</a>.
     </div>
     <div class="cookie-buttons">
@@ -411,34 +433,31 @@
     </div>
   </div>
 
-  <!--  Ændr samtykke-knap  -->
-  <button id="change-cookie-consent" class="change-cookie-consent">
-    Ændr cookieindstillinger
-  </button>
+  <!-- Ændr samtykke -->
+  <button id="change-cookie-consent" class="change-cookie-consent">Ændr cookieindstillinger</button>
 
-  <!--  Cookie Politik Popup  -->
-<div id="cookie-policy-popup" class="cookie-policy-popup">
-  <div class="cookie-policy-content">
-    <span id="cookie-policy-close" class="close">&times;</span>
-    <h2>Cookiepolitik</h2>
-    <p>Vi bruger cookies til statistik og annoncering for at forbedre oplevelsen. Du kan til enhver tid ændre dit samtykke her.</p>
-
-    <div class="cookie-buttons" style="margin-top:20px; justify-content:center;">
-      <button id="policy-accept" class="btn-small" style="background:#55ca1c; color:#fff;">Accepter cookies</button>
-      <button id="policy-decline" class="btn-small" style="background:#666; color:#fff;">Afvis cookies</button>
+  <!-- Cookie Politik Popup -->
+  <div id="cookie-policy-popup" class="cookie-policy-popup">
+    <div class="cookie-policy-content">
+      <span id="cookie-policy-close" class="close">&times;</span>
+      <h2>Cookiepolitik</h2>
+      <p>Vi bruger cookies til statistik og annoncering for at forbedre oplevelsen. Du kan til enhver tid ændre dit samtykke her.</p>
+      <div class="cookie-buttons" style="margin-top:20px; justify-content:center;">
+        <button id="policy-accept" class="btn-small" style="background:#55ca1c; color:#fff;">Accepter cookies</button>
+        <button id="policy-decline" class="btn-small" style="background:#666; color:#fff;">Afvis cookies</button>
+      </div>
     </div>
   </div>
-</div>
 
-
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
-      <div class="footer-section">
+      <div class="footer-section fade-left">
         <h3>Beregn din opladningstid</h3>
         <p>Vi hjælper dig med opladning af din elbil på en enkel og overskuelig måde. Med vores værktøj kan du planlægge og optimere din opladning. Ved at kende den præcise opladningstid bliver det lettere at finde de bedste tidspunkter at oplade på og spare penge.</p>
       </div>
 
-      <div class="footer-section">
+      <div class="footer-section fade-left">
         <h4>Vidste du?</h4>
         <ul>
           <li><span class="icon">⚡</span> 80 % af alle opladninger sker hjemme</li>
@@ -447,7 +466,7 @@
         </ul>
       </div>
 
-      <div class="footer-section">
+      <div class="footer-section fade-left">
         <h4>Støt projektet</h4>
         <p>Siden drives på frivillig basis. Alle økonomiske bidrag er velkomne og hjælper os med at holde værktøjet gratis.</p>
         <br />
@@ -473,17 +492,15 @@
     <p>&copy; <span id="current-year">2025</span> Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
   </div>
 
-  <!--  Bookmark-knap -->
+  <!-- Bookmark-knap -->
   <button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">*</button>
 
-
-<script src="accordion.js"></script>
-<script src="script.js"></script>
-<script src="beregner-soc.js"></script>
-<script src="beregner-spor2.js"></script>
-<script src="beregner-spor3.js"></script>
-<script src="cookie.js" defer></script>
-
-
+  <!-- Scripts (samme rækkefølge som du bruger) -->
+  <script src="accordion.js"></script>
+  <script src="script.js" defer></script>
+  <script src="beregner-soc.js"></script>
+  <script src="beregner-spor2.js"></script>
+  <script src="beregner-spor3.js"></script>
+  <script src="cookie.js" defer></script>
 </body>
 </html>
