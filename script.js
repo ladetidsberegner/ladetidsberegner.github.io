@@ -1,80 +1,65 @@
-// script.js – generelle sidefunktioner (uden accordion)
+// Beskyt e-mail mod spambots
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ script.js loaded (clean)");
+  const kontaktEl = document.getElementById("kontakt-mail");
+  if (kontaktEl) {
+    const user = "chargeme";
+    const domain = "outlook.dk";
+    const mail = `${user}@${domain}`;
+    kontaktEl.innerHTML = `<a href="mailto:${mail}">${mail}</a>`;
+  }
+});
 
-  // === Auto-opdater årstal ===
-  const year = document.getElementById("current-year");
-  if (year) year.textContent = new Date().getFullYear();
 
-  // === Scroll-fade animationer (inkl. vandrette/lodrette varianter) ===
-  // === Scroll-fade (Safari-proof) ===
-(function () {
-  const targets = Array.from(
-    document.querySelectorAll(
-      ".fade-section, .fade-in-child, .fade-left, .fade-right, .fade-up"
-    )
-  );
-  if (!targets.length) return;
+// Smooth scroll til #bereger — virker i Safari/Chrome/Firefox + fallback
+document.addEventListener("DOMContentLoaded", () => {
+  const TARGET_ID = "bereger";
 
-  const reveal = (el) => el.classList.add("visible");
-
-  // Immediate pass for elements already on screen (Safari sometimes misses first IO tick)
-  const preReveal = () => {
-    const vh = window.innerHeight || document.documentElement.clientHeight;
-    targets.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < vh * 0.9 && r.bottom > 0) reveal(el);
-    });
-  };
-
-  // IntersectionObserver with generous margins (helps on iOS/Safari)
-  let io;
-  try {
-    io = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            reveal(e.target);
-            obs.unobserve(e.target);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.1,
-        rootMargin: "0px 0px -10% 0px", // reveal a bit earlier
-      }
-    );
-    targets.forEach((el) => io.observe(el));
-  } catch {
-    io = null;
+  function getScrollTop() {
+    return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
   }
 
-  // Fallback: throttle scroll/resize for browsers/environments where IO is flaky
-  let ticking = false;
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      preReveal();
-      ticking = false;
-    });
-  };
+  function animateTo(y, duration = 1400) {//sæt frt her
+    const start = getScrollTop();
+    const dist = y - start;
+    const ease = t => 1 - Math.pow(1 - t, 3); // easeOutCubic
+    let t0 = null;
 
-  // Initial passes (double rAF helps Safari after layout settles)
-  requestAnimationFrame(() => {
-    preReveal();
-    requestAnimationFrame(preReveal);
+    function step(ts) {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / duration, 1);
+      const cur = start + dist * ease(p);
+      window.scrollTo(0, cur);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href="#bereger"]');
+    if (!a) return;
+
+    const el = document.getElementById(TARGET_ID);
+    if (!el) return;
+
+    e.preventDefault();
+
+    // 1) Prøv native scrollIntoView (respekterer CSS: #bereger { scroll-margin-top: 70px; })
+    const before = getScrollTop();
+    try {
+      el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    } catch (_) {
+      // ignorer
+    }
+
+    // 2) Hvis vi ikke flytter os (Safari der “hopper”/ignorerer), kør fallback-animation
+    setTimeout(() => {
+      const after = getScrollTop();
+      if (Math.abs(after - before) < 2) {
+        // Beregn mål uden at stole på smooth behavior
+        const rect = el.getBoundingClientRect();
+        const targetY = rect.top + getScrollTop() - 70; // samme offset som din CSS scroll-margin-top
+        animateTo(targetY, 1400);//sæt fart her
+      }
+    }, 120);
   });
-
-  // Attach fallback listeners (lightweight)
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
-
-  // Also re-check after images/fonts load
-  window.addEventListener("load", () => {
-    preReveal();
-    setTimeout(preReveal, 0);
-  });
-})();
 });
