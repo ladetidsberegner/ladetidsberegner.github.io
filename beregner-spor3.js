@@ -1,13 +1,12 @@
-// beregner-spor3.js — “Beregn SoC-stigning” (varighed eller tidspunkter) — selvstændig version
+// beregner-spor3.js — "Beregn SoC-stigning" (ens formatering + lokal fjernelse af hjælpetekst)
 
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (sel, root = document) => root.querySelector(sel);
-
   const btn = $("#beregn-soc-tid-btn");
   const out = $("#resultat-soc-tid");
   const modelSel = $("#soc-model");
+  const sectionRoot = document.getElementById("calc-spor3"); // kun denne sektion
 
-  /* ======== Hjælpefunktioner ======== */
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
   function parseTimeToMinutes(hhmm) {
@@ -47,96 +46,75 @@ document.addEventListener("DOMContentLoaded", () => {
       "batteri-kapacitet",
       "ladetab",
       "ladevalg"
-    ].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove("input-error");
-    });
+    ].forEach(id => document.getElementById(id)?.classList.remove("input-error"));
     out.textContent = "";
   }
 
   function syncModelUI() {
-    const varDiv = document.querySelector(".soc-varighed");
-    const tidDiv = document.querySelector(".soc-tidspunkter");
+    const varDiv = sectionRoot?.querySelector(".soc-varighed");
+    const tidDiv = sectionRoot?.querySelector(".soc-tidspunkter");
     if (!varDiv || !tidDiv) return;
     varDiv.style.display = "none";
     tidDiv.style.display = "none";
-    if ((modelSel?.value || "varighed") === "varighed") {
-      varDiv.style.display = "flex";
-    } else {
-      tidDiv.style.display = "flex";
-    }
+    ((modelSel?.value || "varighed") === "varighed" ? varDiv : tidDiv).style.display = "flex";
   }
   modelSel?.addEventListener("change", syncModelUI);
   syncModelUI();
 
-  /* ======== Beregning ======== */
   btn?.addEventListener("click", () => {
     clearErrors();
 
     const startSoC = parseFloat($("#spor3-soc-start")?.value);
     const model = modelSel?.value || "varighed";
-    const { kap, tab, eff, kapInputId } = getAdv();
+    const { kap, tab, eff } = getAdv();
+
+    // Fjern kun hjælpetekst i denne sektion
+    const localHelp = sectionRoot?.querySelector(".calc-help.top");
+    if (localHelp) localHelp.style.display = "none";
 
     try {
-      if (isNaN(startSoC) || startSoC < 0 || startSoC > 100) {
-        $("#spor3-soc-start")?.classList.add("input-error");
+      if (isNaN(startSoC) || startSoC < 0 || startSoC > 100)
         throw new Error("Start SoC skal være mellem 0 og 100 %.");
-      }
-      if (isNaN(kap) || kap <= 0) {
-        $(`#${kapInputId}`)?.classList.add("input-error");
+      if (isNaN(kap) || kap <= 0)
         throw new Error("Ugyldig batterikapacitet (kWh).");
-      }
-      if (isNaN(tab) || tab < 0) {
-        $("#ladetab")?.classList.add("input-error");
+      if (isNaN(tab) || tab < 0)
         throw new Error("Ladetab skal være ≥ 0 %.");
-      }
-      if (isNaN(eff) || eff <= 0) {
-        $("#ladevalg")?.classList.add("input-error");
+      if (isNaN(eff) || eff <= 0)
         throw new Error("Vælg en gyldig ladeeffekt.");
-      }
 
       let durMinutes = 0;
+      let showDurationTxt = "";
 
       if (model === "varighed") {
         const t = parseInt($("#varighed-timer")?.value || "0", 10) || 0;
         const m = parseInt($("#varighed-minutter")?.value || "0", 10) || 0;
-        if (t < 0 || m < 0 || m > 59) {
-          if (t < 0) $("#varighed-timer")?.classList.add("input-error");
-          if (m < 0 || m > 59) $("#varighed-minutter")?.classList.add("input-error");
+        if (t < 0 || m < 0 || m > 59)
           throw new Error("Ugyldig varighed (timer/minutter).");
-        }
         durMinutes = t * 60 + m;
       } else {
-        const s = $("#soc-starttid")?.value || "";
-        const e = $("#soc-sluttid")?.value || "";
-        const sMin = parseTimeToMinutes(s);
-        const eMin = parseTimeToMinutes(e);
-        if (!s || isNaN(sMin)) {
-          $("#soc-starttid")?.classList.add("input-error");
-          throw new Error("Ugyldigt starttidspunkt.");
-        }
-        if (!e || isNaN(eMin)) {
-          $("#soc-sluttid")?.classList.add("input-error");
-          throw new Error("Ugyldigt sluttidspunkt.");
-        }
+        const sMin = parseTimeToMinutes($("#soc-starttid")?.value || "");
+        const eMin = parseTimeToMinutes($("#soc-sluttid")?.value || "");
+        if (isNaN(sMin) || isNaN(eMin))
+          throw new Error("Ugyldigt start- eller sluttidspunkt.");
         durMinutes = eMin - sMin;
         if (durMinutes < 0) durMinutes += 24 * 60;
+        showDurationTxt = `<p>Ladetid: <strong>${formatHoursMinutes(durMinutes / 60)}</strong></p>`;
       }
 
-      if (durMinutes <= 0 || durMinutes > 24 * 60) {
+      if (durMinutes <= 0 || durMinutes > 24 * 60)
         throw new Error("Tidsrummet skal være mellem 1 minut og 24 timer.");
-      }
 
       const hours = durMinutes / 60;
-      const bruttoDelivered = eff * hours;             // kWh
+      const bruttoDelivered = eff * hours;
       const netToBattery = bruttoDelivered * (1 - tab / 100);
       const socIncrease = (netToBattery / kap) * 100;
+      const socPerHour = socIncrease / hours;
       const projectedSoC = clamp(startSoC + socIncrease, 0, 150);
       const varighedTxt = formatHoursMinutes(hours);
 
-      // Output afhængigt af slut-SoC
+      let html = "";
+
       if (projectedSoC >= 100) {
-        // beregn tider til 80 % og 100 %
         const netNeeded80 = ((80 - startSoC) / 100) * kap;
         const brutto80 = netNeeded80 / (1 - tab / 100);
         const tid80h = brutto80 / eff;
@@ -144,29 +122,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const brutto100 = netNeeded100 / (1 - tab / 100);
         const tid100h = brutto100 / eff;
 
-        out.innerHTML = `
-          <p>Med den valgte periode (${varighedTxt}) ender du over 100 % SoC.</p>
-          <p>Du kan nøjes med at lade i <strong>${formatHoursMinutes(tid80h)}</strong> for at nå 80 %.</p>
-          <p>Du kan nøjes med at lade i <strong>${formatHoursMinutes(tid100h)}</strong> for at nå 100 %.</p>
-          <p><strong>Energi for at nå 80 % (brutto):</strong> ${brutto80.toFixed(2)} kWh</p>
-          <p><strong>Energi for at nå 100 % (brutto):</strong> ${brutto100.toFixed(2)} kWh</p>
+        html = `
+          <p>Med den valgte periode (${varighedTxt}) ender du over <strong>100 %</strong> SoC.</p>
+          <p>Gennemsnitlig opladning pr. time: <strong>${socPerHour.toFixed(1)} %</strong></p>
+          ${showDurationTxt}
+          <p>Du kan nøjes med at lade i <strong>${formatHoursMinutes(tid80h)}</strong> for at nå <strong>80 %</strong>.</p>
+          <p>Du kan nøjes med at lade i <strong>${formatHoursMinutes(tid100h)}</strong> for at nå <strong>100 %</strong>.</p>
+          <p>Energi for at nå 80 % (brutto): <strong>${brutto80.toFixed(2)} kWh</strong></p>
+          <p>Energi for at nå 100 % (brutto): <strong>${brutto100.toFixed(2)} kWh</strong></p>
         `;
       } else if (projectedSoC > 80 && projectedSoC < 100) {
         const netNeeded80 = ((80 - startSoC) / 100) * kap;
         const brutto80 = netNeeded80 / (1 - tab / 100);
         const tid80h = brutto80 / eff;
 
-        out.innerHTML = `
+        html = `
           <p>Efter den valgte periode (${varighedTxt}) ender du på ca. <strong>${projectedSoC.toFixed(1)} %</strong>.</p>
-          <p>Du kan nøjes med at lade i <strong>${formatHoursMinutes(tid80h)}</strong> for at nå 80 %.</p>
-          <p><strong>Energi leveret (brutto):</strong> ${bruttoDelivered.toFixed(2)} kWh</p>
+          <p>Gennemsnitlig opladning pr. time: <strong>${socPerHour.toFixed(1)} %</strong></p>
+          ${showDurationTxt}
+          <p>Du kan nøjes med at lade i <strong>${formatHoursMinutes(tid80h)}</strong> for at nå <strong>80 %</strong>.</p>
+          <p>Energi leveret (brutto): <strong>${bruttoDelivered.toFixed(2)} kWh</strong></p>
         `;
       } else {
-        out.innerHTML = `
+        html = `
           <p>Forventet stigning i SoC: <strong>${socIncrease.toFixed(1)} %</strong> (til ca. <strong>${projectedSoC.toFixed(1)} %</strong>).</p>
-          <p><strong>Energi leveret (brutto):</strong> ${bruttoDelivered.toFixed(2)} kWh</p>
+          <p>Gennemsnitlig opladning pr. time: <strong>${socPerHour.toFixed(1)} %</strong></p>
+          ${showDurationTxt}
+          <p>Energi leveret (brutto): <strong>${bruttoDelivered.toFixed(2)} kWh</strong></p>
         `;
       }
+
+      out.innerHTML = html;
     } catch (e) {
       out.textContent = `Fejl: ${e.message || e}`;
     }

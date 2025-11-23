@@ -1,0 +1,40 @@
+{
+  "version": "1",
+  "locale": "da",
+  "name": "Beregner – Klik og engagement",
+  "description": "Viser klik på beregnerknapper (klik_beregn_knap) fordelt på enhed og land, inkl. engagementstid.",
+  "technique": "FREE_FORM",
+  "data": {
+    "dimensions": [
+      { "name": "eventName", "displayName": "Event name" },
+      { "name": "deviceCategory", "displayName": "Device category" },
+      { "name": "country", "displayName": "Country" }
+    ],
+    "metrics": [
+      { "name": "eventCount", "displayName": "Event count" },
+      { "name": "totalUsers", "displayName": "Users" },
+      { "name": "averageEngagementTime", "displayName": "Average engagement time" }
+    ],
+    "filters": [
+      {
+        "type": "INCLUDE",
+        "fieldName": "eventName",
+        "matchType": "PARTIAL",
+        "expression": "klik_beregn_knap"
+      }
+    ],
+    "visualizations": [
+      {
+        "type": "TABLE",
+        "rows": ["eventName", "deviceCategory", "country"],
+        "columns": [],
+        "values": ["eventCount", "totalUsers", "averageEngagementTime"]
+      },
+      {
+        "type": "BAR",
+        "rows": ["deviceCategory"],
+        "values": ["eventCount"]
+      }
+    ]
+  }
+}
