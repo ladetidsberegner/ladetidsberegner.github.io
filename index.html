@@ -14,6 +14,14 @@
 
   <!-- Samlet stil -->
   <link rel="stylesheet" href="style.css">
+ <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  integrity="sha512-..."
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -73,7 +81,7 @@
     <div class="hero-text">
       <h1 class="fade-up">Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
       <p class="fade-up">Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
-      <nav class="fade-up"><a href="#beregner" class="btn">Beregn ladetid nu</a></nav>
+      <nav class="fade-up"><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
     </div>
   </section>
 
@@ -84,7 +92,7 @@
         <h2 class="fade-left">Hvor lang tid tager det at lade en elbil hjemme?</h2>
         <p class="fade-left">Det kan være kompliceret og tidskrævende at finde ud af, hvor lang tid det tager at lade en elbil hjemme. Opladningstiden afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores gratis ladetidsberegner får du hurtigt et klart overblik over opladningstid og energiforbrug, så du nemt kan planlægge hjemmeladningen og optimere din opladning.</p>
         <p class="fade-left">Få et hurtigt overblik og planlæg opladningstiden optimalt, så du kan vælge det bedste tidspunkt for hjemmeladning og lade mest økonomisk.</p>
-        <p class="fade-left"><a href="#beregner" class="btn">Beregn ladetid på din elbil</a></p>
+        <p class="fade-left"><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
       </div>
       <div class="about-image">
         <img class="fade-right" src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader">
@@ -103,14 +111,15 @@
   </div>
 
   <!-- Beregner start-->
-<div class="beregner-outer" id="beregner">
+<div class="beregner-outer " id="bereger">
   <div class="beregner-container container">
 
     <h2 class="beregner-overskrift">Beregn opladningstiden på din elbil hjemme</h2>
     <p class="beregner-intro">Vælg den beregning, du har brug for. Alle tal og tider tager højde for din ladeeffekt og det valgte ladetab.</p>
 
     <!-- Sektion 1: Beregn ladetid -->
-    <div class="calc-section open" id="calc-spor1">
+    <div id="calc-spor1" class="calc-section spor-1 open">
+
       <button class="calc-question" aria-expanded="true">
         <span class="calc-icon">▶</span>
         <h3 class="calc-heading">Beregn ladetid</h3>
@@ -208,7 +217,7 @@
       <div id="resultat-tid" class="resultat-tekst" aria-live="polite"></div>
 
       <div class="calc-help bottom">
-        <p class="help-text">Tip: Brug denne funktion, når du planlægger natlig opladning, så er bilen klar til når du skal ud af døren om.</p>
+        <p class="help-text">Tip: Brug denne funktion, når du planlægger natlig opladning, så er bilen klar til når du skal ud af døren om mognen.</p>
       </div>
 
     </form>
@@ -398,7 +407,7 @@
           <h3 class="fade-left">Planlæg din opladning på få sekunder</h3>
           <p class="fade-left">Uanset om du vil planlægge opladningen til et bestemt tidspunkt, finde ud af hvor længe bilen skal lade, eller blot få et hurtigt overblik over opladningstiden derhjemme, giver ladetidsberegneren dig svaret på få sekunder.</p>
 
-          <p class="fade-left"><a href="#beregner" class="btn">Beregn ladetid på din elbil</a></p>
+          <p class="fade-left"><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
         </div>
       </div>
     </div>
@@ -672,14 +681,18 @@
   </div>
 
   <!-- Bookmark-knap -->
-  <button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">*</button>
+<button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">
+  <i class="fas fa-thumbtack"></i>
+</button>
+
+
 
 <script src="master.js"></script>
 <script src="accordion.js"></script>
 <script src="scroll.js"></script>
 
 <script src="beregner-soc.js" defer></script>
-<script src="beregner-spor2.js" defer></script>
+<!--<script src="beregner-spor2.js" defer></script>-->
 <script src="beregner-spor3.js" defer></script>
 <script src="cookie.js" defer></script>
 

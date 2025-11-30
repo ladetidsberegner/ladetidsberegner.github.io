@@ -45,7 +45,6 @@ a:hover { text-decoration:underline; }
 }
 
 
-
 /* === ABOUT === */
 .about-outer { width:100vw; background:#fff; color:#000; padding:40px 0; border-block:1px solid var(--brand-green); }
 .about { max-width:900px; margin:0 auto; display:flex; gap:40px; align-items:center; justify-content:center; padding:0 20px; }
@@ -152,11 +151,11 @@ label { font-weight:600; margin:0 0 6px; color:#fff; }
 
 /* === Fix Safari ghost text for slut-SOC input === */
 #soc-slut-2 {
-  -webkit-appearance: textfield; /* tvungen textfield appearance */
+  -webkit-appearance: textfield; 
   appearance: textfield;
-  line-height: normal;            /* undgå rendering glitches */
-  overflow: hidden;               /* skjuler artefakter */
-  text-align: right;              /* værdien står til højre */
+  line-height: normal;            
+  overflow: hidden;               
+  text-align: left;              
 }
 
 /* Fjern spin-knapper for renere UI */
@@ -241,18 +240,6 @@ label { font-weight:600; margin:0 0 6px; color:#fff; }
   font-size:15px; box-sizing:border-box;
 }
 
-/* Fjern ghost-text uden at blokere input i Safari */
-#soc-slut-2::-webkit-inner-spin-button,
-#soc-slut-2::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Sørg for tal står venstrejusteret */
-#soc-slut-2 {
-    text-align: left;
-}
-
 
 .beregner-outer a { text-decoration:underline; }
 .beregner-outer a:hover { text-decoration:none; }
@@ -326,46 +313,6 @@ iframe[src*="fundingchoicesmessages.google.com"],iframe[src*="consent.google.com
 .fade-up.visible { opacity:1; transform:translateY(0); }
 
 
-/* === BOOKMARK BTN === */
-.bookmark-btn { position:fixed; bottom:70px; right:50px; width:56px; height:56px; border-radius:50%; border:none; background:var(--brand-green); color:#fff; font-size:60px; padding-top:23px; padding-left:9px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); display:flex; opacity:1;align-items:center; justify-content:center; z-index:9999; transition:opacity .5s ease-out, transform .5s ease-out; }
-.bookmark-btn.show { display:flex; opacity:1; transform:translateY(0); visibility:visible; pointer-events:auto; }
-.bookmark-btn:hover { background:var(--brand-green-dark); }
-/* === BOOKMARK POPUP === */
-
-/* === BOOKMARK BTN === */
-.bookmark-btn {
-  position: fixed;
-  bottom: 70px;
-  right: 50px;
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-base);
-  border: none;
-  background: var(--brand-green);
-  color: #fff;
-  font-size: 30px; /* lidt mindre end 60 for balance */
-  cursor: pointer;
-  box-shadow: var(--surface-shadow-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: transform .12s ease, filter .12s ease, background-color .18s ease;
-}
-
-.bookmark-btn.show {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.bookmark-btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(.95);
-  background: var(--brand-green-dark);
-}
-
 /* === BOOKMARK POPUP === */
 .bookmark-popup {
   position: fixed;
@@ -402,22 +349,39 @@ iframe[src*="fundingchoicesmessages.google.com"],iframe[src*="consent.google.com
   height: 56px;
   border-radius: 50%;
   border: none;
-  background: var(--brand-green);
-  color: #fff;
-  font-size: 60px;
-  line-height: 0.9;       /* mindre end 1 for at flytte symbolet op */
+  background: var(--brand-green-600);
+  color: #fff;         /* ikonet bliver hvidt */
+  font-size: 28px;     /* juster størrelse */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--surface-shadow-sm);
+  box-shadow: 0 4px 10px rgba(0,0,0,.25);
   z-index: 9999;
   transition: transform .12s ease, filter .12s ease, background-color .18s ease;
 }
 
+.bookmark-btn i {
+  font-size: 22px;           
+  transform: rotate(45deg);  
+  transition: transform 0.2s ease;
+}
+
+.bookmark-btn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 .bookmark-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(.95);
   background: var(--brand-green-dark);
-  transform: translateY(-2px); /* samme hover-effekt som cookie-knap */
+}
+
+.bookmark-btn:hover i {
+  transform: rotate(0deg);
 }
 
 
@@ -457,5 +421,132 @@ ins.adsbygoogle { display:block !important; min-height:120px; }
   transform: translate(0, 0);
   transition: opacity .8s ease, transform .8s ease;
 }
+
+/* === Resultat over knap (uden at flytte layout) === */
+.line-sentence {
+  position: relative;
+  min-height: 60px; /* sikrer, at boksen er høj nok til resultatet */
+}
+
+.line-sentence .inline-result {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  transform: translateY(-6px);
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  text-align: right;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.line-sentence.show-result .inline-result {
+  opacity: 1;
+}
+
+.line-sentence .beregn-knap.small {
+  height: 44px !important;
+  padding: 0 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 15px !important;
+  box-sizing: border-box !important;
+}
+/* === SPOR 1 – container minimum højde === */
+.calc-section.spor-1 {
+  min-height: 0;
+  transition: min-height 0.3s ease;
+  overflow: hidden;
+}
+/* Force correct background when a section is expanded */
+.calc-section.open {
+  background-color: #55ca1c !important; /* din grønne farve */
+}
+
+/* Ensure full height when section is opened */
+.calc-section.open .calc-answer {
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: 20px;   /* valgfrit, men giver luft */
+}
+/* Full calculator background — override transparency */
+.beregner-outer {
+    background: #55ca1c !important;
+}
+
+
+/*små skræme start*/
+@media (max-width: 480px) {
+
+  /*hero*/
+  /* -------- HERO OVERLAY PÅ SMÅ SKÆRME -------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(85, 202, 28, 0.25); /* grøn overlay med 70% opacitet */
+  z-index: 1;
+}
+
+/* Tekst skal ligge ovenpå overlay */
+.hero-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mindre og mere mobilvenligt h1 */
+.hero-text h1 {
+  font-size: 26px !important;
+  line-height: 1.2 !important;
+  font-weight: 600;
+}
+
+  /*input i indstillinger*/
+  /* Container skal ikke strække felterne */
+  .advanced-section .form-row.triple-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+  }
+
+  /* Form-grupperne */
+  .advanced-section .form-row.triple-fields .form-group {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      height: auto;
+      flex: 0 0 auto;
+  }
+
+  /* Labels og inputs */
+  .advanced-section .form-row.triple-fields .form-group .input-label,
+  .advanced-section .form-row.triple-fields .form-group input,
+  .advanced-section .form-row.triple-fields .form-group select {
+      margin: 0;
+      padding: 4px 0;
+      line-height: 1.2;
+  }
+
+  /* Tekst under felter */
+  .advanced-section .form-row.triple-fields .form-group .help-text,
+  .advanced-section .form-row.triple-fields .form-group small {
+      margin: 0;
+      padding: 0;
+      line-height: 1.2;
+      font-size: 12px;
+  }
+}
+
+
 
 /* === SLUT samlet style.css === */

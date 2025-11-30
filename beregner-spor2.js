@@ -1,89 +1,62 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const socStartInput = document.getElementById("soc-start-2");
-  const socSlutInput = document.getElementById("soc-slut-2");
-  const tidValg = document.getElementById("beregn-tid-valg");
-  const tidInput = document.getElementById("tidpunkt-input");
-  const beregnBtn = document.getElementById("beregn-tid-btn");
-  const resultatDiv = document.getElementById("resultat-tid");
+(function() {
+  function readNum(id) {
+    const el = document.getElementById(id);
+    if (!el) return NaN;
+    return parseNum(el.value);
+  }
 
-  beregnBtn.addEventListener("click", function () {
-    resultatDiv.innerHTML = "";
+  function calcEnergiOgTid(start, slut, kap, tab, amp, faser) {
+    const ladeeffektKw = (amp * faser * 230) / 1000;
+    const netto = beregnNettoKwh(kap, start, slut);
+    const brutto = beregnBruttoKwh(netto, tab);
+    const tidTimer = beregnLadetidTimer(brutto, ladeeffektKw);
+    return { brutto, tidTimer };
+  }
 
-    const socStart = parseFloat(socStartInput.value);
-    const socSlut = parseFloat(socSlutInput.value);
-    const valg = tidValg.value;
-    const tidStr = tidInput.value;
+  function addHoursToClock(clockStr, hours) {
+    if (!clockStr || !clockStr.includes(":")) return null;
+    const [h, m] = clockStr.split(":").map(Number);
+    if (isNaN(h) || isNaN(m)) return null;
 
-    if (!tidStr) {
-      resultatDiv.textContent = "Indtast et klokkeslæt.";
-      return;
-    }
+    const totalMin = h * 60 + m + Math.round(hours * 60);
+    const final = ((totalMin % 1440) + 1440) % 1440;
 
-    if (
-      isNaN(socStart) || isNaN(socSlut) ||
-      socStart < 0 || socSlut > 100 || socStart >= socSlut
-    ) {
-      resultatDiv.textContent = "Indtast gyldige værdier for start og slut SoC (0–100, start < slut).";
-      return;
-    }
+    const hh = String(Math.floor(final / 60)).padStart(2, "0");
+    const mm = String(final % 60).padStart(2, "0");
+    return `${hh}:${mm}`;
+  }
 
-    // ——— BEREGNINGER ———
-    const socDiff = socSlut - socStart;
+  document.getElementById("beregn-tid-btn")?.addEventListener("click", () => {
+    const out = document.getElementById("resultat-tid");
+    out.innerHTML = "";
 
-    // Her kan du senere indsætte batterikapacitet & ladeeffekt fra brugerens felter
-    const batteriKwh = 50;
-    const ladeEffektKw = 11;
-    const ladeTab = 0.05;
+    const start = readNum("soc-start-2");
+    const slut = readNum("soc-slut-2");
+    const mode = document.getElementById("beregn-tid-valg")?.value;
+    const klok = document.getElementById("tidpunkt-input")?.value;
 
-    const netto = (batteriKwh * socDiff) / 100;
-    const brutto = netto * (1 + ladeTab);
+    const kap = readNum("kapacitet");
+    const ladetab = readNum("ladetab");
+    const amp = readNum("ampere");
+    const faser = readNum("faser");
 
-    const tidTimerDecimal = brutto / ladeEffektKw;
-    const tidTimer = Math.floor(tidTimerDecimal);
-    const tidMinutter = Math.round((tidTimerDecimal - tidTimer) * 60);
+    // Validering
+    if (!klok) { out.textContent = "Indtast et tidspunkt."; return; }
+    if (isNaN(start) || isNaN(slut) || start >= slut) { out.textContent = "Indtast gyldige start- og slut-SOC."; return; }
+    if (isNaN(kap) || kap <= 0) { out.textContent = "Indtast en gyldig batterikapacitet."; return; }
+    if (isNaN(ladetab) || ladetab < 0) { out.textContent = "Indtast et gyldigt ladetab."; return; }
+    if (isNaN(amp) || amp <= 0) { out.textContent = "Indtast en gyldig strømstyrke (A)."; return; }
+    if (isNaN(faser) || faser <= 0) { out.textContent = "Indtast et gyldigt antal faser."; return; }
 
-    // Parse tid
-    let [hour, minute] = tidStr.split(":").map(Number);
+    const { tidTimer } = calcEnergiOgTid(start, slut, kap, ladetab, amp, faser);
 
-    const totalLadeMin = tidTimer * 60 + tidMinutter;
-
-    let startH, startM, slutH, slutM;
-
-    if (valg === "starter") {
-      // Du har angivet START → vi beregner SLUT
-      let totalMin = hour * 60 + minute + totalLadeMin;
-      totalMin %= 1440;
-      slutH = Math.floor(totalMin / 60);
-      slutM = totalMin % 60;
+    let resultTid;
+    if (mode === "skal-vaere-faerdig") {
+      resultTid = addHoursToClock(klok, -tidTimer);
+      out.innerHTML = `<p><strong>Start:</strong> ${resultTid}</p>`;
     } else {
-      // Du har angivet SLUT → vi beregner START
-      let totalMin = hour * 60 + minute - totalLadeMin;
-      if (totalMin < 0) totalMin += 1440;
-      startH = Math.floor(totalMin / 60);
-      startM = totalMin % 60;
+      resultTid = addHoursToClock(klok, tidTimer);
+      out.innerHTML = `<p><strong>Slut:</strong> ${resultTid}</p>`;
     }
-
-    const fmt = (v) => v.toString().padStart(2, "0");
-
-// ——— OUTPUT ———
-let html = "";
-
-// Først: Starttid eller Sluttid
-if (valg === "starter") {
-  // bruger har tastet start → kun vis sluttid
-  html += `<strong>Sluttid:</strong> ${fmt(slutH)}:${fmt(slutM)}<br>`;
-} else {
-  // bruger har tastet sluttid → kun vis starttid
-  html += `<strong>Starttid:</strong> ${fmt(startH)}:${fmt(startM)}<br>`;
-}
-
-// Derefter: Ladetid
-html += `<strong>Ladetid:</strong> ${tidTimer} timer ${tidMinutter} min<br>`;
-
-// Til sidst: Bruttoforbrug
-html += `<strong>Bruttoforbrug:</strong> ${brutto.toFixed(1)} kWh (inkl. tab)`;
-
-resultatDiv.innerHTML = html;
-
   });
-});
+})();

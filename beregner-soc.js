@@ -1,88 +1,158 @@
-// beregner-soc.js — KUN beregning (ingen accordion/toggle her)
-(function () {
-  const $ = (s, r = document) => r.querySelector(s);
-  const ce = (t) => document.createElement(t);
+//
+// FÆLLES FUNKTIONER
+//
 
-  function readNumById(id) {
-    const el = document.getElementById(id);
-    if (!el) return NaN;
-    if ("valueAsNumber" in el) {
-      const n = el.valueAsNumber;
-      if (Number.isFinite(n)) return n;
-    }
-    let v = (el.value ?? "").toString().trim().replace(/\s+/g, "").replace(",", ".");
-    if (v === "") return NaN;
-    const n = parseFloat(v);
-    return Number.isFinite(n) ? n : NaN;
+// Netto kWh
+function calcNetto(kap, start, slut) {
+  return kap * ((slut - start) / 100);
+}
+
+// Brutto kWh
+function calcBrutto(netto, tab) {
+  return netto / (1 - tab / 100);
+}
+
+// Timer -> t + min
+function decToHM(t) {
+  const h = Math.floor(t);
+  const m = Math.round((t - h) * 60);
+  return { h, m };
+}
+
+// Hent ladeeffekt fra dropdown "ladevalg"
+function hentLadeeffekt() {
+  const v = document.getElementById("ladevalg").value;  // fx "11-3"
+  if (!v || !v.includes("-")) return { kw: NaN, faser: NaN };
+
+  const [kwStr, faseStr] = v.split("-");
+  return {
+    kw: Number(kwStr.replace(",", ".")),
+    faser: Number(faseStr)
+  };
+}
+
+//
+// SPOR 1 – Beregn kWh & ladetid
+//
+
+document.getElementById("beregn-soc-btn").addEventListener("click", function () {
+  
+  const kap = Number(document.getElementById("kapacitet").value.replace(",", "."));
+  const start = Number(document.getElementById("soc-start").value);
+  const slut  = Number(document.getElementById("soc-slut").value);
+  const tab   = Number(document.getElementById("ladetab").value.replace(",", "."));
+  const res   = document.getElementById("resultat-soc");
+
+  const { kw } = hentLadeeffekt();       // ← korrekt ladeeffekt
+  const effekt = kw;
+
+  res.innerHTML = "";
+
+  if (!kap || kap <= 0) {
+    res.textContent = "Indtast en gyldig batterikapacitet.";
+    return;
   }
-  function toNumber(v) {
-    if (v === null || v === undefined || v === "") return NaN;
-    const n = typeof v === "number" ? v : parseFloat(String(v).replace(",", "."));
-    return Number.isFinite(n) ? n : NaN;
+  if (isNaN(effekt) || effekt <= 0) {
+    res.textContent = "Vælg en gyldig ladeeffekt.";
+    return;
   }
-  function formatHoursMinutes(h) {
-    const m = Math.round(h * 60), H = Math.floor(m / 60), M = m % 60;
-    return `${H} t ${String(M).padStart(2, "0")} min`;
-  }
-  function validateInputs(start, slut, kap, tab, eff) {
-    if (isNaN(start) || start < 0 || start > 100) throw new Error("Start SoC skal være mellem 0 og 100 %.");
-    if (isNaN(slut) || slut < 0 || slut > 100) throw new Error("Slut SoC skal være mellem 0 og 100 %.");
-    if (slut < start) throw new Error("Slut SoC skal være større end eller lig Start SoC.");
-    if (isNaN(kap) || kap <= 0) throw new Error("Ugyldig batterikapacitet (kWh).");
-    if (isNaN(tab) || tab < 0) throw new Error("Ladetab skal være ≥ 0 %.");
-    if (isNaN(eff) || eff <= 0) throw new Error("Vælg en gyldig ladeeffekt.");
-  }
-  function calcEnergiOgTid(start, slut, kap, tab, eff) {
-    const socDiff = slut - start;
-    const net = (kap * socDiff) / 100;
-    const loss = 1 - tab / 100;
-    const brutto = loss > 0 ? net / loss : net;
-    const tidTimer = brutto / eff;
-    return { bruttoEnergi: brutto, tidTimer };
-  }
-  function ensureOut(id, afterEl) {
-    let out = document.getElementById(id);
-    if (!out) {
-      out = ce("div");
-      out.id = id;
-      out.className = "resultat-output";
-      afterEl?.insertAdjacentElement("afterend", out);
-    }
-    return out;
-  }
-  function clearErrors(ids) {
-    ids.forEach((id) => document.getElementById(id)?.classList.remove("input-error"));
+  if (start >= slut) {
+    res.textContent = "Slut-SOC skal være højere end start-SOC.";
+    return;
   }
 
-  document.addEventListener("click", (e) => {
-    const t = e.target;
-    if (!(t instanceof HTMLElement) || t.id !== "beregn-soc-btn") return;
+  const netto = calcNetto(kap, start, slut);
+  const brutto = calcBrutto(netto, tab);
+  const tid = brutto / effekt;
+  const { h, m } = decToHM(tid);
 
-    const out = ensureOut("resultat-soc", t);
-    clearErrors(["soc-start", "soc-slut", "kapacitet", "ladetab", "ladevalg"]);
-    out.textContent = "";
+  res.innerHTML = `
+    <p><strong>Energiforbrug:</strong> ${brutto.toFixed(2)} kWh</p>
+    <p><strong>Ladetid:</strong> ${h}t ${m}m</p>
+  `;
+});
 
-    const start = readNumById("soc-start");
-    const slut  = readNumById("soc-slut");
-    const kap   = readNumById("kapacitet");
-    const tab   = readNumById("ladetab");
-    const effVal = $("#ladevalg")?.value || "";
-    const eff   = effVal ? toNumber(effVal.split("-")[0]) : NaN;
 
-    try {
-      validateInputs(start, slut, kap, tab, eff);
-      const { bruttoEnergi, tidTimer } = calcEnergiOgTid(start, slut, kap, tab, eff);
-      out.innerHTML = `
-        <p><strong>Varighed (brutto):</strong> ${formatHoursMinutes(tidTimer)}</p>
-        <p><strong>Energi leveret (brutto):</strong> ${bruttoEnergi.toFixed(2)} kWh</p>
-      `;
-    } catch (err) {
-      out.textContent = `Fejl: ${err.message || err}`;
-      if (isNaN(start) || start < 0 || start > 100) $("#soc-start")?.classList.add("input-error");
-      if (isNaN(slut)  || slut  < 0 || slut  > 100 || (!isNaN(start) && slut < start)) $("#soc-slut")?.classList.add("input-error");
-      if (isNaN(kap)   || kap   <= 0) $("#kapacitet")?.classList.add("input-error");
-      if (isNaN(tab)   || tab   <  0) $("#ladetab")?.classList.add("input-error");
-      if (isNaN(eff)   || eff   <= 0) $("#ladevalg")?.classList.add("input-error");
-    }
-  });
-})();
+//
+// SPOR 2 – Beregn start/sluttidspunkt
+//
+//
+// SPOR 2 – Beregn start/sluttidspunkt + ladetid + brutto kWh
+//
+
+document.getElementById("beregn-tid-btn").addEventListener("click", function () {
+
+  const start = Number(document.getElementById("soc-start-2").value);
+  const slut  = Number(document.getElementById("soc-slut-2").value);
+  const kap   = Number(document.getElementById("kapacitet").value.replace(",", "."));
+  const tab   = Number(document.getElementById("ladetab").value.replace(",", "."));
+  const mode  = document.getElementById("beregn-tid-valg").value;
+  const klok  = document.getElementById("tidpunkt-input").value;
+  const out   = document.getElementById("resultat-tid");
+
+  const { kw } = hentLadeeffekt();
+  const effekt = kw;
+
+  out.innerHTML = "";
+
+  // Validering
+  if (!klok) {
+    out.textContent = "Indtast et tidspunkt.";
+    return;
+  }
+  if (!kap || kap <= 0) {
+    out.textContent = "Indtast en gyldig batterikapacitet.";
+    return;
+  }
+  if (isNaN(effekt) || effekt <= 0) {
+    out.textContent = "Vælg en gyldig ladeeffekt.";
+    return;
+  }
+  if (start >= slut) {
+    out.textContent = "Slut-SOC skal være højere end start-SOC.";
+    return;
+  }
+
+  // Beregninger (samme som spor 1)
+  const netto = calcNetto(kap, start, slut);
+  const brutto = calcBrutto(netto, tab);
+  const tidTimer = brutto / effekt;
+  const { h, m } = decToHM(tidTimer);
+
+  // Konverter ladetid til minutter
+  const ladeMin = Math.round(tidTimer * 60);
+
+  // Læs tidspunkt
+  const [hh, mm] = klok.split(":").map(Number);
+  let total = hh * 60 + mm;
+
+  // Beregning:
+  if (mode === "skal-vaere-faerdig") {
+    total -= ladeMin;
+  } else {
+    total += ladeMin;
+  }
+
+  // Wrap rundt om midnat
+  total = ((total % 1440) + 1440) % 1440;
+
+  const H = String(Math.floor(total / 60)).padStart(2, "0");
+  const M = String(total % 60).padStart(2, "0");
+
+  //
+  // ✔ Udskriv resultat + ladetid + brutto kWh
+  //
+  if (mode === "skal-vaere-faerdig") {
+    out.innerHTML = `
+      <p><strong>Start:</strong> ${H}:${M}</p>
+      <p><strong>Ladetid:</strong> ${h}t ${m}m</p>
+      <p><strong>Brutto energiforbrug:</strong> ${brutto.toFixed(2)} kWh</p>
+    `;
+  } else {
+    out.innerHTML = `
+      <p><strong>Slut:</strong> ${H}:${M}</p>
+      <p><strong>Ladetid:</strong> ${h}t ${m}m</p>
+      <p><strong>Brutto energiforbrug:</strong> ${brutto.toFixed(2)} kWh</p>
+    `;
+  }
+});
