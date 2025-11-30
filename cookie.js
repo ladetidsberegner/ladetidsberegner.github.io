@@ -21,17 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let trackingEnabled = false;
 
-  // === Aktiver tracking ===
   function enableTracking() {
     if (trackingEnabled) return;
     trackingEnabled = true;
+    gtag("consent", "update", { ad_storage: "granted", analytics_storage: "granted" });
 
-    gtag("consent", "update", {
-      ad_storage: "granted",
-      analytics_storage: "granted",
-    });
-
-    // === Google Analytics 4 ===
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -41,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.head.appendChild(gaScript);
     }
 
-    // === Google AdSense ===
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -56,16 +49,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // === Deaktiver tracking ===
   function disableTracking(forceReload = false) {
-    gtag("consent", "update", {
-      ad_storage: "denied",
-      analytics_storage: "denied",
-    });
+    gtag("consent", "update", { ad_storage: "denied", analytics_storage: "denied" });
     if (forceReload) setTimeout(() => location.reload(), 500);
   }
 
-  // === Vis annoncer ===
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
@@ -74,12 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
           window.adsbygoogle.push({});
         }
       });
-    } catch (err) {
-      console.error("AdSense render error:", err);
-    }
+    } catch (err) { console.error("AdSense render error:", err); }
   }
 
-  // === Tilføj accepter/afvis-knapper i politik-popup ===
   function addPolicyButtons() {
     const popup = document.querySelector(".cookie-policy-content");
     if (!popup || popup.querySelector(".policy-actions")) return;
@@ -108,62 +93,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // === Hovedlogik ===
-  const consent = localStorage.getItem("cookie-consent");
-
-  if (!consent) {
-    if (banner) banner.style.display = "flex";
-  } else {
-    if (banner) banner.style.display = "none";
-    if (changeBtn) changeBtn.style.display = "inline-flex";
-
-    if (consent === "accepted") enableTracking();
-    else disableTracking();
-  }
-
-  // === Knapper ===
-  acceptBtn?.addEventListener("click", () => {
-    localStorage.setItem("cookie-consent", "accepted");
-    hideBanner();
-    enableTracking();
-  });
-
-  rejectBtn?.addEventListener("click", () => {
-    localStorage.setItem("cookie-consent", "declined");
-    hideBanner();
-    disableTracking(true);
-  });
-
   function hideBanner() {
     if (banner) banner.style.display = "none";
     if (changeBtn) changeBtn.style.display = "inline-flex";
   }
 
-  // === Cookiepolitik popup ===
+  const consent = localStorage.getItem("cookie-consent");
+
+  if (!consent) {
+    if (banner) banner.style.display = "flex";
+  } else {
+    hideBanner();
+    if (consent === "accepted") enableTracking();
+    else disableTracking();
+  }
+
+  acceptBtn?.addEventListener("click", () => { localStorage.setItem("cookie-consent", "accepted"); hideBanner(); enableTracking(); });
+  rejectBtn?.addEventListener("click", () => { localStorage.setItem("cookie-consent", "declined"); hideBanner(); disableTracking(true); });
+
   policyLink?.addEventListener("click", (e) => {
     e.preventDefault();
-    if (policyPopup) {
-      policyPopup.style.display = "block";
-      addPolicyButtons();
-    }
+    if (policyPopup) { policyPopup.style.display = "block"; addPolicyButtons(); }
   });
 
-  policyClose?.addEventListener("click", () => {
-    if (policyPopup) policyPopup.style.display = "none";
-  });
+  policyClose?.addEventListener("click", () => { if (policyPopup) policyPopup.style.display = "none"; });
+  window.addEventListener("click", (e) => { if (e.target === policyPopup) policyPopup.style.display = "none"; });
 
-  window.addEventListener("click", (e) => {
-    if (e.target === policyPopup) policyPopup.style.display = "none";
-  });
-
-  changeBtn?.addEventListener("click", () => {
-    if (banner) banner.style.display = "flex";
-  });
-
-  if (consent === "declined" && changeBtn) {
+  // Ændr cookieknap åbner popup direkte
+  if (changeBtn) {
     changeBtn.style.display = "inline-flex";
     changeBtn.addEventListener("click", () => {
-      if (banner) banner.style.display = "flex";
+      if (policyPopup) { policyPopup.style.display = "block"; addPolicyButtons(); }
     });
   }
 });
