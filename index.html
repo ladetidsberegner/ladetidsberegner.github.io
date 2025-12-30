@@ -16,12 +16,7 @@
   <link rel="stylesheet" href="style.css">
  <link
   rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  integrity="sha512-..."
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
-
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -182,7 +177,7 @@
             <span class="label-text">Start SoC (%)</span>
             <span class="info-icon">i</span>
           </a>
-          <input type="number" id="soc-start-2" min="0" max="100" value="20" />
+          <input type="number" id="soc-start-2" min="0" max="100" value="20" inputmode="numeric"  />
         </div>
         
         <div class="form-group">
@@ -190,7 +185,7 @@
             <span class="label-text">Slut SoC (%)</span>
             <span class="info-icon">i</span>
           </a>
-          <input type="number" id="soc-slut-2" min="0" max="100" value="80" />
+          <input type="number" id="soc-slut-2" min="0" max="100" value="80" inputmode="numeric" />
        
       </div>
       </div>
@@ -332,7 +327,21 @@
               <span class="label-text">Ladetab (%)</span><span class="info-icon">i</span>
             </a>
             <input type="number" id="ladetab" min="0" step="0.1" value="12" inputmode="decimal" />
-            <div class="help-text">Ladetab dækker energi tabt i kabler, konvertering og køling.</div>
+            <div class="help-text">Ladetab dækker energi tabt i kabler, konvertering og køling.<br />
+                    <div class="form-group">
+  <label>Ladetab:</label>
+  <div>
+    <input type="radio" id="ladetab-tastet" name="ladetab-valg" checked>
+    <label for="ladetab-tastet">Brug tastet ladetab</label>
+  </div>
+  <div>
+    <input type="radio" id="ladetab-beregnet" name="ladetab-valg" disabled>
+    <label for="ladetab-beregnet">Brug beregnet ladetab <span id="beregnet-ladetab-info">(Ingen beregnet værdi endnu)</span></label>
+  </div>
+  <small>Hvis du endnu ikke har beregnet ladetabet, anbefaler vi at tage udgangspunkt i ca. 12 %.
+  <a href="#calc-spor4">Beregn ladetab</a></small>
+</div>
+            </div>
           </div>
 
 <div class="form-group">
@@ -353,7 +362,121 @@
       </div>
     </div>
 
+    <hr class="beregner-divider" />
+
+    <!-- Sektion 4: Beregn ladetab -->
+<div class="calc-section" id="calc-spor4">
+  <button class="calc-question" aria-expanded="false">
+    <span class="calc-icon">▶</span>
+    <h3 class="calc-heading">Beregn ladetab</h3>
+  </button>
+
+  <div class="calc-answer" aria-hidden="true">
+
+    <div class="calc-help top">
+      <p class="help-text">
+        Beregn dit faktiske ladetab baseret på en gennemført opladning.
+        Du skal blot bruge bilens SoC før og efter opladning samt,
+        hvor mange kWh der blev trukket fra laderen.
+      </p>
+    </div>
+
+    <form class="calc-form" onsubmit="return false;">
+
+      <!-- SOC -->
+      <div class="form-row">
+        <div class="form-group">
+          <a class="input-label" href="#faq-soc">
+            <span class="label-text">Start SoC (%)</span>
+            <span class="info-icon">i</span>
+          </a>
+          <input
+            type="number"
+            id="ladetab-soc-start"
+            min="0"
+            max="100"
+            step="1"
+            inputmode="numeric"
+            value="20"
+          />
+        </div>
+
+        <div class="form-group">
+          <a class="input-label" href="#faq-soc">
+            <span class="label-text">Slut SoC (%)</span>
+            <span class="info-icon">i</span>
+          </a>
+          <input
+            type="number"
+            id="ladetab-soc-slut"
+            min="0"
+            max="100"
+            step="1"
+            inputmode="numeric"
+            value="80"
+          />
+        </div>
+      </div>
+
+      <!-- Energi fra lader -->
+      <div class="form-row">
+        <div class="form-group">
+          <a class="input-label" href="#faq-ladetab">
+            <span class="label-text">Energi trukket fra lader (kWh)</span>
+            <span class="info-icon">i</span>
+          </a>
+          <input
+            type="number"
+            id="ladetab-energi"
+            min="0"
+            step="0.1"
+            inputmode="decimal"
+            placeholder="fx 40"
+          />
+        </div>
+      </div>
+
+      <!-- Info om batterikapacitet -->
+      <div class="calc-help inline">
+        <p class="help-text">
+          Batterikapaciteten hentes automatisk fra
+          <a href="#advanced-fields"><em>Indstillinger</em></a>.
+        </p>
+      </div>
+
+      <!-- Beregn -->
+      <div class="form-row">
+        <button type="button" id="beregn-ladetab-btn" class="beregn-knap">Beregn ladetab</button>
+      </div>
+
+      <!-- Resultat -->
+      <div id="resultat-ladetab" class="resultat-tekst" aria-live="polite"></div>
+
+      <p class="help-text">
+  Får du et højt ladetab?
+  <a href="#faq-hoejt-ladetab">Læs hvorfor det er helt normalt</a>.
+</p>
+
+
+      <div class="calc-help bottom">
+        <p class="help-text">
+          Tip: Korte opladninger og kolde temperaturer kan give et højere
+          ladetab end normalt.
+        </p>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+
+    <hr class="beregner-divider" />
+
+
     <p>Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige. Vi påtager os ikke ansvar for eventuelle fejl eller afvigelser i beregningen og kan ikke holdes ansvarlige for tab som følge af brug af værktøjet.</p>
+ 
+ 
   </div>
 </div>
 
@@ -493,6 +616,71 @@
             <p>Praktisk konsekvens: Hvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen er flaskehals, da den bestemmer, hvor hurtigt den kan modtage effekt.</p>
           </div>
         </div>
+
+<div class="faq-item" id="faq-hoejt-ladetab">
+  <button class="faq-question" aria-expanded="false">
+    <span class="faq-icon">▶</span>
+    <h3 class="faq-heading">Hvorfor er mit ladetab højt ved korte opladninger?</h3>
+  </button>
+
+  <div class="faq-answer" aria-hidden="true">
+    <p>
+  Et højt ladetab er helt normalt, hvis du kun lader en lille del af batteriet
+  eller lader ved høj batteriprocent.
+</p>
+
+<p>
+  Når du f.eks. lader fra 70 % til 80 %, reduceres ladeeffekten gradvist,
+  og en større del af energien bruges på varme, balancering af battericeller
+  og temperaturkontrol i stedet for direkte lagring i batteriet.
+</p>
+
+<p>
+  Korte opladninger giver også større usikkerhed i beregningen, fordi bilens
+  SoC typisk vises i hele procenter. Én procent kan svare til 0,5–1 kWh,
+  hvilket hurtigt kan flytte ladetabet flere procentpoint.
+</p>
+
+<p>
+  <strong>Som tommelfingerregel:</strong>
+</p>
+
+<ul>
+  <li>Korte opladninger (fx 5–15 % SoC) → ofte 20–35 % ladetab</li>
+  <li>Mellemstore opladninger (fx 30–60 % SoC) → typisk 10–15 %</li>
+  <li>Opladning ved høj SoC (&gt; 70 %) → højere tab end normalt</li>
+</ul>
+
+<p>
+  Et højt ladetab betyder ikke nødvendigvis, at der er noget galt med bilen eller laderen.
+  Uanset om du lader lidt eller meget, bruges der altid energi på at styre, overvåge
+  og beskytte batteriet – fx til batteristyring, temperaturkontrol og balancering af cellerne.
+</p>
+
+<p>
+  Ved korte opladninger udgør dette “faste” energiforbrug en større del af den samlede energi,
+  og derfor bliver det beregnede ladetab relativt højere, end hvis du lader en større del
+  af batteriet ad gangen.
+</p>
+
+<p>
+  Derudover vil forvarmning af bilen, mens den lader, også trække ekstra energi fra laderen,
+  hvilket kan give et højere ladetab. Vi anbefaler derfor **ikke at forvarme bilen under
+  målingen**, så resultatet af ladetabet bliver mest retvisende.
+</p>
+
+<p>
+  <strong>Eksempel:</strong>  
+  Hvis du lader 5 %, fordeles det faste energiforbrug på meget lidt lagret energi,
+  og ladetabet kan derfor se højt ud i procent. Lader du derimod 40 % i én opladning,
+  fordeles det samme grundforbrug på langt mere energi, og ladetabet bliver typisk
+  væsentligt lavere.
+</p>
+
+  </div>
+</div>
+
+
 
         <!-- Ladeeffekt og faser (flaskehalsen) -->
 <div class="faq-item fade-up" id="faq-ladeeffekt">
@@ -690,10 +878,9 @@
 <script src="master.js"></script>
 <script src="accordion.js"></script>
 <script src="scroll.js"></script>
-
 <script src="beregner-soc.js" defer></script>
-<!--<script src="beregner-spor2.js" defer></script>-->
 <script src="beregner-spor3.js" defer></script>
+<script src="beregner-spor4.js" defer></script>
 <script src="cookie.js" defer></script>
 
 </body>

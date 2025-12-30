@@ -1,158 +1,142 @@
-// accordion.js — accordion behavior matching din HTML
 (function () {
   "use strict";
-  console.log("accordion.js loaded");
 
-  // small helpers
   function setOpen(container, panel, open) {
     if (!container || !panel) return;
+
     if (open) {
-      container.classList.add('open');
-      container.querySelectorAll('button[aria-expanded]').forEach(b => {}); // noop placeholder
-      panel.style.height = panel.scrollHeight + 'px';
-      const btn = container.querySelector('button');
-      if (btn) btn.setAttribute('aria-expanded','true');
-      panel.setAttribute('aria-hidden','false');
+      container.classList.add("open");
+      panel.style.height = panel.scrollHeight + "px";
+      container.querySelector("button")?.setAttribute("aria-expanded", "true");
+      panel.setAttribute("aria-hidden", "false");
     } else {
-      container.classList.remove('open');
-      // smooth close: set current height then to 0
-      panel.style.height = panel.scrollHeight + 'px';
-      // force reflow
-      void panel.offsetHeight;
-      panel.style.height = '0px';
-      const btn = container.querySelector('button');
-      if (btn) btn.setAttribute('aria-expanded','false');
-      panel.setAttribute('aria-hidden','true');
+      container.classList.remove("open");
+      panel.style.height = panel.scrollHeight + "px";
+      panel.offsetHeight;
+      panel.style.height = "0px";
+      container.querySelector("button")?.setAttribute("aria-expanded", "false");
+      panel.setAttribute("aria-hidden", "true");
     }
   }
 
-  function onTransitionEnd(ev) {
-    if (ev.propertyName !== 'height') return;
-    const panel = ev.target;
-    const container = panel.closest('.calc-section, .advanced-section, .faq-item');
+  function onTransitionEnd(e) {
+    if (e.propertyName !== "height") return;
+    const panel = e.target;
+    const container = panel.closest(".calc-section, .advanced-section, .faq-item");
     if (!container) return;
-    if (container.classList.contains('open')) {
-      panel.style.height = 'auto';
-    } else {
-      panel.style.height = '0px';
-    }
+    panel.style.height = container.classList.contains("open") ? "auto" : "0px";
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // SELECTORS that match your HTML
-    const calcSections = Array.from(document.querySelectorAll('.calc-section'));
-    const advancedSection = document.querySelector('.advanced-section');
-    const faqItems = Array.from(document.querySelectorAll('.faq-item'));
+  document.addEventListener("DOMContentLoaded", () => {
+    const calcSections = [...document.querySelectorAll(".calc-section")];
+    const faqItems = [...document.querySelectorAll(".faq-item")];
+    const advancedSection = document.querySelector(".advanced-section");
 
-    // ---------- Calc sections: exclusive (only one open), default open: calc-spor1 ----------
+    // ---------- CALC ----------
     calcSections.forEach(sec => {
-      const btn = sec.querySelector('.calc-question');
-      const panel = sec.querySelector('.calc-answer');
-      if (panel) {
-        panel.style.height = sec.classList.contains('open') && panel.scrollHeight ? 'auto' : '0px';
-        panel.addEventListener('transitionend', onTransitionEnd);
-      }
-      if (btn) {
-        btn.setAttribute('aria-expanded', sec.classList.contains('open') ? 'true' : 'false');
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          // exclusive: close other calc sections (but NOT advanced)
-          calcSections.forEach(other => {
-            if (other === sec) return;
-            const op = other.querySelector('.calc-answer');
-            setOpen(other, op, false);
-          });
-          // toggle this
-          const isOpen = sec.classList.contains('open');
-          setOpen(sec, panel, !isOpen);
-        });
-      }
-    });
+      const btn = sec.querySelector(".calc-question");
+      const panel = sec.querySelector(".calc-answer");
+      if (!btn || !panel) return;
 
-    // default: open #calc-spor1 if exists (otherwise first)
-    const defCalc = document.getElementById('calc-spor1') || calcSections[0];
-    if (defCalc) {
-      const p = defCalc.querySelector('.calc-answer');
-      setOpen(defCalc, p, true);
-    }
+      panel.style.height = "0px";
+      panel.setAttribute("aria-hidden", "true");
+      btn.setAttribute("aria-expanded", "false");
+      panel.addEventListener("transitionend", onTransitionEnd);
 
-    // ---------- Advanced (independent) ----------
-    if (advancedSection) {
-      const advBtn = advancedSection.querySelector('.advanced-question');
-      const advPanel = advancedSection.querySelector('.advanced-answer');
-      if (advPanel) {
-        advPanel.style.height = advancedSection.classList.contains('open') ? 'auto' : '0px';
-        advPanel.addEventListener('transitionend', onTransitionEnd);
-      }
-      // open by default (per your request)
-      setOpen(advancedSection, advPanel, true);
-
-      if (advBtn) {
-        advBtn.setAttribute('aria-expanded', advancedSection.classList.contains('open') ? 'true' : 'false');
-        advBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const nowOpen = !advancedSection.classList.contains('open');
-          // Advanced toggles independently (does not affect calc sections)
-          setOpen(advancedSection, advPanel, nowOpen);
-        });
-      }
-    }
-
-    // ---------- FAQ: closed by default; single open on click or on anchor:scrolled ----------
-    faqItems.forEach(item => {
-      const q = item.querySelector('.faq-question');
-      const panel = item.querySelector('.faq-answer');
-      if (!q || !panel) return;
-      panel.style.height = item.classList.contains('open') ? 'auto' : '0px';
-      panel.addEventListener('transitionend', onTransitionEnd);
-      q.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
-      panel.setAttribute('aria-hidden', item.classList.contains('open') ? 'false' : 'true');
-
-      q.addEventListener('click', (e) => {
+      btn.addEventListener("click", e => {
         e.preventDefault();
-        // close others
-        faqItems.forEach(other => {
-          if (other === item) return;
-          const op = other.querySelector('.faq-answer');
-          setOpen(other, op, false);
+        const isOpen = sec.classList.contains("open");
+
+        calcSections.forEach(other => {
+          if (other !== sec) {
+            setOpen(other, other.querySelector(".calc-answer"), false);
+          }
         });
-        // toggle this
-        const nowOpen = !item.classList.contains('open');
-        setOpen(item, panel, nowOpen);
+
+        setOpen(sec, panel, !isOpen);
       });
     });
 
-    // Listen for scroll completion events to open FAQ entry
-    window.addEventListener('anchor:scrolled', (ev) => {
-      const id = ev?.detail?.id;
+    // ---------- ADVANCED (ÅBEN SOM STANDARD) ----------
+    if (advancedSection) {
+      const btn = advancedSection.querySelector(".advanced-question");
+      const panel = advancedSection.querySelector(".advanced-answer");
+      if (panel) {
+        panel.style.height = "auto";
+        panel.setAttribute("aria-hidden", "false");
+        advancedSection.classList.add("open");
+        panel.addEventListener("transitionend", onTransitionEnd);
+
+        btn?.addEventListener("click", e => {
+          e.preventDefault();
+          setOpen(
+            advancedSection,
+            panel,
+            !advancedSection.classList.contains("open")
+          );
+        });
+      }
+    }
+
+    // ---------- FAQ ----------
+    faqItems.forEach(item => {
+      const btn = item.querySelector(".faq-question");
+      const panel = item.querySelector(".faq-answer");
+      if (!btn || !panel) return;
+
+      panel.style.height = "0px";
+      panel.setAttribute("aria-hidden", "true");
+      btn.setAttribute("aria-expanded", "false");
+      panel.addEventListener("transitionend", onTransitionEnd);
+
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        const isOpen = item.classList.contains("open");
+
+        faqItems.forEach(other => {
+          if (other !== item) {
+            setOpen(other, other.querySelector(".faq-answer"), false);
+          }
+        });
+
+        setOpen(item, panel, !isOpen);
+      });
+    });
+
+    // ---------- SCROLL.JS → ACCORDION ----------
+    window.addEventListener("anchor:scrolled", e => {
+      const id = e.detail?.id;
       if (!id) return;
-      // Only handle faq- ids
-      if (!id.startsWith('faq')) return;
+
       const target = document.getElementById(id);
       if (!target) return;
-      // close other faq items
-      faqItems.forEach(other => {
-        if (other === target) return;
-        const op = other.querySelector('.faq-answer');
-        setOpen(other, op, false);
-      });
-      const panel = target.querySelector('.faq-answer');
-      setOpen(target, panel, true);
-      // ensure it's visible (in case compute differences) — small jump correction
-      try {
-        // Let browser settle then ensure target is within view
-        setTimeout(() => {
-          const rect = target.getBoundingClientRect();
-          if (rect.top < 0 || rect.top > window.innerHeight) {
-            // use the exposed scroll API if present
-            if (window.__anchorScroll && typeof window.__anchorScroll.toId === 'function') {
-              window.__anchorScroll.toId(id);
-            }
-          }
-        }, 60);
-      } catch(e){}
-    });
 
-    console.log("accordion.js initialized — calc:", calcSections.length, "faq:", faqItems.length, "advanced:", !!advancedSection);
+      const container = target.closest(".faq-item, .calc-section");
+      if (!container) return;
+
+      const panel =
+        container.querySelector(".faq-answer") ||
+        container.querySelector(".calc-answer");
+
+      if (!panel) return;
+
+      if (container.classList.contains("faq-item")) {
+        faqItems.forEach(other => {
+          if (other !== container) {
+            setOpen(other, other.querySelector(".faq-answer"), false);
+          }
+        });
+      }
+
+      if (container.classList.contains("calc-section")) {
+        calcSections.forEach(other => {
+          if (other !== container) {
+            setOpen(other, other.querySelector(".calc-answer"), false);
+          }
+        });
+      }
+
+      setOpen(container, panel, true);
+    });
   });
 })();

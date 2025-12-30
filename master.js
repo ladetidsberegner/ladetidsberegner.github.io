@@ -102,3 +102,48 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+(function () {
+  "use strict";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("ladetab");
+    const radioBeregnet = document.getElementById("ladetab-beregnet");
+    const radioTastet = document.getElementById("ladetab-tastet");
+    const info = document.getElementById("beregnet-ladetab-info");
+
+    if (!input || !radioBeregnet || !radioTastet) return;
+
+    // Gem beregnet værdi separat
+    let beregnetVærdi = null;
+
+    // Når beregneren sætter en værdi (kaldes fra spor4)
+    window.setBeregnetLadetab = function (værdi) {
+      beregnetVærdi = værdi;
+
+      radioBeregnet.disabled = false;
+      radioBeregnet.checked = true;
+      radioTastet.checked = false;
+
+      input.value = værdi;
+      input.readOnly = true;
+
+      if (info) info.textContent = `(Beregnet: ${værdi} %)`;
+    };
+
+    // Vælg beregnet
+    radioBeregnet.addEventListener("change", () => {
+      if (!radioBeregnet.checked || beregnetVærdi === null) return;
+
+      input.value = beregnetVærdi;
+      input.readOnly = true;
+    });
+
+    // Vælg tastet
+    radioTastet.addEventListener("change", () => {
+      if (!radioTastet.checked) return;
+
+      input.readOnly = false;
+      input.focus();
+    });
+  });
+})();
