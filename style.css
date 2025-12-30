@@ -131,6 +131,8 @@ label{font-weight:600;margin:0 0 6px;color:#fff;}
 .input-label{display:inline-flex;align-items:center;gap:4px;font-weight:600;color:#fff;cursor:pointer;text-decoration:none;}
 .beregner-outer a.input-label:hover .label-text,.beregner-outer a.input-label:active .label-text{text-decoration:underline !important;text-underline-offset:2px;}
 .info-icon{display:inline-flex;justify-content:center;align-items:center;width:14px;height:14px;border-radius:50%;background:#fff;color:var(--brand-green,#55ca1c);font-size:10px;font-weight:700;line-height:1;pointer-events:none;}
+.beregner-outer p a ,.beregner-outer small a  {text-decoration: underline;}
+.beregner-outer p a:hover,.beregner-outer small a:hover  {text-decoration: none}
 
 /* safari fix for specific input */
 #soc-slut-2{-webkit-appearance:textfield;appearance:textfield;line-height:normal;overflow:hidden;text-align:left;}

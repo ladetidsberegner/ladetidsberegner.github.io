@@ -140,3 +140,16 @@
     });
   });
 })();
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const firstSection = document.querySelector('.calc-section');
+  if (!firstSection) return;
+
+  const answer = firstSection.querySelector('.calc-answer');
+  if (!answer) return;
+
+  firstSection.classList.add('open');
+  answer.setAttribute('aria-hidden', 'false');
+  answer.style.height = answer.scrollHeight + 'px';
+});

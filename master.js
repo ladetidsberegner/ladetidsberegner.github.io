@@ -147,3 +147,63 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 })();
+
+
+(function () {
+  "use strict";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const kapacitetEl = document.getElementById("kapacitet");
+    const ladetabInput = document.getElementById("ladetab");
+    const radioBeregnet = document.getElementById("ladetab-beregnet");
+    const radioTastet = document.getElementById("ladetab-tastet");
+
+    /* ========= BATTERIKAPACITET ========= */
+    if (kapacitetEl) {
+      const savedKap = localStorage.getItem("batteri_kapacitet");
+      if (savedKap !== null) kapacitetEl.value = savedKap;
+
+      kapacitetEl.addEventListener("input", () => {
+        localStorage.setItem("batteri_kapacitet", kapacitetEl.value);
+      });
+    }
+
+    /* ========= LADETAB – TYPE & VÆRDI ========= */
+    const savedType = localStorage.getItem("ladetab_type"); // "beregnet" | "tastet"
+    const savedValue = localStorage.getItem("ladetab_tastet");
+
+    if (radioTastet && radioBeregnet && ladetabInput) {
+      // Gendan valg
+      if (savedType === "tastet") {
+        radioTastet.checked = true;
+        ladetabInput.readOnly = false;
+        if (savedValue !== null) ladetabInput.value = savedValue;
+      } else {
+        radioBeregnet.checked = true;
+        ladetabInput.readOnly = true;
+      }
+
+      // Skift → beregnet
+      radioBeregnet.addEventListener("change", () => {
+        if (!radioBeregnet.checked) return;
+        ladetabInput.readOnly = true;
+        localStorage.setItem("ladetab_type", "beregnet");
+      });
+
+      // Skift → tastet
+      radioTastet.addEventListener("change", () => {
+        if (!radioTastet.checked) return;
+        ladetabInput.readOnly = false;
+        ladetabInput.focus();
+        localStorage.setItem("ladetab_type", "tastet");
+      });
+
+      // Gem tastet værdi
+      ladetabInput.addEventListener("input", () => {
+        if (radioTastet.checked) {
+          localStorage.setItem("ladetab_tastet", ladetabInput.value);
+        }
+      });
+    }
+  });
+})();
