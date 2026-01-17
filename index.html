@@ -4,75 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
+
   <title>Beregn ladetid for elbil hjemme | Gratis ladetidsberegner online</title>
-  <meta name="description" content="Beregn ladetid på din elbil hjemme på få sekunder. Indtast batterikapacitet, ladeeffekt og SoC – få præcis opladningstid og energiforbrug. Gratis og nem ladetidsberegner til hjemmeladning.">
-  <meta name="author" content="Ladetidsberegner.dk">
-  <meta name="keywords" content="ladetid elbil, beregn ladetid, elbil opladning, ladeeffekt, SoC, batterikapacitet, hjemmeladning, elbil beregner">
-  <meta name="theme-color" content="#268cec">
+  <meta name="description" content="Beregn ladetid på din elbil hjemme på få sekunder.">
+
   <link rel="canonical" href="https://ladetidsberegner.github.io/">
-  <link rel="icon" href="/img/favicon.ico">
 
-  <!-- Samlet stil -->
-  <link rel="stylesheet" href="style.css">
- <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
-
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ladetidsberegner.github.io/">
-  <meta property="og:title" content="Beregn ladetid for elbil hjemme – Gratis og nem beregner">
-  <meta property="og:description" content="Indtast start- og slutniveau (SoC), ladeeffekt og batterikapacitet – få realistisk ladetid og energiforbrug. Gratis værktøj til elbilejere.">
+  <meta property="og:title" content="Beregn ladetid for elbil hjemme">
+  <meta property="og:description" content="Gratis ladetidsberegner">
   <meta property="og:image" content="https://ladetidsberegner.github.io/img/beregner-preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="da_DK">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Beregn ladetid for elbil hjemme – Gratis og nem beregner">
-  <meta name="twitter:description" content="Gratis ladetidsberegner til elbilejere – beregn opladningstid og bruttoforbrug på sekunder.">
-  <meta name="twitter:image" content="https://ladetidsberegner.github.io/img/beregner-preview.png">
 
-  <!-- Strukturdata -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Ladetidsberegner",
-    "url": "https://ladetidsberegner.github.io/",
-    "description": "Gratis online beregner til elbilsejere. Beregn opladningstid, bruttoforbrug og energibehov hjemme på få sekunder.",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Ladetidsberegner.dk",
-      "logo": { "@type": "ImageObject", "url": "https://ladetidsberegner.github.io/img/beregner-preview.png" }
-    }
+    "url": "https://ladetidsberegner.github.io/"
   }
   </script>
 
-  <!-- Consent Mode v2 (default denied) -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', { ad_storage:'denied', analytics_storage:'denied' });
-    gtag('js', new Date());
-  </script>
-
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#55ca1c">
-
+  <!-- Loader -->
+  <script src="/assets/js/includes-menu.js" defaqer></script>
 </head>
+
 
 <body>
   <!-- Top bar (reserveret til landevælger el.lign.) -->
-  <div class="top-bar"></div>
+  <!--<div class="top-bar"></div>-->
+   <div id="site-header"></div>
+ 
+
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" id="top">
     <div class="hero-text">
       <h1 class="fade-up">Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
       <p class="fade-up">Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
@@ -105,7 +73,7 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- Beregner start-->
+  <!-- beregner start-->
 <div class="beregner-outer " id="bereger">
   <div class="beregner-container container">
 
@@ -547,7 +515,7 @@
   </div>
 
   <!-- FAQ start-->
-  <section class="faq-section fade-section">
+  <section class="faq-section fade-section" id="faq-blog">
     <div class="faq-container">
       <h2 class="fade-up">Ofte stillede spørgsmål</h2>
       <p class="faq-intro fade-left">Få hurtige svar på, hvordan du bedst oplader din elbil derhjemme, forlænger batteriets levetid og forstår de vigtigste begreber.</p>
@@ -719,6 +687,36 @@
   </div>
 </div>
 
+ <div class="faq-item fade-up" id="faq-lfp-kulde-ac">
+          <button class="faq-question">
+            <span class="faq-icon">▶</span>
+            <h3 class="faq-heading">Kan LFP-batterier få nedsat ladehastighed – også ved AC-opladning i hård frost?</h3>
+          </button>
+          <div class="faq-answer">
+            <p>Ja. Ifølge generel batteridokumentation og producenters BMS-strategier kan <strong>LFP-batterier (Lithium-jern-fosfat) få nedsat ladehastighed – også ved almindelig AC-hjemmeopladning – når batteriet er meget koldt.</strong></p>
+
+<p>Når <strong>to forhold er opfyldt samtidig</strong>:</p>
+<ul>
+    <li>Batterikemi: <strong>LFP</strong></li>
+    <li>Temperatur: <strong>kraftige minusgrader (fx omkring −10 °C)</strong></li>
+</ul>
+
+<p>Vil bilens <strong>Battery Management System (BMS)</strong> typisk:</p>
+<ul>
+    <li>reducere ladeeffekten markant</li>
+    <li>bruge en større del af strømmen på batteriopvarmning</li>
+    <li>i ekstreme tilfælde midlertidigt <strong>afbryde opladningen</strong>, indtil batteriet er varmt nok</li>
+</ul>
+
+<p>Dette er <strong>kendt, normal og tilsigtet beskyttelsesadfærd</strong>, der skal forhindre batteriskader (fx lithium-plating) og forlænge batteriets levetid. Det er ikke en fejl og gælder ikke kun én bilmodel, men <strong>LFP-kemi generelt</strong>.</p>
+
+<p>Når batteriet igen når en passende temperatur, vil opladningen normalt fortsætte.<br>
+👉 Bemærk: Det er <strong>batteriets temperatur – ikke kun udetemperaturen – der er afgørende</strong>. Over længere ladeperioder (fx natopladning) vil batteriet ofte varme op og lade næsten normalt igen.</p>
+
+
+            </div>
+            </div>
+
 
         <!-- 80% eller 100% -->
         <div class="faq-item fade-up" id="faq-80">
@@ -824,51 +822,13 @@
   </div>
 </div>
 
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-section fade-left">
-        <h3>Beregn din opladningstid</h3>
-        <p>Vi hjælper dig med opladning af din elbil på en enkel og overskuelig måde. Med vores værktøj kan du planlægge og optimere din opladning. Ved at kende den præcise opladningstid bliver det lettere at finde de bedste tidspunkter at oplade på og spare penge.</p>
-      </div>
-
-      <div class="footer-section fade-left">
-        <h4>Vidste du?</h4>
-        <ul>
-          <li><span class="icon">⚡</span> 80 % af alle opladninger sker hjemme</li>
-          <li><span class="icon">⏱</span> Vi hjælper dig med hurtigt og nemt at beregne opladningstiden</li>
-          <li><span class="icon">💡</span> Vores værktøj gør det nemt at optimere opladningen</li>
-        </ul>
-      </div>
-
-      <div class="footer-section fade-left">
-        <h4>Støt projektet</h4>
-        <p>Siden drives på frivillig basis. Alle økonomiske bidrag er velkomne og hjælper os med at holde værktøjet gratis.</p>
-        <br />
-        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" 
-                data-name="bmc-button" 
-                data-slug="ladetidsberegner" 
-                data-color="#55ca1c" 
-                data-emoji=""  
-                data-font="Cookie" 
-                data-text="Buy me a coffee" 
-                data-outline-color="#ffffff" 
-                data-font-color="#ffffff" 
-                data-coffee-color="#FFDD00">
-        </script>
-
-        <h4>Kontakt</h4>
-        <p>Hvis du har ris, ros, kommentarer, eller ønsker et samarbejde, er du velkommen til at skrive på <span id="kontakt-mail"></span></p>
-      </div>
-    </div>
-  </footer>
-
-  <div class="footer-bottom">
-    <p>&copy; <span id="current-year">2025</span> Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
-  </div>
+<div id="site-footer"></div>
 
   <!-- Bookmark-knap -->
+<div class="bookmark-popup">
+  <p>Gem siden som favorit, så har du ladetidsberegneren lige ved hånden!</p>
+</div>
+
 <button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">
   <i class="fas fa-thumbtack"></i>
 </button>
@@ -882,6 +842,7 @@
 <script src="beregner-spor3.js" defer></script>
 <script src="beregner-spor4.js" defer></script>
 <script src="cookie.js" defer></script>
+<script src="/includes/includes-footer.js" defer></script>
 
 </body>
 </html>

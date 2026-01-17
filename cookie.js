@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (window.__cookieInit) return;
   window.__cookieInit = true;
 
-  // === Elementer ===
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept");
   const rejectBtn = document.getElementById("cookie-decline");
@@ -13,9 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (changeBtn) changeBtn.style.display = "none";
 
-  // === Google Consent Mode standard ===
   window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
+  function gtag() { dataLayer.push(arguments); }
   gtag("consent", "default", { ad_storage: "denied", analytics_storage: "denied" });
   gtag("js", new Date());
 
@@ -25,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (trackingEnabled) return;
     trackingEnabled = true;
     gtag("consent", "update", { ad_storage: "granted", analytics_storage: "granted" });
-
+    // GA4 script
     if (!document.getElementById("ga4-script")) {
       const gaScript = document.createElement("script");
       gaScript.id = "ga4-script";
@@ -34,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       gaScript.onload = () => gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
       document.head.appendChild(gaScript);
     }
-
+    // AdSense script
     if (!document.getElementById("adsense-script")) {
       const adsScript = document.createElement("script");
       adsScript.id = "adsense-script";
@@ -44,9 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       adsScript.onload = renderAds;
       adsScript.onerror = () => console.error("Kunne ikke loade AdSense-scriptet.");
       document.head.appendChild(adsScript);
-    } else {
-      renderAds();
-    }
+    } else renderAds();
   }
 
   function disableTracking(forceReload = false) {
@@ -57,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderAds() {
     try {
       window.adsbygoogle = window.adsbygoogle || [];
-      document.querySelectorAll("ins.adsbygoogle").forEach((slot) => {
+      document.querySelectorAll("ins.adsbygoogle").forEach(slot => {
         if (slot.getAttribute("data-adsbygoogle-status") !== "done") {
           window.adsbygoogle.push({});
         }
@@ -83,13 +79,13 @@ document.addEventListener("DOMContentLoaded", function () {
       policyPopup.style.display = "none";
       enableTracking();
       hideBanner();
+      restoreSavedFields(); // gendan gemte felter
     });
 
     document.getElementById("policy-decline").addEventListener("click", () => {
       localStorage.setItem("cookie-consent", "declined");
       policyPopup.style.display = "none";
       disableTracking(true);
-      hideBanner();
     });
   }
 
@@ -108,8 +104,18 @@ document.addEventListener("DOMContentLoaded", function () {
     else disableTracking();
   }
 
-  acceptBtn?.addEventListener("click", () => { localStorage.setItem("cookie-consent", "accepted"); hideBanner(); enableTracking(); });
-  rejectBtn?.addEventListener("click", () => { localStorage.setItem("cookie-consent", "declined"); hideBanner(); disableTracking(true); });
+  acceptBtn?.addEventListener("click", () => {
+    localStorage.setItem("cookie-consent", "accepted");
+    hideBanner();
+    enableTracking();
+    restoreSavedFields();
+  });
+
+  rejectBtn?.addEventListener("click", () => {
+    localStorage.setItem("cookie-consent", "declined");
+    hideBanner();
+    disableTracking(true);
+  });
 
   policyLink?.addEventListener("click", (e) => {
     e.preventDefault();
@@ -119,11 +125,46 @@ document.addEventListener("DOMContentLoaded", function () {
   policyClose?.addEventListener("click", () => { if (policyPopup) policyPopup.style.display = "none"; });
   window.addEventListener("click", (e) => { if (e.target === policyPopup) policyPopup.style.display = "none"; });
 
-  // Ændr cookieknap åbner popup direkte
   if (changeBtn) {
     changeBtn.style.display = "inline-flex";
     changeBtn.addEventListener("click", () => {
       if (policyPopup) { policyPopup.style.display = "block"; addPolicyButtons(); }
     });
   }
+
+  // ============================
+  // GEM OG GENDAN FELTER EFFEKTIVT
+  // ============================
+  const allFields = document.querySelectorAll("#bereger input, #bereger select");
+
+  function saveField(el) {
+    if (localStorage.getItem("cookie-consent") !== "accepted") return;
+    if (el.type === "radio" || el.type === "checkbox") {
+      localStorage.setItem(el.id, el.checked);
+    } else {
+      localStorage.setItem(el.id, el.value);
+    }
+  }
+
+  function restoreSavedFields() {
+    allFields.forEach(el => {
+      const stored = localStorage.getItem(el.id);
+      if (stored !== null) {
+        if (el.type === "radio" || el.type === "checkbox") {
+          el.checked = stored === "true";
+        } else {
+          el.value = stored;
+        }
+      }
+    });
+  }
+
+  // Gendan ved indlæsning hvis cookies accepteret
+  if (consent === "accepted") restoreSavedFields();
+
+  // Gem kun ændrede felter
+  allFields.forEach(el => {
+    el.addEventListener("input", () => saveField(el));
+    el.addEventListener("change", () => saveField(el));
+  });
 });
