@@ -153,13 +153,3 @@ document.addEventListener('DOMContentLoaded', () => {
   answer.setAttribute('aria-hidden', 'false');
   answer.style.height = answer.scrollHeight + 'px';
 });
-
-
-const hash = window.location.hash;
-if (hash) {
-  const section = document.querySelector(hash);
-  if (section && section.classList.contains("calc-section")) {
-    section.classList.add("open");
-    section.querySelector(".calc-answer")?.setAttribute("aria-hidden", "false");
-  }
-}

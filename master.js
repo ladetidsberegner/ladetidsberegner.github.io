@@ -1,7 +1,3 @@
-//debug
-console.log("master.js loaded");
-
-
 document.addEventListener("DOMContentLoaded", () => {
   console.log("master.js loaded");
 
@@ -175,31 +171,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 })();
-
-
-/* =========================
-   BOOKMARK POPUP – FINAL
-   ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("bookmark-btn");
-  const popup = document.querySelector(".bookmark-popup");
-
-  if (!btn || !popup) {
-    console.warn("Bookmark-knap eller popup ikke fundet");
-    return;
-  }
-
-  // Vis popup ved klik på knap
-  btn.addEventListener("click", () => {
-    popup.classList.add("show");
-  });
-
-  // Luk popup ved klik udenfor
-  document.addEventListener("click", (e) => {
-    if (!popup.contains(e.target) && !btn.contains(e.target)) {
-      popup.classList.remove("show");
-    }
-  });
-});
-
-
