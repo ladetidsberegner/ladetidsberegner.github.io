@@ -72,3 +72,4 @@ function initFadeAnimations() {
 
   elements.forEach(el => observer.observe(el));
 }
+
