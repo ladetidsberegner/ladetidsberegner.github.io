@@ -1,0 +1,131 @@
+/* === BASIS VARIABLER === */
+:root {
+  --brand-green: #55ca1c;
+  --brand-green-dark: #45b515;
+  --accent-blue: #268cec;
+  --text-light: #fff;
+  --text-dark: #111;
+  --radius-base: 8px;
+  --max-width: 900px;
+}
+
+/* === GENERELT === */
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Helvetica Neue",Arial,sans-serif; color:var(--text-dark); background:#fff; }
+
+/* === HERO === */
+.hero { width:100%; height:450px; display:flex; align-items:flex-end; justify-content:center; background:#268cec url("img/hero.jpg") center/cover no-repeat; color:#fff; text-shadow:0 0 8px rgba(0,0,0,.5); }
+.hero-text { max-width:var(--max-width); padding:0 20px 40px; }
+.hero-text h1 { font-size:2.5rem; margin:0 0 1rem; color:var(--brand-green); }
+.hero-text p { max-width:600px; }
+
+/* === BEREGNER === */
+#bereger { scroll-margin-top:70px; }
+.beregner-outer { background:var(--brand-green); color:#fff; padding:30px 0; width:100%; }
+.beregner-container { max-width:var(--max-width); margin:0 auto; padding:0 18px; }
+.beregner-overskrift { font-size:22px; font-weight:700; margin:0 0 8px; }
+.beregner-intro { opacity:.95; margin:0 0 18px; }
+.beregner-divider { border:0; border-bottom:1px solid rgba(255,255,255,.3); margin:14px 0; }
+
+/* === ACCORDION === */
+.calc-section, .advanced-section, .faq-item { margin-bottom:6px; }
+.calc-question, .advanced-question, .faq-question {
+  background:none; border:0; font-size:1.1rem; font-weight:700;
+  width:100%; text-align:left; cursor:pointer; display:flex; align-items:center; gap:.4rem; padding:.8rem 0;
+  transition:color .25s ease;
+}
+.calc-question, .advanced-question { color:#fff; }
+.faq-question { color:var(--text-dark); }
+.calc-question:hover, .advanced-question:hover { color:#e8ffe8; }
+.faq-question:hover { color:var(--brand-green); }
+
+.calc-answer, .advanced-answer, .faq-answer {
+  overflow:hidden; height:0; transition:height .35s ease;
+}
+.calc-section.open .calc-answer,
+.advanced-section.open .advanced-answer,
+.faq-item.open .faq-answer { height:auto; }
+
+.calc-icon, .advanced-icon, .faq-icon {
+  display:inline-block; transform:rotate(0deg); transform-origin:center;
+  transition:transform .3s ease; will-change:transform; pointer-events:none; font-size:1.8rem;
+}
+.calc-icon, .advanced-icon { color:#fff; }
+.faq-icon { color:var(--brand-green); }
+.calc-section.open .calc-icon,
+.advanced-section.open .advanced-icon,
+.faq-item.open .faq-icon { transform:rotate(90deg); }
+
+/* === FORMULAR === */
+.calc-form { display:flex; flex-direction:column; gap:12px; }
+.form-row { display:flex; gap:12px; flex-wrap:wrap; }
+.form-group { flex:1 1 180px; display:flex; flex-direction:column; }
+label { font-weight:600; margin:0 0 6px; color:#fff; }
+.calc-form input[type=number],
+.calc-form input[type=time],
+.calc-form select,
+.advanced-answer input[type=number],
+.advanced-answer select {
+  padding:10px 12px; border-radius:var(--radius-base); border:1px solid #ccc;
+  font-size:15px; background:#fff; color:#111; min-width:120px; outline:0;
+  transition:border-color .2s, box-shadow .2s;
+}
+.calc-form input:focus,
+.calc-form select:focus,
+.advanced-answer input:focus,
+.advanced-answer select:focus {
+  border-color:#0a7a0a; box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.beregn-knap {
+  background:#fff; color:var(--brand-green); border:2px solid var(--brand-green);
+  font-weight:700; font-size:15px; border-radius:var(--radius-base);
+  padding:10px 18px; cursor:pointer; transition:all .2s ease;
+}
+.beregn-knap:hover { background:var(--brand-green-dark); color:#fff; transform:translateY(-1px); }
+
+/* === FAQ === */
+.faq-section { background:#d0f2cc; padding:40px 0; }
+.faq-container { max-width:var(--max-width); margin:0 auto; padding:0 18px; }
+.faq h2 { font-size:1.8rem; margin-bottom:10px; }
+.faq-answer p { margin:0 0 10px; }
+
+/* === LINKS === */
+.beregner-outer a { text-decoration:underline; color:#fff; }
+.beregner-outer a:hover { text-decoration:none; }
+.faq a { color:var(--accent-blue); }
+.faq a:hover { text-decoration:underline; }
+
+/* === MEDIA === */
+@media (max-width:768px){
+  .form-row { flex-direction:column; }
+}
+
+/* === Dropdown-styling i Indstillinger (ens med øvrige felter) === */
+.advanced-answer select,
+.calc-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: block;
+  width: 100%;
+  height: 42px;
+  padding: 9px 38px 9px 12px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius-base);
+  background: #fff
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e")
+    no-repeat right 12px center/16px 16px;
+  color: #111;
+  font-size: 15px;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.advanced-answer select:focus,
+.calc-form select:focus {
+  border-color: #0a7a0a;
+  box-shadow: 0 0 0 3px rgba(85, 202, 28, 0.25);
+  outline: none;
+}
