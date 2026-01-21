@@ -16,7 +16,8 @@ fetch("/includes/footer.html")
     initFadeAnimations();
 
     // init Buy Me a Coffee
-    initBuyMeACoffee();
+    safeInit(window.initBuyMeACoffee);
+
 
     // Fortæl master.js at footeren er klar
     document.dispatchEvent(new Event("footerLoaded"));
@@ -73,3 +74,8 @@ function initFadeAnimations() {
   elements.forEach(el => observer.observe(el));
 }
 
+
+window.initBuyMeACoffee = function () {
+  const el = document.getElementById("buymeacoffee");
+  if (!el) return;
+};
