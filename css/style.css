@@ -192,11 +192,11 @@ a:hover{text-decoration:underline;}
 
 
 /* === HERO === */
-.hero{position:relative;width:100%;height:500px;display:flex;justify-content:center;align-items:flex-end;color:var(--text-light);text-shadow:0 0 8px rgba(0,0,0,.7);border-bottom:1px solid var(--brand-green);z-index:0;background:var(--brand-green) url("/img/hero.jpg") center/cover no-repeat;}
+.hero{position:relative;width:100%;height:550px;display:flex;justify-content:center;align-items:flex-end;color:var(--text-light);text-shadow:0 0 8px rgba(0,0,0,.7);border-bottom:1px solid var(--brand-green);z-index:0;background:var(--brand-green) url("/img/hero.jpg") center/cover no-repeat;}
 .hero::before{content:"";position:absolute;inset:0;background:rgba(85,202,28,.08);z-index:1;pointer-events:none;}
-.hero-text{position:relative;z-index:2;max-width:1200px;width:100%;padding:0 2rem;text-align:left;margin-bottom:40px;}
-.hero-text h1{font-size:3.5rem;margin:0 0 1rem;color:var(--brand-green);}
-.hero-text p{font-size:1.2rem;max-width:40rem;margin:0;}
+.hero-text{position:relative;z-index:2;max-width:1200px;width:100%;padding:0 2rem;text-align:left;margin-top:20px;margin-bottom:40px;}
+.hero-text h1{font-size:1.5rem;margin:0 0 1rem;color:var(--brand-green);}
+.hero-text p{font-size:1.0rem;max-width:40rem;margin:0;}
 .hero-logo{width:clamp(180px,25vw,320px);margin-bottom:16px;display:block;}
 
 /* === ABOUT / FEATURES (kept) === */
