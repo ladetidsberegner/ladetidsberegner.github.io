@@ -1,21 +1,7 @@
-fetch("includes/head-common.html")
-  .then(r => r.text())
-  .then(h => document.head.insertAdjacentHTML("beforeend", h));
-
-console.log("includes-menu.js loaded");
-
-fetch("includes/header.html")
-  .then(r => r.text())
-  .then(html => {
-    const mount = document.getElementById("site-header");
-    if (!mount) return;
-    mount.innerHTML = html;
-    console.log("header inserted");
-  });
 /* =========================
    LOAD COMMON <HEAD>
    ========================= */
-fetch("includes/head-common.html")
+fetch("/includes/head-common.html")
   .then(r => r.text())
   .then(html => document.head.insertAdjacentHTML("beforeend", html));
 
@@ -24,7 +10,7 @@ console.log("includes-menu.js loaded");
 /* =========================
    LOAD HEADER
    ========================= */
-fetch("includes/header.html")
+fetch("/includes/header.html")
   .then(r => r.text())
   .then(html => {
     const mount = document.getElementById("site-header");
@@ -33,27 +19,27 @@ fetch("includes/header.html")
     mount.innerHTML = html;
     console.log("header inserted");
 
-    // ⚡ Kør først når header er i DOM
-    requestAnimationFrame(initHeader);
+    // Kør alt header-logik EFTER HTML er indsat
+    initHeader(mount);
   });
 
 /* =========================
-   HEADER LOGIC – BURGER + ANIMATION
+   HEADER LOGIC
    ========================= */
-function initHeader() {
-  const header = document.querySelector(".site-header");
-  const toggle = document.querySelector(".menu-toggle");
-  const nav = document.querySelector(".site-nav");
-  if (!header || !toggle || !nav) return;
+function initHeader(headerRoot) {
+  const header = headerRoot.querySelector(".site-header") || headerRoot;
+  const toggle = headerRoot.querySelector(".menu-toggle");
+  const nav = headerRoot.querySelector(".site-nav");
+  const items = nav ? nav.querySelectorAll("li") : [];
 
-  const items = nav.querySelectorAll("li");
+  if (!header || !toggle || !nav) return;
 
   /* === Sticky header === */
   window.addEventListener("scroll", () => {
     header.classList.toggle("is-sticky", window.scrollY > 80);
   });
 
-  /* === Burger toggle / slide-in === */
+  /* === Burger toggle (mobil) === */
   toggle.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
     toggle.classList.toggle("active");
@@ -68,7 +54,7 @@ function initHeader() {
     }
   });
 
-  /* === Luk menu ved klik på et link === */
+  /* === Luk menu ved klik på link === */
   nav.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", () => {
       nav.classList.remove("open");
@@ -76,4 +62,17 @@ function initHeader() {
       items.forEach(li => li.classList.remove("is-visible"));
     });
   });
+
+  /* === FAQ Accordion (mobil) === */
+  const faqItem = nav.querySelector(".has-submenu");
+  const faqToggle = nav.querySelector(".faq-toggle");
+
+  if (faqItem && faqToggle) {
+    faqToggle.addEventListener("click", e => {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        faqItem.classList.toggle("open");
+      }
+    });
+  }
 }
