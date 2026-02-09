@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /* =========================
-   BOOKMARK POPUP – FINAL
+   BOOKMARK POPUP
    ========================= */
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("bookmark-btn");
@@ -201,5 +201,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+window.safeInit = function (fn) {
+  try {
+    if (typeof fn === "function") fn();
+  } catch (e) {
+    console.error("SafeInit error:", e);
+  }
+};
+
 
 

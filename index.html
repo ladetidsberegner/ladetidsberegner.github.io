@@ -10,6 +10,9 @@
 
   <link rel="canonical" href="https://ladetidsberegner.github.io/">
 
+<!-- CSS -->
+<link rel="stylesheet" href="css/style.css">
+  
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ladetidsberegner.github.io/">
   <meta property="og:title" content="Beregn ladetid for elbil hjemme">
@@ -36,11 +39,11 @@
   <!-- Top bar (reserveret til landevælger el.lign.) -->
   <!--<div class="top-bar"></div>-->
    <div id="site-header"></div>
- 
-
 
   <!-- Hero -->
   <section class="hero" id="top">
+            <img src="/img/hero.jpg" alt="Zapteclader på væg" class="hero-image">
+
     <div class="hero-text">
       <h1 class="fade-up">Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
       <p class="fade-up">Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
@@ -280,7 +283,7 @@
       <div class="advanced-answer" aria-hidden="false">
         <div class="form-row triple-fields">
           <div class="form-group">
-            <a class="input-label" href="#faq-batterikapacitet" aria-label="Læs mere i FAQ om batterikapacitet">
+            <a class="input-label" href="#faq-batterikapacitet-brutto-netto" aria-label="Læs mere i FAQ om batterikapacitet">
               <span class="label-text">Batterikapacitet (kWh)</span><span class="info-icon">i</span>
             </a>
             <input type="number" id="kapacitet" placeholder="Angiv bilens batteristørrelse (kWh)">
@@ -291,7 +294,7 @@
           </div>
 
           <div class="form-group">
-            <a class="input-label" href="#faq-ladetab" aria-label="Læs mere i FAQ om ladetab">
+            <a class="input-label" href="#faq-front-ladetab" aria-label="Læs mere i FAQ om ladetab">
               <span class="label-text">Ladetab (%)</span><span class="info-icon">i</span>
             </a>
             <input type="number" id="ladetab" min="0" step="0.1" value="12" inputmode="decimal" />
@@ -313,7 +316,7 @@
           </div>
 
 <div class="form-group">
-  <a class="input-label" href="#faq-ladeeffekt" aria-label="Læs mere i FAQ om ladeeffekt og faser">
+  <a class="input-label" href="#faq-front-11kw" aria-label="Læs mere i FAQ om ladeeffekt og faser">
     <span class="label-text">Vælg ladeeffekt og antal faser</span><span class="info-icon">i</span>
   </a>
   <select id="ladevalg">
@@ -515,15 +518,16 @@
   </div>
 
   <!-- FAQ start-->
-  <section class="faq-section fade-section" id="faq-blog">
-    <div class="faq-container">
-      <h2 class="fade-up">Ofte stillede spørgsmål</h2>
-      <p class="faq-intro fade-left">Få hurtige svar på, hvordan du bedst oplader din elbil derhjemme, forlænger batteriets levetid og forstår de vigtigste begreber.</p>
-      <p class="faq-intro fade-left">I vores FAQ finder du forklaringer på SoC og batterikapacitet, hvorfor ladetab opstår, effektivitet og gode opladningsvaner.</p>
+<!-- FAQ – accordion (kort version til forsiden) -->
+<section class="faq-section fade-section" id="faq-front">
+  <div class="faq-container">
+    <h2 class="fade-up">Ofte stillede spørgsmål</h2>
+    <p class="faq-intro fade-left">
+      Få korte svar på de mest almindelige spørgsmål om ladetid, ladetab og opladning af elbil derhjemme.
+    </p>
 
-      <div class="faq">
-
-        <!-- SOC -->
+    <div class="faq">
+              <!-- SOC -->
         <div class="faq-item fade-up" id="faq-soc">
           <button class="faq-question">
             <span class="faq-icon">▶</span>
@@ -531,19 +535,6 @@
           </button>
           <div class="faq-answer">
             <p>SOC står for "State of Charge" og viser i procent, hvor meget strøm der er på bilens batteri. Start-SOC er niveauet, inden du begynder at lade, og slut-SOC er, hvor fyldt batteriet er, når opladningen er færdig.</p>
-          </div>
-        </div>
-
-        <!-- Batterikapacitet -->
-        <div class="faq-item fade-up" id="faq-batterikapacitet">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvad er batterikapacitet?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>Batterikapacitet viser, hvor meget energi bilens batteri kan lagre, og måles i kilowatt-timer (kWh). Man skelner mellem brutto- og nettokapacitet: Brutto er den samlede energi i batteriet, mens nettokapacitet er den del, som faktisk kan bruges til kørsel. Hele batteriet kan ikke anvendes, da det beskytter batteriets levetid og sikkerhed.</p>
-            <p>En større batterikapacitet betyder generelt, at bilen kan køre længere på en opladning. Den praktiske rækkevidde afhænger dog også af bilens effektivitet, altså hvor meget energi bilen bruger pr. kilometer.</p>
-            <p>To biler med samme batterikapacitet kan have meget forskellig rækkevidde. Eksempel: En bil, der bruger 15 kWh/100 km, kan køre ca. 400 km på et 60 kWh batteri, mens en bil, der bruger 20 kWh/100 km, kun kan køre ca. 300 km. <a href="#faq-effektivitet">Se også effektivitet</a></p>
           </div>
         </div>
 
@@ -560,226 +551,78 @@
           </div>
         </div>
 
-        <!-- Effektivitet -->
-        <div class="faq-item fade-up" id="faq-effektivitet">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvad påvirker bilens effektivitet og rækkevidde?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>Effektiviteten påvirkes af temperatur, brug af varme eller aircondition, og forhold som regn, sne eller koldt vejr. Disse faktorer kan øge energiforbruget og reducere den praktiske rækkevidde.</p>
-            <p>Effektivitet måles ofte i kWh pr. 100 km eller km pr. kWh.</p>
-          </div>
+
+      <!-- Hvad er ladetab -->
+      <div class="faq-item fade-up" id="faq-front-ladetab">
+        <button class="faq-question">
+          <span class="faq-icon">▶</span>
+          <h3 class="faq-heading">Hvad er ladetab?</h3>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Ladetab er den energi, der går tabt under opladning af elbilen. Ved hjemmeopladning ligger tabet typisk omkring 10–15 %, men kan være højere ved korte opladninger.
+          </p>
+          <!--<p>
+            <a href="/faq/hvad-er-ladetab.html">Læs mere om ladetab ved opladning af elbil</a>
+          </p>-->
         </div>
-
-        <!-- Ladetab -->
-        <div class="faq-item fade-up" id="faq-ladetab">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvad er ladetab?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>Ladetab er den energi, der går tabt under opladning — typisk omkring 10–15% afhængigt af bil og lader.</p>
-            <p>Et vigtigt punkt er, at <strong>det relative ladetab ofte stiger ved lav ladeeffekt</strong>. Forklaringen er, at dele af ladesystemet (bilens styringselektronik, varme- og kølesystemer mv.) bruger en nogenlunde fast mængde energi uafhængigt af, hvor hurtigt du lader. Når du lader langsomt, fordeles dette faste forbrug over færre kWh, og derfor udgør det en større procentdel af den samlede energi — altså højere procentuelt tab.</p>
-            <p>Praktisk konsekvens: Hvis din bil og installation tillader det, kan opladning med lidt højere effekt være mere energieffektiv (kortere tid og lavere procentuelt tab). Men husk, at bilen er flaskehals, da den bestemmer, hvor hurtigt den kan modtage effekt.</p>
-          </div>
-        </div>
-
-<div class="faq-item" id="faq-hoejt-ladetab">
-  <button class="faq-question" aria-expanded="false">
-    <span class="faq-icon">▶</span>
-    <h3 class="faq-heading">Hvorfor er mit ladetab højt ved korte opladninger?</h3>
-  </button>
-
-  <div class="faq-answer" aria-hidden="true">
-    <p>
-  Et højt ladetab er helt normalt, hvis du kun lader en lille del af batteriet
-  eller lader ved høj batteriprocent.
-</p>
-
-<p>
-  Når du f.eks. lader fra 70 % til 80 %, reduceres ladeeffekten gradvist,
-  og en større del af energien bruges på varme, balancering af battericeller
-  og temperaturkontrol i stedet for direkte lagring i batteriet.
-</p>
-
-<p>
-  Korte opladninger giver også større usikkerhed i beregningen, fordi bilens
-  SoC typisk vises i hele procenter. Én procent kan svare til 0,5–1 kWh,
-  hvilket hurtigt kan flytte ladetabet flere procentpoint.
-</p>
-
-<p>
-  <strong>Som tommelfingerregel:</strong>
-</p>
-
-<ul>
-  <li>Korte opladninger (fx 5–15 % SoC) → ofte 20–35 % ladetab</li>
-  <li>Mellemstore opladninger (fx 30–60 % SoC) → typisk 10–15 %</li>
-  <li>Opladning ved høj SoC (&gt; 70 %) → højere tab end normalt</li>
-</ul>
-
-<p>
-  Et højt ladetab betyder ikke nødvendigvis, at der er noget galt med bilen eller laderen.
-  Uanset om du lader lidt eller meget, bruges der altid energi på at styre, overvåge
-  og beskytte batteriet – fx til batteristyring, temperaturkontrol og balancering af cellerne.
-</p>
-
-<p>
-  Ved korte opladninger udgør dette “faste” energiforbrug en større del af den samlede energi,
-  og derfor bliver det beregnede ladetab relativt højere, end hvis du lader en større del
-  af batteriet ad gangen.
-</p>
-
-<p>
-  Derudover vil forvarmning af bilen, mens den lader, også trække ekstra energi fra laderen,
-  hvilket kan give et højere ladetab. Vi anbefaler derfor **ikke at forvarme bilen under
-  målingen**, så resultatet af ladetabet bliver mest retvisende.
-</p>
-
-<p>
-  <strong>Eksempel:</strong>  
-  Hvis du lader 5 %, fordeles det faste energiforbrug på meget lidt lagret energi,
-  og ladetabet kan derfor se højt ud i procent. Lader du derimod 40 % i én opladning,
-  fordeles det samme grundforbrug på langt mere energi, og ladetabet bliver typisk
-  væsentligt lavere.
-</p>
-
-  </div>
-</div>
-
-
-
-        <!-- Ladeeffekt og faser (flaskehalsen) -->
-<div class="faq-item fade-up" id="faq-ladeeffekt">
-  <button class="faq-question">
-    <span class="faq-icon">▶</span>
-    <h3 class="faq-heading">Hvorfor kan jeg ikke lade med 22 kW, selvom min installation understøtter det?</h3>
-  </button>
-  <div class="faq-answer">
-    <p>Det skyldes, at bilen ofte er den <strong>flaskehals</strong>, når der lades med AC (hjemmeladning). Selvom din ladeboks og elinstallation måske kan levere 22 kW (3 faser, 32A), kan bilen kun modtage den effekt, som dens indbyggede ombordlader understøtter.</p>
-
-    <p>De fleste elbiler i Danmark har en indbygget lader, der maks. kan modtage <strong>11 kW AC</strong> (3 faser, 16A). Det betyder, at selvom ladeboksen kan mere, vil bilen begrænse effekten til 11 kW.</p>
-
-    <h4>Eksempel</h4>
-    <p>Installation og ladeboks: <strong>22 kW</strong><br>
-       Bilens ombordlader: <strong>11 kW</strong><br>
-       → Resultat: Du kan kun lade med <strong>11 kW</strong></p>
-
-    <h4>Typiske maks. AC-ladeeffekter</h4>
-    <ul class="faq-points">
-      <li>3,7 kW — 1 fase, 16A</li>
-      <li>7,4 kW — 1 fase, 32A</li>
-      <li>11 kW — 3 faser, 16A (mest udbredt i DK)</li>
-      <li>22 kW — 3 faser, 32A (kræver både installation <em>og</em> bil der understøtter det)</li>
-    </ul>
-
-    <p>Det er derfor helt normalt, at en bil kun lader med 11 kW hjemme – også selvom ladeboksen teknisk kan levere mere. Man udnytter altså ikke 22 kW-muligheden, hvis bilens ombordlader ikke understøtter det.</p>
-
-    <p>AC-ladning handler derfor om et samspil mellem:</p>
-    <ul class="faq-points">
-      <li><strong>Elinstallation</strong> (kabler, sikringer, faser, ampere)</li>
-      <li><strong>Ladeboksens kapacitet</strong></li>
-      <li><strong>Bilens indbyggede lader</strong> — den afgør det endelige max.</li>
-    </ul>
-
-    <p><strong>Tip:</strong> Du kan finde specifikationer for din bils maksimale AC-ladeeffekt på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>.</p>
-  </div>
-</div>
-
- <div class="faq-item fade-up" id="faq-lfp-kulde-ac">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Kan LFP-batterier få nedsat ladehastighed – også ved AC-opladning i hård frost?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>Ja. Ifølge generel batteridokumentation og producenters BMS-strategier kan <strong>LFP-batterier (Lithium-jern-fosfat) få nedsat ladehastighed – også ved almindelig AC-hjemmeopladning – når batteriet er meget koldt.</strong></p>
-
-<p>Når <strong>to forhold er opfyldt samtidig</strong>:</p>
-<ul>
-    <li>Batterikemi: <strong>LFP</strong></li>
-    <li>Temperatur: <strong>kraftige minusgrader (fx omkring −10 °C)</strong></li>
-</ul>
-
-<p>Vil bilens <strong>Battery Management System (BMS)</strong> typisk:</p>
-<ul>
-    <li>reducere ladeeffekten markant</li>
-    <li>bruge en større del af strømmen på batteriopvarmning</li>
-    <li>i ekstreme tilfælde midlertidigt <strong>afbryde opladningen</strong>, indtil batteriet er varmt nok</li>
-</ul>
-
-<p>Dette er <strong>kendt, normal og tilsigtet beskyttelsesadfærd</strong>, der skal forhindre batteriskader (fx lithium-plating) og forlænge batteriets levetid. Det er ikke en fejl og gælder ikke kun én bilmodel, men <strong>LFP-kemi generelt</strong>.</p>
-
-<p>Når batteriet igen når en passende temperatur, vil opladningen normalt fortsætte.<br>
-👉 Bemærk: Det er <strong>batteriets temperatur – ikke kun udetemperaturen – der er afgørende</strong>. Over længere ladeperioder (fx natopladning) vil batteriet ofte varme op og lade næsten normalt igen.</p>
-
-
-            </div>
-            </div>
-
-
-        <!-- 80% eller 100% -->
-        <div class="faq-item fade-up" id="faq-80">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Bør jeg lade min elbil til 80% eller 100%?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>Det afhænger af, hvilken type batteri din elbil bruger. Forskellige batterikemier reagerer forskelligt på høj opladning, og nogle tåler 100% dagligt, mens andre har bedst af at blive ladet til omkring 80% i hverdagen.</p>
-            <ul class="faq-points">
-              <li><strong>Litium-jernfosfat (LFP):</strong> Kan uden problemer lades til 100% dagligt. Nogle producenter anbefaler endda fuld opladning med jævne mellemrum for at holde rækkeviddevisningen præcis.</li>
-              <li><strong>Litium-nikkel-mangan-kobolt (NMC):</strong> Har bedst af at blive ladet til 70–80% til dagligt og kun til 100%, når du skal køre langt. Hyppig fuld opladning kan over tid slide på batteriet.</li>
-              <li><strong>Litium-nikkel-kobolt-aluminium (NCA):</strong> Minder meget om NMC, men bruges typisk i Tesla og visse premiumbiler. Også her anbefales daglig opladning til omkring 80% for at forlænge levetiden.</li>
-              <li><strong>Litium-titanat (LTO):</strong> Meget sjælden type med ekstremt lang levetid og høj ladeeffekt. Kan generelt lades til 100% uden problemer, men findes mest i nichekøretøjer.</li>
-            </ul>
-            <p>Selv for batterityper, der normalt kun lades til 70–80%, anbefales det at lade helt op til 100% cirka én gang om måneden. Det hjælper bilens batteristyring (BMS) med at kalibrere spænding og kapacitet for hver celle, så visningen af rækkevidde og SoC forbliver nøjagtig.</p>
-            <p>Ved fuld opladning kan bilen udføre såkaldt <em>cellebalancering</em>, hvor små forskelle mellem battericeller udlignes. Det forbedrer både præcisionen i visningen og batteriets langsigtede sundhed.</p>
-            <p>Du kan finde oplysninger om batteritypen i din bils manual eller på <a href="https://www.ev-database.org" target="_blank" rel="noopener">ev-database.org</a>.</p>
-            <p>Som tommelfingerregel: Lad op til 80% SoC til dagligt for de fleste biler, og til 100% cirka én gang om måneden eller inden længere ture.</p>
-          </div>
-        </div>
-
-        <!-- Hvor finder jeg data -->
-        <div class="faq-item fade-up" id="faq-batterikapacitet-evdb">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvor kan jeg finde oplysninger om min bil?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>Du kan finde din bils batterikapacitet og effektivitet på <a href="https://ev-database.org" target="_blank" rel="noopener noreferrer">ev-database.org</a>.</p>
-          </div>
-        </div>
-
-        <!-- AC vs DC opladning -->
-        <div class="faq-item fade-up" id="faq-ac-dc">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvad er forskellen på AC- og DC-opladning?</h3>
-          </button>
-          <div class="faq-answer">
-            <p><strong>AC-opladning</strong> er typisk hjemmeladning med 1–3 faser (f.eks. 3,7–22 kW), hvor bilens indbyggede lader omdanner vekselstrøm til jævnstrøm til batteriet.</p>
-            <p><strong>DC-opladning</strong> (lynladning) sker ved høj effekt på offentlige stationer, hvor omformeren sidder i laderen – ikke i bilen. Det muliggør væsentligt højere effekter end bilens AC-lader kan klare.</p>
-          </div>
-        </div>
-
-        <!-- Delvis opladning -->
-        <div class="faq-item fade-up" id="faq-daglig-opladning">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Er det bedst at lade lidt og ofte eller sjældent og meget?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>For de fleste batterityper (NMC/NCA) er det bedst at lade lidt og ofte og typisk holde sig til 70–80% i hverdagen, men køre helt til 100% før længere ture. LFP-batterier kan uden problemer lades til 100% dagligt.</p>
-          </div>
-        </div>
-
-        <div class="faq-disclaimer fade-up">
-          <p><strong>Bemærk:</strong> Der tages forbehold for eventuelle fejl eller urigtige oplysninger i spørgsmål og svar.</p>
-        </div>
-
       </div>
+
+      <!-- Sådan beregner du ladetid -->
+      <div class="faq-item fade-up" id="faq-front-beregning">
+        <button class="faq-question">
+          <span class="faq-icon">▶</span>
+          <h3 class="faq-heading">Sådan beregner du ladetid på din elbil</h3>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Ladetiden afhænger af batteriets størrelse, hvor meget der skal lades, ladeeffekten og ladetab. Med en enkel beregning kan du få et realistisk estimat.
+          </p>
+          <!--<p>
+            <a href="/saadan-beregner-du-ladetid.html">Se hvordan du beregner ladetid trin for trin</a>
+          </p>-->
+        </div>
+      </div>
+
+      <!-- 80% eller 100% -->
+      <div class="faq-item fade-up" id="faq-front-80-100">
+        <button class="faq-question">
+          <span class="faq-icon">▶</span>
+          <h3 class="faq-heading">Bør jeg lade min elbil til 80 % eller 100 %?</h3>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Det afhænger af batteritypen. Nogle elbiler har bedst af daglig opladning til 70–80 %, mens andre uden problemer kan lades helt op.
+          </p>
+          <!--<p>
+            <a href="/faq/80-eller-100-procent.html">Læs hvornår du bør lade til 80 % eller 100 %</a>
+          </p>-->
+        </div>
+      </div>
+
+      <!-- Hvorfor kun 11 kW -->
+      <div class="faq-item fade-up" id="faq-front-11kw">
+        <button class="faq-question">
+          <span class="faq-icon">▶</span>
+          <h3 class="faq-heading">Hvorfor kan jeg ikke lade med 22 kW derhjemme?</h3>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Selvom din ladeboks og installation kan levere 22 kW, er det bilens indbyggede lader, der begrænser effekten – typisk til 11 kW.
+          </p>
+          <!--<p>
+            <a href="/faq/hvorfor-lader-min-elbil-kun-11-kw.html">Forstå hvorfor din elbil kun lader med 11 kW</a>
+          </p>-->
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+<!-- FAQ – accordion slut -->
+
+<!-- FAQ – kort version slut -->
+
   <!--FAQ Slut-->
 
   <!-- Ad: efter FAQ -->
@@ -833,8 +676,6 @@
   <i class="fas fa-thumbtack"></i>
 </button>
 
-
-
 <script src="master.js"></script>
 <script src="accordion.js"></script>
 <script src="scroll.js"></script>
@@ -842,6 +683,7 @@
 <script src="beregner-spor3.js" defer></script>
 <script src="beregner-spor4.js" defer></script>
 <script src="cookie.js" defer></script>
+<script src="/includes/includes-menu.js" defer></script>
 <script src="/includes/includes-footer.js" defer></script>
 
 </body>
