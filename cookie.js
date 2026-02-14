@@ -1,3 +1,4 @@
+// cookie.js – global version med AdSense support på alle sider
 (function() {
   if (window.__cookieInit) return;
   window.__cookieInit = true;
@@ -15,6 +16,7 @@
       setTimeout(waitForElements, 50);
       return;
     }
+
     initCookie(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn);
   }
 
@@ -33,8 +35,10 @@
     function enableTracking() {
       if (trackingEnabled) return;
       trackingEnabled = true;
+
       gtag("consent", "update", { ad_storage: "granted", analytics_storage: "granted" });
 
+      // GA4
       if (!document.getElementById("ga4-script")) {
         const gaScript = document.createElement("script");
         gaScript.id = "ga4-script";
@@ -44,6 +48,7 @@
         document.head.appendChild(gaScript);
       }
 
+      // AdSense
       if (!document.getElementById("adsense-script")) {
         const adsScript = document.createElement("script");
         adsScript.id = "adsense-script";
@@ -52,7 +57,9 @@
         adsScript.crossOrigin = "anonymous";
         adsScript.onload = renderAds;
         document.head.appendChild(adsScript);
-      } else renderAds();
+      } else {
+        renderAds();
+      }
     }
 
     function disableTracking(forceReload = false) {
@@ -68,12 +75,13 @@
             window.adsbygoogle.push({});
           }
         });
-      } catch (err) { console.error(err); }
+      } catch (err) { console.error("AdSense render error:", err); }
     }
 
     function addPolicyButtons() {
       const popup = document.querySelector(".cookie-policy-content");
       if (!popup || popup.querySelector(".policy-actions")) return;
+
       const btns = document.createElement("div");
       btns.className = "policy-actions";
       btns.style.marginTop = "20px";
@@ -88,7 +96,9 @@
         policyPopup.style.display = "none";
         enableTracking();
         hideBanner();
+        restoreSavedFields();
       });
+
       document.getElementById("policy-decline").addEventListener("click", () => {
         localStorage.setItem("cookie-consent", "declined");
         policyPopup.style.display = "none";
@@ -103,8 +113,9 @@
 
     const consent = localStorage.getItem("cookie-consent");
 
-    if (!consent) banner.style.display = "flex";
-    else {
+    if (!consent) {
+      if (banner) banner.style.display = "flex";
+    } else {
       hideBanner();
       if (consent === "accepted") enableTracking();
       else disableTracking();
@@ -114,7 +125,9 @@
       localStorage.setItem("cookie-consent", "accepted");
       hideBanner();
       enableTracking();
+      restoreSavedFields();
     });
+
     rejectBtn.addEventListener("click", () => {
       localStorage.setItem("cookie-consent", "declined");
       hideBanner();
@@ -137,5 +150,39 @@
         addPolicyButtons();
       });
     }
+
+    // ============================
+    // GEM OG GENDAN FELTER
+    // ============================
+    const allFields = document.querySelectorAll("#bereger input, #bereger select");
+
+    function saveField(el) {
+      if (localStorage.getItem("cookie-consent") !== "accepted") return;
+      if (el.type === "radio" || el.type === "checkbox") {
+        localStorage.setItem(el.id, el.checked);
+      } else {
+        localStorage.setItem(el.id, el.value);
+      }
+    }
+
+    function restoreSavedFields() {
+      allFields.forEach(el => {
+        const stored = localStorage.getItem(el.id);
+        if (stored !== null) {
+          if (el.type === "radio" || el.type === "checkbox") {
+            el.checked = stored === "true";
+          } else {
+            el.value = stored;
+          }
+        }
+      });
+    }
+
+    if (consent === "accepted") restoreSavedFields();
+
+    allFields.forEach(el => {
+      el.addEventListener("input", () => saveField(el));
+      el.addEventListener("change", () => saveField(el));
+    });
   }
 })();
