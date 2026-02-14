@@ -635,46 +635,20 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- Cookie banner -->
-  <div id="cookie-banner" class="cookie-banner">
-    <div class="cookie-text">
-      Vi bruger cookies til at forbedre din oplevelse og analysere trafik.
-      Du kan læse mere i vores
-      <a href="#" id="cookie-policy-link" style="text-decoration:underline;">cookiepolitik</a>.
-    </div>
-    <div class="cookie-buttons">
-      <button id="cookie-accept">Accepter</button>
-      <button id="cookie-decline">Afvis</button>
-    </div>
-  </div>
 
-  <!-- Ændr samtykke -->
-  <button id="change-cookie-consent" class="change-cookie-consent">Ændr cookieindstillinger</button>
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/includes/footer.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('footer-placeholder').innerHTML = html;
 
-  <!-- Cookie Politik Popup -->
-<!-- Cookie Politik Popup -->
-<div id="cookie-policy-popup" class="cookie-policy-popup">
-  <div class="cookie-policy-content">
-    <span id="cookie-policy-close" class="close">&times;</span>
-    <h2>Cookiepolitik</h2>
-    <p>
-      Vi bruger cookies til statistik og annoncering for at forbedre oplevelsen.
-      Du kan til enhver tid ændre dit samtykke her.
-    </p>
-    <!-- Knapper tilføjes automatisk via addPolicyButtons() -->
-  </div>
-</div>
-
-<div id="site-footer"></div>
-
-  <!-- Bookmark-knap -->
-<div class="bookmark-popup">
-  <p>Gem siden som favorit, så har du ladetidsberegneren lige ved hånden!</p>
-</div>
-
-<button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">
-  <i class="fas fa-thumbtack"></i>
-</button>
+      // Footer er loadet – initialiser cookie.js
+      const script = document.createElement('script');
+      script.src = '/cookie.js';
+      document.body.appendChild(script);
+    });
+</script>
 
 <script src="master.js"></script>
 <script src="accordion.js"></script>
@@ -685,6 +659,6 @@
 <script src="cookie.js" defer></script>
 <script src="/includes/includes-menu.js" defer></script>
 <script src="/includes/includes-footer.js" defer></script>
-
+<script src="/cookie.js" defer></script>
 </body>
 </html>

@@ -256,7 +256,19 @@ Hvis du lader bilen på tidspunkter med lav elpris og undgår unødvendige korte
   </main>
 
   <!-- FOOTER (INJECTED) -->
-  <div id="site-footer"></div>
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/includes/footer.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('footer-placeholder').innerHTML = html;
+
+      // Footer er loadet – initialiser cookie.js
+      const script = document.createElement('script');
+      script.src = '/cookie.js';
+      document.body.appendChild(script);
+    });
+</script>
 
   <!-- SCRIPTS -->
   <script src="includes/includes-menu.js" defer></script>
