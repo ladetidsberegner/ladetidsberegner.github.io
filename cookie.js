@@ -1,7 +1,7 @@
-// cookie.js – global version med AdSense support på alle sider
+// global-cookie-ads.js
 (function() {
-  if (window.__cookieInit) return;
-  window.__cookieInit = true;
+  if (window.__cookieAdsInit) return;
+  window.__cookieAdsInit = true;
 
   function waitForElements() {
     const banner = document.getElementById("cookie-banner");
@@ -12,22 +12,24 @@
     const policyClose = document.getElementById("cookie-policy-close");
     const changeBtn = document.getElementById("change-cookie-consent");
 
+    const adSlots = document.querySelectorAll("ins.adsbygoogle");
+
     if (!banner || !acceptBtn || !rejectBtn || !policyLink || !policyPopup || !policyClose || !changeBtn) {
       setTimeout(waitForElements, 50);
       return;
     }
 
-    initCookie(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn);
+    initCookieAndAds(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn, adSlots);
   }
 
   waitForElements();
 
-  function initCookie(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn) {
+  function initCookieAndAds(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn, adSlots) {
     if (changeBtn) changeBtn.style.display = "none";
 
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag("consent", "default", { ad_storage: "denied", analytics_storage: "denied" });
+    function gtag(){ dataLayer.push(arguments); }
+    gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied"});
     gtag("js", new Date());
 
     let trackingEnabled = false;
@@ -35,53 +37,52 @@
     function enableTracking() {
       if (trackingEnabled) return;
       trackingEnabled = true;
+      gtag("consent","update",{ad_storage:"granted",analytics_storage:"granted"});
 
-      gtag("consent", "update", { ad_storage: "granted", analytics_storage: "granted" });
-
-      // GA4
       if (!document.getElementById("ga4-script")) {
         const gaScript = document.createElement("script");
         gaScript.id = "ga4-script";
         gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
         gaScript.async = true;
-        gaScript.onload = () => gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
+        gaScript.onload = () => gtag("config","G-ELGNQRMN1X",{anonymize_ip:true});
         document.head.appendChild(gaScript);
       }
 
-      // AdSense
       if (!document.getElementById("adsense-script")) {
         const adsScript = document.createElement("script");
         adsScript.id = "adsense-script";
         adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
         adsScript.async = true;
         adsScript.crossOrigin = "anonymous";
-        adsScript.onload = renderAds;
+        adsScript.onload = () => renderAds(adSlots);
         document.head.appendChild(adsScript);
-      } else {
-        renderAds();
-      }
+      } else renderAds(adSlots);
     }
 
-    function disableTracking(forceReload = false) {
-      gtag("consent", "update", { ad_storage: "denied", analytics_storage: "denied" });
-      if (forceReload) setTimeout(() => location.reload(), 500);
+    function disableTracking(forceReload=false) {
+      gtag("consent","update",{ad_storage:"denied",analytics_storage:"denied"});
+      if (forceReload) setTimeout(()=>location.reload(),500);
     }
 
-    function renderAds() {
+    function renderAds(slots) {
       try {
         window.adsbygoogle = window.adsbygoogle || [];
-        document.querySelectorAll("ins.adsbygoogle").forEach(slot => {
-          if (slot.getAttribute("data-adsbygoogle-status") !== "done") {
-            window.adsbygoogle.push({});
+        slots.forEach(slot => {
+          function tryPush(attempts=0) {
+            if (slot.offsetWidth > 0 || attempts > 10) {
+              window.adsbygoogle.push({});
+            } else {
+              setTimeout(()=>tryPush(attempts+1),200);
+            }
           }
+          tryPush();
         });
-      } catch (err) { console.error("AdSense render error:", err); }
+      } catch(e){ console.error("AdSense render error:", e); }
     }
 
     function addPolicyButtons() {
       const popup = document.querySelector(".cookie-policy-content");
       if (!popup || popup.querySelector(".policy-actions")) return;
-
       const btns = document.createElement("div");
       btns.className = "policy-actions";
       btns.style.marginTop = "20px";
@@ -90,18 +91,16 @@
         <button id="policy-decline" style="background:#666;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;">Afvis</button>
       `;
       popup.appendChild(btns);
-
-      document.getElementById("policy-accept").addEventListener("click", () => {
-        localStorage.setItem("cookie-consent", "accepted");
-        policyPopup.style.display = "none";
+      document.getElementById("policy-accept").addEventListener("click",()=>{
+        localStorage.setItem("cookie-consent","accepted");
+        policyPopup.style.display="none";
         enableTracking();
         hideBanner();
         restoreSavedFields();
       });
-
-      document.getElementById("policy-decline").addEventListener("click", () => {
-        localStorage.setItem("cookie-consent", "declined");
-        policyPopup.style.display = "none";
+      document.getElementById("policy-decline").addEventListener("click",()=>{
+        localStorage.setItem("cookie-consent","declined");
+        policyPopup.style.display="none";
         disableTracking(true);
       });
     }
@@ -112,77 +111,43 @@
     }
 
     const consent = localStorage.getItem("cookie-consent");
+    if (!consent) banner.style.display = "flex";
+    else { hideBanner(); consent==="accepted"?enableTracking():disableTracking(); }
 
-    if (!consent) {
-      if (banner) banner.style.display = "flex";
-    } else {
-      hideBanner();
-      if (consent === "accepted") enableTracking();
-      else disableTracking();
-    }
-
-    acceptBtn.addEventListener("click", () => {
-      localStorage.setItem("cookie-consent", "accepted");
+    acceptBtn.addEventListener("click",()=>{
+      localStorage.setItem("cookie-consent","accepted");
       hideBanner();
       enableTracking();
       restoreSavedFields();
     });
 
-    rejectBtn.addEventListener("click", () => {
-      localStorage.setItem("cookie-consent", "declined");
+    rejectBtn.addEventListener("click",()=>{
+      localStorage.setItem("cookie-consent","declined");
       hideBanner();
       disableTracking(true);
     });
 
-    policyLink.addEventListener("click", (e) => {
+    policyLink.addEventListener("click",(e)=>{
       e.preventDefault();
-      policyPopup.style.display = "block";
+      policyPopup.style.display="block";
       addPolicyButtons();
     });
 
-    policyClose.addEventListener("click", () => { policyPopup.style.display = "none"; });
-    window.addEventListener("click", (e) => { if (e.target === policyPopup) policyPopup.style.display = "none"; });
+    policyClose.addEventListener("click",()=>{ policyPopup.style.display="none"; });
+    window.addEventListener("click",(e)=>{ if(e.target===policyPopup) policyPopup.style.display="none"; });
 
     if (changeBtn) {
-      changeBtn.style.display = "inline-flex";
-      changeBtn.addEventListener("click", () => {
-        policyPopup.style.display = "block";
+      changeBtn.style.display="inline-flex";
+      changeBtn.addEventListener("click",()=>{
+        policyPopup.style.display="block";
         addPolicyButtons();
       });
     }
 
-    // ============================
-    // GEM OG GENDAN FELTER
-    // ============================
-    const allFields = document.querySelectorAll("#bereger input, #bereger select");
-
-    function saveField(el) {
-      if (localStorage.getItem("cookie-consent") !== "accepted") return;
-      if (el.type === "radio" || el.type === "checkbox") {
-        localStorage.setItem(el.id, el.checked);
-      } else {
-        localStorage.setItem(el.id, el.value);
-      }
-    }
-
-    function restoreSavedFields() {
-      allFields.forEach(el => {
-        const stored = localStorage.getItem(el.id);
-        if (stored !== null) {
-          if (el.type === "radio" || el.type === "checkbox") {
-            el.checked = stored === "true";
-          } else {
-            el.value = stored;
-          }
-        }
-      });
-    }
-
-    if (consent === "accepted") restoreSavedFields();
-
-    allFields.forEach(el => {
-      el.addEventListener("input", () => saveField(el));
-      el.addEventListener("change", () => saveField(el));
-    });
+    const allFields = document.querySelectorAll("#bereger input,#bereger select");
+    function saveField(el){ if(localStorage.getItem("cookie-consent")!=="accepted") return; el.type==="radio"||el.type==="checkbox"?localStorage.setItem(el.id,el.checked):localStorage.setItem(el.id,el.value); }
+    function restoreSavedFields(){ allFields.forEach(el=>{ const stored=localStorage.getItem(el.id); if(stored!==null){ el.type==="radio"||el.type==="checkbox"?el.checked=stored==="true":el.value=stored; } }); }
+    if(consent==="accepted") restoreSavedFields();
+    allFields.forEach(el=>{ el.addEventListener("input",()=>saveField(el)); el.addEventListener("change",()=>saveField(el)); });
   }
 })();
