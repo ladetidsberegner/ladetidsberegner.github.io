@@ -1,59 +1,96 @@
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-section fade-left">
-        <h3 id="om">Beregn din opladningstid</h3>
-        <p>Vi hjælper dig med opladning af din elbil på en enkel og overskuelig måde. Med vores værktøj kan du planlægge og optimere din opladning. Ved at kende den præcise opladningstid bliver det lettere at finde de bedste tidspunkter at oplade på og spare penge.</p>
-      </div>
-
-      <div class="footer-section fade-left">
-        <h4>Vidste du?</h4>
-        <ul>
-          <li><span class="icon">⚡</span> 80 % af alle opladninger sker hjemme</li>
-          <li><span class="icon">⏱</span> Vi hjælper dig med hurtigt og nemt at beregne opladningstiden</li>
-          <li><span class="icon">💡</span> Vores værktøj gør det nemt at optimere opladningen</li>
-        </ul>
-      </div>
-
-      <div class="footer-section">
-        <h4>Støt projektet</h4>
-        <p>Siden drives på frivillig basis. Alle økonomiske bidrag er velkomne og hjælper os med at holde værktøjet gratis.</p>
-        <br />
-        
-
-<div id="bmc-container">
-  <a
-    href="https://www.buymeacoffee.com/ladetidsberegner"
-    target="_blank"
-    rel="noopener"
-    style="
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      background:#55ca1c;
-      color:#fff;
-      padding:12px 18px;
-      border-radius:8px;
-      text-decoration:none;
-      font-weight:600;
-    "
-  >
-    ☕ Buy me a coffee
-  </a>
+<!-- Cookie banner -->
+<div id="cookie-banner" class="cookie-banner">
+  <div class="cookie-text">
+    Vi bruger cookies til at forbedre din oplevelse og analysere trafik.
+    Du kan læse mere i vores
+    <a href="#" id="cookie-policy-link" style="text-decoration:underline;">cookiepolitik</a>.
+  </div>
+  <div class="cookie-buttons">
+    <button id="cookie-accept">Accepter</button>
+    <button id="cookie-decline">Afvis</button>
+  </div>
 </div>
 
+<!-- Ændr cookie-indstillinger -->
+<button id="change-cookie-consent" class="change-cookie-consent">Ændr cookieindstillinger</button>
 
-
-
-        <h4 id="kontakt">Kontakt</h4>
-        <p>Hvis du har ris, ros, kommentarer, eller ønsker et samarbejde, er du velkommen til at skrive på: <span id="kontakt-mail"></span></p>
-        <p style="font-style: italic; font-size: small;">Info på siden er vejledende. Der tages forbehold for fejl og ukorekte oplysninger. Det anbefales altid at søge infor fra flere uafhængige kilder.</p>
-
-      </div>
-    </div>
-  </footer>
-
-  <div class="footer-bottom">
-    <p>&copy; <span id="current-year">2025</span> Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
+<!-- Cookie Politik Popup -->
+<div id="cookie-policy-popup" class="cookie-policy-popup">
+  <div class="cookie-policy-content">
+    <span id="cookie-policy-close" class="close">&times;</span>
+    <h2>Cookiepolitik</h2>
+    <p>
+      Vi bruger cookies til statistik og annoncering for at forbedre oplevelsen.
+      Du kan til enhver tid ændre dit samtykke her.
+    </p>
+    <!-- Policy-knapper tilføjes automatisk via cookie.js -->
   </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-section fade-left">
+      <h3 id="om">Beregn din opladningstid</h3>
+      <p>
+        Vi hjælper dig med opladning af din elbil på en enkel og overskuelig måde. Med vores værktøj kan du planlægge og optimere din opladning. Ved at kende den præcise opladningstid bliver det lettere at finde de bedste tidspunkter at oplade på og spare penge.
+      </p>
+    </div>
+
+    <div class="footer-section fade-left">
+      <h4>Vidste du?</h4>
+      <ul>
+        <li><span class="icon">⚡</span> 80 % af alle opladninger sker hjemme</li>
+        <li><span class="icon">⏱</span> Vi hjælper dig med hurtigt og nemt at beregne opladningstiden</li>
+        <li><span class="icon">💡</span> Vores værktøj gør det nemt at optimere opladningen</li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Støt projektet</h4>
+      <p>Siden drives på frivillig basis. Alle økonomiske bidrag er velkomne og hjælper os med at holde værktøjet gratis.</p>
+      <br />
+      <div id="bmc-container">
+        <a
+          href="https://www.buymeacoffee.com/ladetidsberegner"
+          target="_blank"
+          rel="noopener"
+          style="
+            display:inline-flex;
+            align-items:center;
+            gap:10px;
+            background:#55ca1c;
+            color:#fff;
+            padding:12px 18px;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:600;
+          "
+        >
+          ☕ Buy me a coffee
+        </a>
+      </div>
+
+      <h4 id="kontakt">Kontakt</h4>
+      <p>Hvis du har ris, ros, kommentarer, eller ønsker et samarbejde, er du velkommen til at skrive på: <span id="kontakt-mail"></span></p>
+      <p style="font-style: italic; font-size: small;">
+        Info på siden er vejledende. Der tages forbehold for fejl og ukorrekte oplysninger. Det anbefales altid at søge information fra flere uafhængige kilder.
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<div class="footer-bottom">
+  <p>&copy; <span id="current-year">2025</span> Ladetidsberegner.dk – Alle rettigheder forbeholdes</p>
+</div>
+
+<!-- Bookmark-knap -->
+<div class="bookmark-popup">
+  <p>Gem siden som favorit, så har du ladetidsberegneren lige ved hånden!</p>
+</div>
+<button id="bookmark-btn" class="bookmark-btn" aria-label="Tilføj på hjemmeskærmen">
+  <i class="fas fa-thumbtack"></i>
+</button>
+
