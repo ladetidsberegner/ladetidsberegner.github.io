@@ -802,3 +802,29 @@ ins.adsbygoogle{display:block !important;min-height:120px;}
 
 
 
+/* Sørg for at policy-knapper ligger korrekt */
+.cookie-policy-popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+.cookie-policy-content {
+  background: #fff;
+  padding: 20px;
+  max-width: 500px;
+  margin: 100px auto;
+  border-radius: 8px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.policy-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
