@@ -834,3 +834,47 @@ ins.adsbygoogle{display:block !important;min-height:120px;}
   gap: 10px;
   margin-top: 20px !important;
 }
+
+/*bookmark knap*/
+.bookmark-popup {
+  position: absolute;
+  background: #55ca1c;
+  color: #fff;
+
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+  font-size: 13px;
+  line-height: 1.4;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  max-width: 400px;      /* lidt større */
+  width: auto;           /* lad browseren bestemme */
+  height: 50px;
+  margin-top: 0px;
+  white-space: normal;   /* tillad linjeskift */
+  word-break: break-word;
+
+  z-index: 9999;
+  cursor: pointer;
+
+  display: block;       /* vigtigt */
+
+
+  transform: translateY(-6px);
+}
+
+.bookmark-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+
+
+
