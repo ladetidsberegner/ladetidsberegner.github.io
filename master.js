@@ -175,33 +175,119 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 })();
-
-
 /* =========================
-   BOOKMARK POPUP
+   BOOKMARK POPUP – STABIL & KORREKT POSITIONERING
    ========================= */
-document.addEventListener("DOMContentLoaded", () => {
+function initBookmark() {
   const btn = document.getElementById("bookmark-btn");
   const popup = document.querySelector(".bookmark-popup");
+  if (!btn || !popup) return;
 
-  if (!btn || !popup) {
-    console.warn("Bookmark-knap eller popup ikke fundet");
-    return;
+  /* ---------- Platform tekst ---------- */
+  function getPlatformMessage() {
+    const ua = navigator.userAgent;
+
+    if (/iPhone|iPad|iPod/i.test(ua))
+      return "Tryk på del-ikonet og vælg 'Tilføj til hjemmeskærm'";
+
+    if (/Android/i.test(ua))
+      return "Tryk på menuen og vælg 'Tilføj til startskærm'";
+
+    if (/Mac/i.test(ua))
+      return "Tryk Cmd + D for at bogmærke siden";
+
+    if (/Windows/i.test(ua))
+      return "Tryk Ctrl + D for at bogmærke siden";
+
+    return "Brug browserens bogmærke-funktion for at gemme siden";
   }
 
-  // Vis popup ved klik på knap
-  btn.addEventListener("click", () => {
+  /* ---------- Positionering ---------- */
+  function positionPopup() {
+    const rect = btn.getBoundingClientRect();
+
+    const popupWidth = popup.offsetWidth;
+    const popupHeight = popup.offsetHeight;
+
+    let top = window.scrollY + rect.top - popupHeight - 8;
+    let left =
+      window.scrollX +
+      rect.left +
+      rect.width / 2 -
+      popupWidth / 2;
+
+    /* --- Hold popup indenfor viewport --- */
+    const minLeft = 8;
+    const maxLeft = window.scrollX + window.innerWidth - popupWidth - 8;
+
+    if (left < minLeft) left = minLeft;
+    if (left > maxLeft) left = maxLeft;
+
+    popup.style.top = top + "px";
+    popup.style.left = left + "px";
+  }
+
+  /* ---------- Toggle popup ---------- */
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const isOpen = popup.classList.contains("show");
+
+    if (isOpen) {
+      popup.classList.remove("show");
+      return;
+    }
+
+    popup.textContent = getPlatformMessage();
     popup.classList.add("show");
+
+    /* Vent ét frame så korrekt højde beregnes */
+    requestAnimationFrame(() => {
+      positionPopup();
+    });
   });
 
-  // Luk popup ved klik udenfor
+  /* ---------- Luk ved klik på popup ---------- */
+  popup.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popup.classList.remove("show");
+  });
+
+  /* ---------- Luk ved klik udenfor ---------- */
   document.addEventListener("click", (e) => {
     if (!popup.contains(e.target) && !btn.contains(e.target)) {
       popup.classList.remove("show");
     }
   });
-});
 
+  /* ---------- Reposition ved scroll/resize ---------- */
+  window.addEventListener("resize", () => {
+    if (popup.classList.contains("show")) positionPopup();
+  });
+
+  window.addEventListener("scroll", () => {
+    if (popup.classList.contains("show")) positionPopup();
+  });
+}
+
+
+/* =========================
+   Vent på footer-include
+   ========================= */
+const bookmarkInterval = setInterval(() => {
+  if (
+    document.getElementById("bookmark-btn") &&
+    document.querySelector(".bookmark-popup")
+  ) {
+    clearInterval(bookmarkInterval);
+    initBookmark();
+  }
+}, 100);
+
+
+/* =========================
+   safeInit (bevares)
+   ========================= */
 window.safeInit = function (fn) {
   try {
     if (typeof fn === "function") fn();
@@ -209,6 +295,4 @@ window.safeInit = function (fn) {
     console.error("SafeInit error:", e);
   }
 };
-
-
 
