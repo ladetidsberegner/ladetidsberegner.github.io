@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 /* =========================
-   BOOKMARK POPUP – STABIL & KORREKT POSITIONERING
+   BOOKMARK POPUP – STABIL & KORREKT PLATFORMDETEKTION
    ========================= */
 function initBookmark() {
   const btn = document.getElementById("bookmark-btn");
@@ -186,17 +186,26 @@ function initBookmark() {
   /* ---------- Platform tekst ---------- */
   function getPlatformMessage() {
     const ua = navigator.userAgent;
+    const platform = navigator.platform;
 
-    if (/iPhone|iPad|iPod/i.test(ua))
-      return "Tryk på del-ikonet og vælg 'Tilføj til hjemmeskærm'";
+    const isIOS =
+      /iPhone|iPad|iPod/i.test(ua) ||
+      (platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-    if (/Android/i.test(ua))
-      return "Tryk på menuen og vælg 'Tilføj til startskærm'";
+    const isAndroid = /Android/i.test(ua);
+    const isMac = /Mac/i.test(platform) && !isIOS;
+    const isWindows = /Win/i.test(platform);
 
-    if (/Mac/i.test(ua))
+    if (isIOS)
+      return "Tryk på del-ikonet og vælg 'Føj til hjemmeskærm'";
+
+    if (isAndroid)
+      return "Tryk på menuen og vælg 'Føj til startskærm'";
+
+    if (isMac)
       return "Tryk Cmd + D for at bogmærke siden";
 
-    if (/Windows/i.test(ua))
+    if (isWindows)
       return "Tryk Ctrl + D for at bogmærke siden";
 
     return "Brug browserens bogmærke-funktion for at gemme siden";
@@ -217,7 +226,7 @@ function initBookmark() {
       popupWidth / 2;
 
     /* --- Hold popup indenfor viewport --- */
-    const minLeft = 8;
+    const minLeft = window.scrollX + 8;
     const maxLeft = window.scrollX + window.innerWidth - popupWidth - 8;
 
     if (left < minLeft) left = minLeft;
@@ -295,4 +304,5 @@ window.safeInit = function (fn) {
     console.error("SafeInit error:", e);
   }
 };
+
 
