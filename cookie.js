@@ -1,5 +1,5 @@
 // cookie-global.js
-(function() {
+(function () {
   if (window.__cookieSystemInit) return;
   window.__cookieSystemInit = true;
 
@@ -17,39 +17,73 @@
       return;
     }
 
-    initCookieSystem(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn);
+    initCookieSystem(
+      banner,
+      acceptBtn,
+      rejectBtn,
+      policyLink,
+      policyPopup,
+      policyClose,
+      changeBtn
+    );
   }
 
   waitForElements();
 
-  function initCookieSystem(banner, acceptBtn, rejectBtn, policyLink, policyPopup, policyClose, changeBtn) {
+  function initCookieSystem(
+    banner,
+    acceptBtn,
+    rejectBtn,
+    policyLink,
+    policyPopup,
+    policyClose,
+    changeBtn
+  ) {
 
+    /* =========================
+       CONSENT DEFAULT
+       ========================= */
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied"});
+    function gtag() { dataLayer.push(arguments); }
+
+    gtag("consent", "default", {
+      ad_storage: "denied",
+      analytics_storage: "denied"
+    });
+
     gtag("js", new Date());
 
     let trackingEnabled = false;
 
+    /* =========================
+       ENABLE TRACKING
+       ========================= */
     function enableTracking() {
       if (trackingEnabled) return;
       trackingEnabled = true;
 
-      gtag("consent","update",{ad_storage:"granted",analytics_storage:"granted"});
+      gtag("consent", "update", {
+        ad_storage: "granted",
+        analytics_storage: "granted"
+      });
 
+      /* Load GA4 */
       if (!document.getElementById("ga4-script")) {
         const gaScript = document.createElement("script");
         gaScript.id = "ga4-script";
         gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
         gaScript.async = true;
-        gaScript.onload = () => gtag("config","G-ELGNQRMN1X",{anonymize_ip:true});
+        gaScript.onload = () =>
+          gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
         document.head.appendChild(gaScript);
       }
 
+      /* Load AdSense */
       if (!document.getElementById("adsense-script")) {
         const adsScript = document.createElement("script");
         adsScript.id = "adsense-script";
-        adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
+        adsScript.src =
+          "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
         adsScript.async = true;
         adsScript.crossOrigin = "anonymous";
         adsScript.onload = renderAds;
@@ -59,71 +93,107 @@
       }
     }
 
+    /* =========================
+       RENDER ADS (FIXED)
+       ========================= */
     function renderAds() {
       window.adsbygoogle = window.adsbygoogle || [];
 
-      document.querySelectorAll("ins.adsbygoogle").forEach(slot => {
+      document.querySelectorAll("ins.adsbygoogle").forEach((slot) => {
 
-        // Skip hvis allerede initialiseret
         if (slot.getAttribute("data-adsbygoogle-status") === "done") return;
 
         function tryPush(attempts = 0) {
-
           if (slot.offsetWidth > 0) {
             try {
               window.adsbygoogle.push({});
-            } catch(e) {
+            } catch (e) {
               console.error("Ad push error:", e);
             }
-          }
-          else if (attempts < 15) {
+          } else if (attempts < 15) {
             setTimeout(() => tryPush(attempts + 1), 200);
           }
-
         }
 
         tryPush();
       });
     }
 
-    function disableTracking(forceReload=false) {
-      gtag("consent","update",{ad_storage:"denied",analytics_storage:"denied"});
-      if (forceReload) setTimeout(()=>location.reload(),500);
+    /* =========================
+       DISABLE TRACKING
+       ========================= */
+    function disableTracking(forceReload = false) {
+      gtag("consent", "update", {
+        ad_storage: "denied",
+        analytics_storage: "denied"
+      });
+
+      if (forceReload) setTimeout(() => location.reload(), 400);
     }
 
+    /* =========================
+       UI HELPERS
+       ========================= */
     function hideBanner() {
-      banner.style.display="none";
-      if (changeBtn) changeBtn.style.display="inline-flex";
+      banner.style.display = "none";
+      changeBtn.style.display = "inline-flex";
     }
 
+    function showBanner() {
+      banner.style.display = "flex";
+      changeBtn.style.display = "none";
+    }
+
+    function openPolicy() {
+      policyPopup.style.display = "block";
+    }
+
+    function closePolicy() {
+      policyPopup.style.display = "none";
+    }
+
+    /* =========================
+       INITIAL STATE
+       ========================= */
     const consent = localStorage.getItem("cookie-consent");
 
-    if (!consent) banner.style.display = "flex";
-    else {
+    if (!consent) {
+      showBanner();
+    } else {
       hideBanner();
-      consent==="accepted"?enableTracking():disableTracking();
+      if (consent === "accepted") enableTracking();
+      else disableTracking();
     }
 
-    acceptBtn.addEventListener("click",()=>{
-      localStorage.setItem("cookie-consent","accepted");
+    /* =========================
+       BUTTON EVENTS
+       ========================= */
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem("cookie-consent", "accepted");
       hideBanner();
       enableTracking();
     });
 
-    rejectBtn.addEventListener("click",()=>{
-      localStorage.setItem("cookie-consent","declined");
+    rejectBtn.addEventListener("click", () => {
+      localStorage.setItem("cookie-consent", "declined");
       hideBanner();
       disableTracking(true);
     });
 
-    policyLink.addEventListener("click",(e)=>{
+    policyLink.addEventListener("click", (e) => {
       e.preventDefault();
-      policyPopup.style.display="block";
+      openPolicy();
     });
 
-    policyClose.addEventListener("click",()=>{ policyPopup.style.display="none"; });
-    window.addEventListener("click",(e)=>{ if(e.target===policyPopup) policyPopup.style.display="none"; });
+    policyClose.addEventListener("click", closePolicy);
+
+    window.addEventListener("click", (e) => {
+      if (e.target === policyPopup) closePolicy();
+    });
+
+    changeBtn.addEventListener("click", () => {
+      openPolicy();
+    });
 
   }
-
 })();
