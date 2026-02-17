@@ -3,7 +3,9 @@
   if (window.__cookieSystemInit) return;
   window.__cookieSystemInit = true;
 
-  function waitForElements() {
+  document.addEventListener("DOMContentLoaded", init);
+
+  function init() {
     const banner = document.getElementById("cookie-banner");
     const acceptBtn = document.getElementById("cookie-accept");
     const rejectBtn = document.getElementById("cookie-decline");
@@ -12,37 +14,10 @@
     const policyClose = document.getElementById("cookie-policy-close");
     const changeBtn = document.getElementById("change-cookie-consent");
 
-    if (!banner || !acceptBtn || !rejectBtn || !policyLink || !policyPopup || !policyClose || !changeBtn) {
-      setTimeout(waitForElements, 50);
+    if (!banner || !acceptBtn || !rejectBtn || !policyLink || !policyPopup || !policyClose) {
       return;
     }
 
-    initCookieSystem(
-      banner,
-      acceptBtn,
-      rejectBtn,
-      policyLink,
-      policyPopup,
-      policyClose,
-      changeBtn
-    );
-  }
-
-  waitForElements();
-
-  function initCookieSystem(
-    banner,
-    acceptBtn,
-    rejectBtn,
-    policyLink,
-    policyPopup,
-    policyClose,
-    changeBtn
-  ) {
-
-    /* =========================
-       CONSENT DEFAULT
-       ========================= */
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
 
@@ -51,13 +26,8 @@
       analytics_storage: "denied"
     });
 
-    gtag("js", new Date());
-
     let trackingEnabled = false;
 
-    /* =========================
-       ENABLE TRACKING
-       ========================= */
     function enableTracking() {
       if (trackingEnabled) return;
       trackingEnabled = true;
@@ -67,23 +37,19 @@
         analytics_storage: "granted"
       });
 
-      /* Load GA4 */
       if (!document.getElementById("ga4-script")) {
         const gaScript = document.createElement("script");
         gaScript.id = "ga4-script";
         gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
         gaScript.async = true;
-        gaScript.onload = () =>
-          gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
+        gaScript.onload = () => gtag("config", "G-ELGNQRMN1X", { anonymize_ip: true });
         document.head.appendChild(gaScript);
       }
 
-      /* Load AdSense */
       if (!document.getElementById("adsense-script")) {
         const adsScript = document.createElement("script");
         adsScript.id = "adsense-script";
-        adsScript.src =
-          "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
+        adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287";
         adsScript.async = true;
         adsScript.crossOrigin = "anonymous";
         adsScript.onload = renderAds;
@@ -93,81 +59,82 @@
       }
     }
 
-    /* =========================
-       RENDER ADS (FIXED)
-       ========================= */
-    function renderAds() {
-      window.adsbygoogle = window.adsbygoogle || [];
-
-      document.querySelectorAll("ins.adsbygoogle").forEach((slot) => {
-
-        if (slot.getAttribute("data-adsbygoogle-status") === "done") return;
-
-        function tryPush(attempts = 0) {
-          if (slot.offsetWidth > 0) {
-            try {
-              window.adsbygoogle.push({});
-            } catch (e) {
-              console.error("Ad push error:", e);
-            }
-          } else if (attempts < 15) {
-            setTimeout(() => tryPush(attempts + 1), 200);
-          }
-        }
-
-        tryPush();
-      });
-    }
-
-    /* =========================
-       DISABLE TRACKING
-       ========================= */
-    function disableTracking(forceReload = false) {
+    function disableTracking() {
       gtag("consent", "update", {
         ad_storage: "denied",
         analytics_storage: "denied"
       });
-
-      if (forceReload) setTimeout(() => location.reload(), 400);
     }
 
-    /* =========================
-       UI HELPERS
-       ========================= */
+    function renderAds() {
+      try {
+        window.adsbygoogle = window.adsbygoogle || [];
+        document.querySelectorAll("ins.adsbygoogle").forEach(slot => {
+          if (!slot.dataset.loaded) {
+            window.adsbygoogle.push({});
+            slot.dataset.loaded = "true";
+          }
+        });
+      } catch (e) {
+        console.error("AdSense error:", e);
+      }
+    }
+
     function hideBanner() {
       banner.style.display = "none";
-      changeBtn.style.display = "inline-flex";
+      if (changeBtn) changeBtn.style.display = "inline-flex";
     }
 
     function showBanner() {
       banner.style.display = "flex";
-      changeBtn.style.display = "none";
+      if (changeBtn) changeBtn.style.display = "none";
     }
 
-    function openPolicy() {
-      policyPopup.style.display = "block";
+    function addPolicyButtons() {
+      const popupContent = document.querySelector(".cookie-policy-content");
+      if (!popupContent || popupContent.querySelector(".policy-actions")) return;
+
+      const btns = document.createElement("div");
+      btns.className = "policy-actions";
+      btns.style.marginTop = "20px";
+      btns.style.display = "flex";
+      btns.style.gap = "10px";
+
+      btns.innerHTML = `
+        <button id="policy-accept" style="background:#55ca1c;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;">
+          Accepter
+        </button>
+        <button id="policy-decline" style="background:#666;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;">
+          Afvis
+        </button>
+      `;
+
+      popupContent.appendChild(btns);
+
+      document.getElementById("policy-accept").addEventListener("click", () => {
+        localStorage.setItem("cookie-consent", "accepted");
+        policyPopup.style.display = "none";
+        hideBanner();
+        enableTracking();
+      });
+
+      document.getElementById("policy-decline").addEventListener("click", () => {
+        localStorage.setItem("cookie-consent", "declined");
+        policyPopup.style.display = "none";
+        hideBanner();
+        disableTracking();
+      });
     }
 
-    function closePolicy() {
-      policyPopup.style.display = "none";
-    }
-
-    /* =========================
-       INITIAL STATE
-       ========================= */
     const consent = localStorage.getItem("cookie-consent");
 
     if (!consent) {
       showBanner();
     } else {
       hideBanner();
-      if (consent === "accepted") enableTracking();
-      else disableTracking();
+      consent === "accepted" ? enableTracking() : disableTracking();
     }
 
-    /* =========================
-       BUTTON EVENTS
-       ========================= */
     acceptBtn.addEventListener("click", () => {
       localStorage.setItem("cookie-consent", "accepted");
       hideBanner();
@@ -177,23 +144,31 @@
     rejectBtn.addEventListener("click", () => {
       localStorage.setItem("cookie-consent", "declined");
       hideBanner();
-      disableTracking(true);
+      disableTracking();
     });
 
     policyLink.addEventListener("click", (e) => {
       e.preventDefault();
-      openPolicy();
+      policyPopup.style.display = "block";
+      addPolicyButtons();
     });
 
-    policyClose.addEventListener("click", closePolicy);
+    policyClose.addEventListener("click", () => {
+      policyPopup.style.display = "none";
+    });
 
     window.addEventListener("click", (e) => {
-      if (e.target === policyPopup) closePolicy();
+      if (e.target === policyPopup) {
+        policyPopup.style.display = "none";
+      }
     });
 
-    changeBtn.addEventListener("click", () => {
-      openPolicy();
-    });
-
+    if (changeBtn) {
+      changeBtn.style.display = "inline-flex";
+      changeBtn.addEventListener("click", () => {
+        policyPopup.style.display = "block";
+        addPolicyButtons();
+      });
+    }
   }
 })();
