@@ -558,7 +558,7 @@ pre {
 }
 .about-image {
   flex: 1 1 0;
-  min-width: 0;   /* KRITISK */
+  min-width: 0; 
   text-align: center;
 }
 
@@ -883,4 +883,29 @@ ins.adsbygoogle{display:block !important;min-height:120px;}
   min-width: 900px;
 }
 
+.about-row {
+  display: flex;
+  flex-direction: column; /* Mobil først */
+  align-items: flex-start;
+  gap: 20px; /* afstand mellem tekst og billede på mobil */
+}
+
+/* === Desktop === */
+@media (min-width: 768px) {
+  .about-row {
+    flex-direction: row; /* Tekst til venstre, billede til højre */
+    align-items: flex-start;
+  }
+
+  .about-text {
+    flex: 1 1 55%;
+    padding-right: 20px;
+  }
+
+  .about-image {
+    flex: 1 1 45%;
+    max-width: 45%;
+    text-align: right;
+  }
+}
 
