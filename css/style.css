@@ -727,7 +727,7 @@ ins.adsbygoogle{display:block !important;min-height:120px;}
 .adsense-slot.vertical ins.adsbygoogle{min-height:600px;min-width:160px;}
 
 /* === FADE-IN ANIMATIONS (consolidated) === */
-.fade-section{opacity:0;transform:scale(.98);transition:opacity .9s ease,transform .9s ease;}
+.fade-section{opacity:0;transform:scale(.98);transition:opacity .9s ease,transform .9s ease; min-height: 90px}
 .fade-section.visible{opacity:1;transform:scale(1);}
 .fade-in-child{opacity:0;transform:translateX(-25px);transition:opacity .7s ease,transform .7s ease;}
 .fade-in-child.visible{opacity:1;transform:translateX(0);}
