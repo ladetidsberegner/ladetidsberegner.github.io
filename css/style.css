@@ -876,5 +876,11 @@ ins.adsbygoogle{display:block !important;min-height:120px;}
 }
 
 
+.ad-container {
+  opacity: 1 !important;
+  transform: none !important;
+  min-height: 90px;
+  min-width: 900px;
+}
 
 
