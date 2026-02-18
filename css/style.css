@@ -364,8 +364,9 @@ ol li::marker {
   /* links */
   .site-nav a{
     font-size:1.2rem;
-    padding:.4rem 0;
     color:#fff;
+        padding-left: 1.5rem;  /* justér efter behov, fx 20px eller 24px */
+    padding-right: 0.5rem; /* lidt luft til højre også */
   }
 
   /* FAQ LISTE – MOBIL*/
@@ -409,6 +410,14 @@ ol li::marker {
     margin-top:.4rem;
   }
 
+  .site-nav ul {
+    gap: 1rem;           /* afstand mellem menupunkter */
+  }
+
+  .site-nav a {
+    padding-left: 0;        /* så link-tekst ikke dobbeltpaddes */
+  
+  }
 }
 
 /* === HERO === */
@@ -883,29 +892,180 @@ ins.adsbygoogle{display:block !important;min-height:120px;}
   min-width: 900px;
 }
 
+
+/* Layout */
 .about-row {
   display: flex;
-  flex-direction: column; /* Mobil først */
-  align-items: flex-start;
-  gap: 20px; /* afstand mellem tekst og billede på mobil */
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
-/* === Desktop === */
+.about-text,
+.about-image {
+  width: 100%;
+  min-width: 0; /* VIGTIG for flex */
+}
+
+/* Billeder */
+.about-image img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Desktop */
 @media (min-width: 768px) {
+
   .about-row {
-    flex-direction: row; /* Tekst til venstre, billede til højre */
+    flex-direction: row;
     align-items: flex-start;
   }
 
   .about-text {
-    flex: 1 1 55%;
+    flex: 1;
     padding-right: 20px;
   }
 
   .about-image {
-    flex: 1 1 45%;
-    max-width: 45%;
-    text-align: right;
+    flex: 1;
   }
 }
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* Mobil: lås alt til viewport */
+@media (max-width: 480px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .about-outer,
+  .about-row,
+  .about,
+  .about-text,
+  .about-image,
+  .about-image img,
+  .hero,
+  .hero-image,
+  .hero-text {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* fjern padding/margin der kan skubbe */
+  .about-text,
+  .about-image,
+  .about-row {
+    padding: 0;
+    margin: 0;
+  }
+
+  /* sikrer at flex-direction er column på mobil */
+  .about-row {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  figure, figcaption {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+
+/* --- MOBIL FIX: ingen vandret scroll --- */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+  }
+
+  /* fix fixed/mobile nav */
+  .site-nav {
+    box-sizing: border-box;
+    max-width: 100vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100vw;
+  }
+
+  /* top-bar padding */
+  .top-bar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* hero tekst */
+  .hero-text {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* about + features + fact boxes */
+  .about, .about-text, .about-image,
+  .features-wrapper, .faktaboks {
+    max-width: 100vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* cookie banner */
+  .cookie-banner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+@media (max-width: 768px) {
+  /* sørg for tekst fylder hele bredden */
+  .about, .about-text, .about-image,
+  .features-wrapper, .features-text, .features-image,
+  .faktaboks {
+    flex-direction: column !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .about-text, .features-text {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .about-image img, .features-image img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  /* hero tekst centreret */
+  .hero-text {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: left; /* eller center, hvis du vil */
+  }
+}
+
+/* === MOBIL MENU PADDING LEFT === */
+@media (max-width: 768px) {
+  .site-nav {
+    padding-left: 2.5rem;  /* justér efter behov, fx 20px eller 24px */
+    padding-right: 0.5rem; /* lidt luft til højre også */
+  }
+
+  .site-nav ul {
+    gap: 1.6rem;           /* afstand mellem menupunkter */
+  }
+
+  .site-nav a {
+    padding-left: 0;        /* så link-tekst ikke dobbeltpaddes */
+  }
+}
+
+
 
