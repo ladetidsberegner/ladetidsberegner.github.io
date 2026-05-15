@@ -1,247 +1,181 @@
+console.log("wordclock loaded");
 
-/* =========================
-   DATA
-========================= */
+// =========================
+// MAIN UPDATE LOOP
+// =========================
 
-const weekdays = [
-  "SØNDAG",
-  "MANDAG",
-  "TIRSDAG",
-  "ONSDAG",
-  "TORSDAG",
-  "FREDAG",
-  "LØRDAG"
-];
-
-const months = [
-  "JANUAR",
-  "FEBRUAR",
-  "MARTS",
-  "APRIL",
-  "MAJ",
-  "JUNI",
-  "JULI",
-  "AUGUST",
-  "SEPTEMBER",
-  "OKTOBER",
-  "NOVEMBER",
-  "DECEMBER"
-];
-
-
-/* =========================
-   NUMBERS → WORDS
-========================= */
-
-const numberWords = {
-
-  0: "",
-  1: "ET",
-  2: "TO",
-  3: "TRE",
-  4: "FIRE",
-  5: "FEM",
-  6: "SEKS",
-  7: "SYV",
-  8: "OTTE",
-  9: "NI",
-  10: "TI",
-  11: "ELLEVE",
-  12: "TOLV",
-  13: "TRETTEN",
-  14: "FJORTEN",
-  15: "FEMTEN",
-  16: "SEKSTEN",
-  17: "SYTTEN",
-  18: "ATTEN",
-  19: "NITTEN",
-  20: "TYVE",
-  21: "ENOGTYVE",
-  22: "TOOGTYVE",
-  23: "TREOGTYVE",
-  24: "FIREOGTYVE",
-  25: "FEMOGTYVE",
-  26: "SEKSOGTYVE",
-  27: "SYVOGTYVE",
-  28: "OTTEOGTYVE",
-  29: "NIOGTYVE"
-
-};
-
-
-/* =========================
-   DATE ORDINALS
-========================= */
-
-const ordinalWords = {
-
-  1: "FØRSTE",
-  2: "ANDEN",
-  3: "TREDJE",
-  4: "FJERDE",
-  5: "FEMTE",
-  6: "SJETTE",
-  7: "SYVENDE",
-  8: "OTTENDE",
-  9: "NIENDE",
-  10: "TIENDE",
-  11: "ELLEVTE",
-  12: "TOLVTE",
-  13: "TRETTENDE",
-  14: "FJORTENDE",
-  15: "FEMTENDE",
-  16: "SEKSTENDE",
-  17: "SYTTENDE",
-  18: "ATTENDE",
-  19: "NITTENDE",
-  20: "TYVENDE",
-  21: "ENOGTYVENDE",
-  22: "TOOGTYVENDE",
-  23: "TREOGTYVENDE",
-  24: "FIREOGTYVENDE",
-  25: "FEMOGTYVENDE",
-  26: "SEKSOGTYVENDE",
-  27: "SYVOGTYVENDE",
-  28: "OTTEOGTYVENDE",
-  29: "NIOGTYVENDE",
-  30: "TREDIVENDE",
-  31: "ENOGTREDIVENDE"
-
-};
-
-
-/* =========================
-   HELPERS
-========================= */
-
-function setText(id, value) {
-
-  document.getElementById(id).textContent = value;
-
-}
-
-
-/* =========================
-   UPDATE CLOCK
-========================= */
-
-function updateClock() {
-
+function updateWordClock() {
   const now = new Date();
 
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
+  const dayNames = [
+    "SØNDAG","MANDAG","TIRSDAG","ONSDAG",
+    "TORSDAG","FREDAG","LØRDAG"
+  ];
 
-  /* =========================
-     DATE
-  ========================= */
+  const monthNames = [
+    "JANUAR","FEBRUAR","MARTS","APRIL","MAJ","JUNI",
+    "JULI","AUGUST","SEPTEMBER","OKTOBER","NOVEMBER","DECEMBER"
+  ];
 
-  setText("weekday", weekdays[now.getDay()]);
+  const hour24 = now.getHours();
+  const minute = now.getMinutes();
 
-  setText("day", ordinalWords[now.getDate()]);
+  // ===== DATE =====
+  setWord("weekday", dayNames[now.getDay()]);
+  setWord("day", getOrdinalDay(now.getDate()));
+  setWord("month", monthNames[now.getMonth()]);
+  setWord("year", convertYear(now.getFullYear()));
 
-  setText("month", months[now.getMonth()]);
+  // ===== TIME =====
+  const hourData = getHour(hour24);
+  const minuteData = getMinuteText(minute, hourData.hour);
 
-  setText("year", now.getFullYear());
+  // Hour word
+  setWord("hourWord", numberToWord(minuteData.displayHour));
 
+  // Minute word
+  setWord("minuteWord", formatMinute(minuteData.numberWord));
 
-  /* =========================
-     TIME
-  ========================= */
+  // Relation text (over/i/halv/over halv/i halv etc.)
+  setWord("relationText", minuteData.relationWord);
 
-  let displayHour = hours % 12;
-  if (displayHour === 0) displayHour = 12;
-
-  let nextHour = displayHour + 1;
-  if (nextHour > 12) nextHour = 1;
-
-
-  /* rounded minute logic */
-
-  let roundedMinutes = Math.round(minutes / 5) * 5;
-
-  let relation = "";
-
-
-  if (roundedMinutes === 0) {
-
-    setText("minuteWord", "");
-
-    relation = "";
-
-    setText("hourWord", numberWords[displayHour]);
-
-  }
-
-  else if (roundedMinutes <= 25) {
-
-    setText("minuteWord", numberWords[roundedMinutes]);
-
-    relation = "minutter over";
-
-    setText("hourWord", numberWords[displayHour]);
-
-  }
-
-  else if (roundedMinutes === 30) {
-
-    setText("minuteWord", "");
-
-    relation = "halv";
-
-    setText("hourWord", numberWords[nextHour]);
-
-  }
-
-  else {
-
-    let remain = 60 - roundedMinutes;
-
-    setText("minuteWord", numberWords[remain]);
-
-    relation = "minutter i";
-
-    setText("hourWord", numberWords[nextHour]);
-
-  }
-
-
-  document.getElementById("relationText").textContent = relation;
-
-
-  /* =========================
-     DAY PERIOD
-  ========================= */
-
-  let period = "";
-
-  if (hours >= 5 && hours < 12) {
-
-    period = "OM MORGENEN";
-
-  }
-
-  else if (hours >= 12 && hours < 18) {
-
-    period = "OM EFTERMIDDAGEN";
-
-  }
-
-  else {
-
-    period = "OM AFTENEN";
-
-  }
-
-  setText("dayPeriod", period);
-
+  // Day period
+  setWord("dayPeriod", getDayPeriod(hour24));
 }
 
+// =========================
+// DOM HELPER
+// =========================
+function setWord(id, text) {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-/* =========================
-   START
-========================= */
+  if (!text || text.trim() === "") {
+    el.style.display = "none";
+    return;
+  }
+  el.style.display = "inline-flex";
+  el.textContent = text;
+}
 
-updateClock();
+// =========================
+// DAY / DATE HELPERS
+// =========================
+function getOrdinalDay(day) {
+  const numbers = [
+    "FØRSTE","ANDEN","TREDJE","FJERDE","FEMTE","SJETTE",
+    "SYVENDE","OTTENDE","NIENDE","TIENDE","ELLEVE","TOLVTE",
+    "TRETTENDE","FJORTENDE","FEMTENDE","SEKSTENDE","SYTTENDE",
+    "ATTENDE","NITTENDE","TYVENDE","ENOGTYVENDE","TOOGTYVENDE",
+    "TREOGTYVENDE","FIREOGTYVENDE","FEMOGTYVENDE","SEKSOGTYVE",
+    "SYVOGTYVENDE","OTTEOGTYVENDE","NI OG TYVE"
+  ];
+  return numbers[day - 1] || String(day);
+}
 
-setInterval(updateClock, 60000);
+function convertYear(year) {
+  if (year === 2026) return "TOTUSINDSEKSOGTYVE";
+  return String(year);
+}
+
+// =========================
+// HOUR / PERIOD
+// =========================
+function getHour(hour24) {
+  let isPM = hour24 >= 12;
+  let hour = hour24 % 12;
+  if (hour === 0) hour = 12;
+  return { hour, isPM };
+}
+
+function getDayPeriod(hour24) {
+  if (hour24 >= 0 && hour24 < 6) return "OM NATTEN";
+  if (hour24 >= 6 && hour24 < 10) return "OM MORGENEN";
+  if (hour24 >= 10 && hour24 < 12) return "OM FORMIDDAGEN";
+  if (hour24 >= 12 && hour24 < 18) return "OM EFTERMIDDAGEN";
+  return "OM AFTENEN";
+}
+
+// =========================
+// DANISH MINUTE ENGINE
+// =========================
+function getMinuteText(minute, hour) {
+  let displayHour = hour;
+  let numberWord = "";
+  let relationWord = "";
+  let showMinute = true;
+
+  if (minute === 0) {
+    numberWord = "";
+    relationWord = "";
+    showMinute = false;
+  } else if (minute === 15) {
+    numberWord = "KVART";
+    relationWord = "OVER";
+    showMinute = false;
+  } else if (minute === 45) {
+    numberWord = "KVART";
+    relationWord = "I";
+    displayHour = (hour % 12) + 1;
+    showMinute = false;
+  } else if (minute >= 1 && minute <= 14) {
+    numberWord = numberToMinuteWord(minute);
+    relationWord = "OVER";
+  } else if (minute >= 16 && minute <= 24) {
+    numberWord = numberToMinuteWord(minute);
+    relationWord = "OVER";
+  } else if (minute >= 25 && minute <= 29) {
+    numberWord = numberToMinuteWord(30 - minute);
+    relationWord = "I HALV";
+    displayHour = (hour % 12) + 1;
+  } else if (minute === 30) {
+    numberWord = "";
+    relationWord = "HALV";
+    displayHour = (hour % 12) + 1;
+    showMinute = false;
+  } else if (minute >= 31 && minute <= 39) {
+    numberWord = numberToMinuteWord(minute - 30);
+    relationWord = "OVER HALV";
+    displayHour = (hour % 12) + 1;
+  } else if (minute >= 40 && minute <= 44) {
+    numberWord = numberToMinuteWord(60 - minute);
+    relationWord = "I";
+    displayHour = (hour % 12) + 1;
+  } else if (minute >= 46 && minute <= 59) {
+    numberWord = numberToMinuteWord(60 - minute);
+    relationWord = "I";
+    displayHour = (hour % 12) + 1;
+  }
+
+  return { numberWord, relationWord, displayHour, showMinute };
+}
+
+// =========================
+// NUMBER TO WORD
+// =========================
+function numberToWord(num) {
+  const words = ["ET","TO","TRE","FIRE","FEM","SEKS","SYV","OTTE","NI","TI","ELLEVE","TOLV"];
+  return words[(num - 1) % 12];
+}
+
+function numberToMinuteWord(num) {
+  const words = [
+    "ET","TO","TRE","FIRE","FEM","SEKS","SYV","OTTE","NI","TI",
+    "ELLEVE","TOLV","TRETTEN","FJORTEN","FEMTEN","SEKSTEN","SYTTEN",
+    "ATTEN","NITTEN","TYVE","ENOGTYVE","TOOGTYVE","TREOGTYVE","FIREOGTYVE",
+    "FEMOGTYVE","SEKSOGTYVE","SYVOGTYVE","OTTEOGTYVE","NI OG TYVE"
+  ];
+  return words[num - 1] || String(num);
+}
+
+function formatMinute(word) {
+  if (!word || word.trim() === "") return "";
+  if (word === "ET") return "ET MINUT";
+  return word + " MINUTTER";
+}
+
+// =========================
+// START LOOP
+// =========================
+updateWordClock();
+setInterval(updateWordClock, 1000);
