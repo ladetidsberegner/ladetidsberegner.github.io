@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OrdUr + Vejr</title>
+
+<style>
+
+/* =========================
+   ROOT
+========================= */
+
+:root {
+
+  --bg-color: #ffffff;
+  --text-color: #000;
+
+  --inactive-bg: rgba(0,0,0,0.05);
+
+  --active-bg: #55ca1c;
+  --active-text: #ffffff;
+
+}
+
+
+/* =========================
+   BODY (2 kolonner layout)
+========================= */
+
+body {
+
+  margin: 0;
+  padding: 40px;
+
+  background: var(--bg-color);
+  color: var(--text-color);
+
+  font-family: Arial, sans-serif;
+
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 60px;
+
+}
+
+
+/* =========================
+   LEFT (CLOCK)
+========================= */
+/* =========================
+   CLOCK CONTAINER
+========================= */
+
+.clock-container {
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 22px;
+
+  width: 100%;
+
+}
+
+
+/* =========================
+   WORD BLOCKS
+========================= */
+
+.word {
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px 18px;
+  border-radius: 10px;
+
+  background: var(--inactive-bg);
+  color: var(--text-color);
+
+  font-size: 22px;
+  font-weight: bold;
+
+  transition: all 0.25s ease;
+
+}
+
+
+/* small text */
+.small {
+
+  font-size: 18px;
+  opacity: 0.7;
+
+  padding: 6px 10px;
+
+}
+
+
+/* active */
+.word.active {
+
+  background: var(--active-bg);
+  color: var(--active-text);
+
+}
+
+
+/* =========================
+   INDIVIDUELLE FARVER
+========================= */
+
+#dag.active { background: #00ffee; }
+#trettende.active { background: #ff6600; }
+#maj.active { background: #0066ff; }
+#aar.active { background: #cc00cc; }
+#toogtyve.active { background: #00aa88; }
+#minutter.active { background: #ff3366; }
+#over.active { background: #ffaa00; }
+#tolv.active { background: #00aaff; }
+#eftermiddag.active { background: #8844ff; }
+
+
+/* =========================
+   RIGHT (WEATHER WIDGET)
+========================= */
+
+.weather {
+
+  width: 280px;
+
+  background: #f4f4f4;
+
+  border-radius: 14px;
+
+  padding: 20px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+}
+
+
+/* title */
+.weather h2 {
+
+  margin: 0 0 15px 0;
+
+  font-size: 20px;
+
+}
+
+
+/* weather item */
+.weather-item {
+
+  display: flex;
+  justify-content: space-between;
+
+  padding: 8px 0;
+
+  font-size: 18px;
+
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+
+}
+
+
+/* last item no border */
+.weather-item:last-child {
+  border-bottom: none;
+}
+
+/* =========================
+   NEWS TICKER (BOTTOM)
+========================= */
+
+.news-ticker {
+
+  position: fixed;
+
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+
+  background: #000;
+
+  color: #fff;
+
+  overflow: hidden;
+
+  padding: 12px 0;
+
+  font-size: 18px;
+
+  white-space: nowrap;
+
+  z-index: 9999;
+
+}
+
+
+/* scrolling text */
+.news-track {
+
+  display: inline-block;
+
+  padding-left: 100%;
+
+  animation: scroll-left 25s linear infinite;
+
+}
+
+
+/* animation */
+@keyframes scroll-left {
+
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+
+}
+
+/* =========================
+   DIGITAL CLOCK
+========================= */
+
+/* =========================
+   DIGITAL CLOCK
+========================= */
+
+.digital-clock {
+
+  position: fixed;
+
+  top: 30px;
+  right: 40px;
+
+  background: #111;
+
+  color: #fff;
+
+  padding: 14px 22px;
+
+  border-radius: 12px;
+
+  font-size: 32px;
+
+  font-weight: bold;
+
+  letter-spacing: 2px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+  font-family: monospace;
+
+}
+
+
+/* blinking colon */
+
+.blink {
+
+  animation: blink-animation 1s steps(1) infinite;
+
+}
+
+
+/* blink keyframes */
+
+@keyframes blink-animation {
+
+  50% {
+    opacity: 0;
+  }
+
+}
+
+/* =========================
+   WORDFEUD GRID
+========================= */
+
+.clock-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, auto);
+
+  gap: 12px;
+
+}
+
+
+/* =========================
+   TILE
+========================= */
+
+.tile {
+
+  background: #f1f1f1;
+
+  padding: 18px 22px;
+
+  border-radius: 8px;
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+  transition: all 0.3s ease;
+
+}
+
+
+/* inactive */
+
+.tile {
+
+  opacity: 0.25;
+
+}
+
+
+/* active */
+
+.tile.active {
+
+  opacity: 1;
+
+  transform: scale(1.05);
+
+  background: #55ca1c;
+
+  color: white;
+
+}
+/* =========================
+   SENTENCE LAYOUT
+========================= */
+
+.clock-container {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 22px;
+
+}
+
+
+/* line */
+
+.sentence {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 12px;
+
+  width: 100%;
+
+}
+
+
+/* normal text */
+
+.small {
+
+  font-size: 22px;
+
+  opacity: 0.7;
+
+}
+
+
+/* dynamic blocks */
+
+.word {
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px 20px;
+
+  border-radius: 12px;
+
+  background: #55ca1c;
+
+  color: white;
+
+  font-size: 26px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  transition: all 0.3s ease;
+
+}
+
+
+/* hover */
+
+.word:hover {
+
+  transform: scale(1.05);
+
+}
+
+/* =========================
+   INDIVIDUELLE FARVER
+========================= */
+
+/* ugedag */
+#weekday {
+
+  background: #00bcd4;
+
+}
+
+
+/* dato */
+#day {
+
+  background: #ff9800;
+
+}
+
+
+/* måned */
+#month {
+
+  background: #3f51b5;
+
+}
+
+
+/* år */
+#year {
+
+  background: #9c27b0;
+
+}
+
+
+/* minutter */
+#minuteWord {
+
+  background: #009688;
+
+}
+
+
+/* relation */
+#relationText {
+
+  color: #666;
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+}
+
+
+/* time */
+#hourWord {
+
+  background: #2196f3;
+
+}
+
+
+/* morgen/aften */
+#dayPeriod {
+
+  background: #e91e63;
+
+}
+
+</style>
+</head>
+
+<body>
+    <!--Digitalur start-->
+<div class="digital-clock" id="digitalClock">
+
+  00<span class="blink">:</span>00
+
+</div>
+
+
+<!-- LEFT SIDE (CLOCK) -->
+<!--Digitalur start-->
+<div class="clock-container">
+
+  <div class="sentence">
+
+    <span class="small">Det er i dag</span>
+
+    <span id="weekday" class="word"></span>
+
+  </div>
+
+
+  <div class="sentence">
+
+    <span class="small">den</span>
+
+    <span id="day" class="word"></span>
+
+    <span id="month" class="word"></span>
+
+    <span id="year" class="word"></span>
+
+  </div>
+
+
+  <div class="sentence">
+
+    <span class="small">og klokken er</span>
+
+    <span id="minuteWord" class="word"></span>
+
+    <span id="relationText"></span>
+
+    <span id="hourWord" class="word"></span>
+
+  </div>
+
+
+  <div class="sentence">
+
+    <span id="dayPeriod" class="word"></span>
+
+  </div>
+
+</div>
+
+
+<!-- RIGHT SIDE (WEATHER) -->
+<div class="weather">
+
+  <h2>Vejr</h2>
+
+  <div class="weather-item">
+    <span>København</span>
+    <span>☀️ 17°</span>
+  </div>
+
+  <div class="weather-item">
+    <span>Roskilde</span>
+    <span>🌤️ 16°</span>
+  </div>
+
+  <div class="weather-item">
+    <span>Odense</span>
+    <span>🌧️ 14°</span>
+  </div>
+
+  <div class="weather-item">
+    <span>Aarhus</span>
+    <span>☁️ 15°</span>
+  </div>
+
+</div>
+<!--newsticker start-->
+<div class="news-ticker">
+
+  <div class="news-track">
+
+    DR: Regeringen præsenterer ny klimaaftale •  
+    TV2: Kraftig regn ventes i weekenden •  
+    København: Nye elbil-regler træder i kraft •  
+    Sport: Danmark vinder vigtig kvalkamp •  
+    Tech: Ny dansk app går viralt •
+
+  </div>
+
+</div>
+<!--newsticker slut-->
+
+
+<script src="clock.js"></script>
+<script src="wordclock.js"></script>
+</body>
+</html>
