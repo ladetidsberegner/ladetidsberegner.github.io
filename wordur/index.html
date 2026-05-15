@@ -7,6 +7,17 @@
 <title>OrdUr + Vejr</title>
 
  <link rel="stylesheet" href="style.css">
+
+ <!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  gtag('js', new Date());
+  gtag('config', 'G-ELGNQRMN1X');
+</script>
+
 </head>
 
 <body>
@@ -108,8 +119,48 @@
 </div>
 <!--newsticker slut-->
 
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" style="position:fixed;bottom:0;width:100%;background:#000;color:#fff;padding:12px;text-align:center;z-index:9999;">
+  Vi bruger cookies til trafikmåling.
+  <button id="acceptCookies">Accepter</button>
+  <button id="declineCookies">Afvis</button>
+</div>
+
 
 <script src="clock.js"></script>
 <script src="wordclock.js"></script>
+
+<!--Cookiebanner start-->
+<script>
+  // =========================
+  // COOKIE / GA CONTROL
+  // =========================
+  document.getElementById('acceptCookies').onclick = function() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('cookieBanner').style.display = 'none';
+
+    // Load GA
+    var gaScript = document.createElement('script');
+    gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
+    gaScript.async = true;
+    document.head.appendChild(gaScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ELGNQRMN1X');
+  };
+
+  document.getElementById('declineCookies').onclick = function() {
+    localStorage.setItem('cookiesAccepted', 'false');
+    document.getElementById('cookieBanner').style.display = 'none';
+  };
+
+  // AUTO LOAD IF ACCEPTED
+  if(localStorage.getItem('cookiesAccepted') === 'true') {
+    document.getElementById('acceptCookies').click();
+  }
+</script>
+<!--Cookiebanner slut-->
 </body>
 </html>
