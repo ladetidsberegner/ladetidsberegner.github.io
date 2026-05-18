@@ -1,3 +1,6 @@
+//document.body.style.background = "red";
+console.log("NEW FILE LOADED");
+
 console.log("BUILD A - FULL LOGIC - 2026-05-16-1-a");
 
 console.log("wordclock loaded");
