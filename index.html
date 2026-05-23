@@ -1,664 +1,168 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="index, follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
- <title>Hvor lang tid tager det at lade en elbil? Beregn her</title>
+<title>OrdUr</title>
 
-<meta name="description" content="Beregn ladetid for din elbil derhjemme. Få hurtigt et estimat på opladningstiden med vores nemme og enkle ladetidsberegner til hverdagsbrug.">
-  <link rel="canonical" href="https://ladetidsberegner.github.io/">
+ <link rel="stylesheet" href="style.css">
 
-<!-- CSS -->
-<link rel="stylesheet" href="css/style.css">
-  
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ladetidsberegner.github.io/">
-  <meta property="og:title" content="Beregn ladetid for elbil hjemme">
-  <meta property="og:description" content="Gratis ladetidsberegner">
-  <meta property="og:image" content="https://ladetidsberegner.github.io/img/beregner-preview.png">
-
-  <meta name="twitter:card" content="summary_large_image">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Ladetidsberegner",
-    "url": "https://ladetidsberegner.github.io/"
-  }
-  </script>
-
-  <!-- Loader -->
-  <script src="includes/includes-menu.js" defaqer></script>
-</head>
-
-
-<body>
-  <!-- Top bar (reserveret til landevælger el.lign.) -->
-  <!--<div class="top-bar"></div>-->
-   <div id="site-header"></div>
-
-  <!-- Hero -->
-  <section class="hero" id="top">
-            <img src="/img/hero.jpg" alt="Hvordan beregner man ladetid på en elbil der hjemme" class="hero-image">
-
-    <div class="hero-text">
-      <h1 class="fade-up">Ladetidsberegner – Beregn ladetid for elbil hjemme</h1>
-      <p class="fade-up">Brug vores gratis ladetidsberegner til hurtigt at finde ud af, hvor lang tid det tager at oplade din elbil på din hjemmelader. Indtast batterikapacitet, start- og slut-SOC samt ladeeffekt, og få en præcis beregning af opladningstid og energiforbrug.</p>
-      <nav class="fade-up"><a href="#bereger" class="btn">Beregn ladetid nu</a></nav>
-    </div>
-  </section>
-
-  <!-- About -->
-  <div class="about-outer">
-    <section id="about" class="about fade-section">
-      <div class="about-text">
-        <h2 class="fade-left">Hvor lang tid tager det at lade en elbil hjemme?</h2>
-        <p class="fade-left">Det kan være kompliceret og tidskrævende at finde ud af, hvor lang tid det tager at lade en elbil hjemme. Opladningstiden afhænger af batteristørrelse, bilens interne lader og hjemmeladerens effekt. Med vores gratis ladetidsberegner får du hurtigt et klart overblik over opladningstid og energiforbrug, så du nemt kan planlægge hjemmeladningen og optimere din opladning.</p>
-        <p class="fade-left">Få et hurtigt overblik og planlæg opladningstiden optimalt, så du kan vælge det bedste tidspunkt for hjemmeladning og lade mest økonomisk.</p>
-        <p class="fade-left"><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
-      </div>
-      <div class="about-image">
-        <img class="fade-right" src="img/elbil-der-lader.jpg" alt="Elbil til opladning ved hjemmelader">
-      </div>
-    </section>
-  </div>
-
-  <!-- Ad: efter About -->
-  <div class="adsense-slot fade-section" id="ads-about">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4322732012925287"
-         data-ad-slot="8964176982"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-  </div>
-
-  <!-- beregner start-->
-<div class="beregner-outer " id="bereger">
-  <div class="beregner-container container">
-
-    <h2 class="beregner-overskrift">Beregn opladningstiden på din elbil hjemme</h2>
-    <p class="beregner-intro">Vælg den beregning, du har brug for. Alle tal og tider tager højde for din ladeeffekt og det valgte ladetab.</p>
-
-    <!-- Sektion 1: Beregn ladetid -->
-    <div id="calc-spor1" class="calc-section spor-1 open">
-
-      <button class="calc-question" aria-expanded="true">
-        <span class="calc-icon">▶</span>
-        <h3 class="calc-heading">Beregn ladetid</h3>
-      </button>
-      <div class="calc-answer" aria-hidden="false">
-        <div class="calc-help top">
-          <p class="help-text">Indtast start- og slut-SoC for at se, hvor længe opladningen varer, samt bruttoforbrug fra laderen.</p>
-        </div>
-
-        <form class="calc-form" onsubmit="return false;">
-          <div class="form-row">
-            <div class="form-group">
-              <a class="input-label" href="#faq-soc" aria-label="Læs mere i FAQ om start- og slut-SOC">
-                <span class="label-text">Start SoC (%)</span><span class="info-icon">i</span>
-              </a>
-              <input type="number" id="soc-start" min="0" max="100" step="1" value="20" inputmode="numeric" />
-            </div>
-            <div class="form-group">
-              <a class="input-label" href="#faq-soc" aria-label="Læs mere i FAQ om start- og slut-SOC">
-                <span class="label-text">Slut SoC (%)</span><span class="info-icon">i</span>
-              </a>
-              <input type="number" id="soc-slut" min="0" max="100" step="1" value="80" inputmode="numeric" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <button type="button" id="beregn-soc-btn" class="beregn-knap">Beregn</button>
-          </div>
-
-          <div id="resultat-soc" class="resultat-tekst" aria-live="polite"></div>
-
-          <div class="calc-help bottom">
-            <p class="help-text">Tip: Du kan justere batteristørrelse, ladeeffekt og ladetab under <a href="#advanced-fields"><em>indstillinger</em></a> herunder.</p>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <hr class="beregner-divider" />
-
-    <!-- Sektion 2: Beregn start-/sluttidspunkt -->
-<div class="calc-section" id="calc-spor2">
-  <button class="calc-question" aria-expanded="false">
-    <span class="calc-icon">▶</span>
-    <h3 class="calc-heading">Beregn start- eller sluttidspunkt</h3>
-  </button>
-
-  <div class="calc-answer" aria-hidden="true">
-
-    <div class="calc-help top">
-      <p class="help-text">Beregn hvornår du skal starte for at være færdig på et bestemt tidspunkt – eller hvornår du er færdig, hvis du starter på et bestemt tidspunkt.</p>
-    </div>
-
-    <form class="calc-form" onsubmit="return false;">
-
-      <!-- SOC-række -->
-      <div class="form-row">
-        <div class="form-group">
-          <a class="input-label" href="#faq-soc">
-            <span class="label-text">Start SoC (%)</span>
-            <span class="info-icon">i</span>
-          </a>
-          <input type="number" id="soc-start-2" min="0" max="100" value="20" inputmode="numeric"  />
-        </div>
-        
-        <div class="form-group">
-          <a class="input-label" href="#faq-soc" >
-            <span class="label-text">Slut SoC (%)</span>
-            <span class="info-icon">i</span>
-          </a>
-          <input type="number" id="soc-slut-2" min="0" max="100" value="80" inputmode="numeric" />
-       
-      </div>
-      </div>
- 
-
-      <!-- Sætning med dropdown -->
-      <div class="line-sentence" id="linie-sentence">
-        <label class="inline-label">Hvis ladningen</label>
-
-        <select id="beregn-tid-valg" class="inline-select">
-          <option value="skal-vaere-faerdig">skal være færdig</option>
-          <option value="starter">starter</option>
-        </select>
-
-        <label class="inline-label">kl</label>
-        <input type="time" id="tidpunkt-input" class="inline-time" />
-
-        <span id="linje-resultat" class="inline-result"></span>
-
-        <button type="button" id="beregn-tid-btn" class="beregn-knap small">Beregn</button>
-      </div>
-
-      <!-- Resultatfelt -->
-      <div id="resultat-tid" class="resultat-tekst" aria-live="polite"></div>
-
-      <div class="calc-help bottom">
-        <p class="help-text">Tip: Brug denne funktion, når du planlægger natlig opladning, så er bilen klar til når du skal ud af døren om mognen.</p>
-      </div>
-
-    </form>
-  </div>
-</div>
-
-    <hr class="beregner-divider" />
-
-<!-- Sektion 3: Beregn SoC-stigning -->
-<div class="calc-section" id="calc-spor3">
-  <button class="calc-question" aria-expanded="false">
-    <span class="calc-icon">▶</span>
-    <h3 class="calc-heading">Beregn SoC-stigning</h3>
-  </button>
-
-  <div class="calc-answer" aria-hidden="true">
-    <div class="calc-help top">
-      <p class="help-text">
-        Se hvor meget din bils SoC stiger i et tidsrum. Vælg enten varighed (timer/minutter)
-        eller angiv start- og sluttidspunkt.
-      </p>
-    </div>
-
-    <form class="calc-form" onsubmit="return false;">
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="spor3-soc-start" class="input-label">
-            <a class="input-label" href="#faq-soc" aria-label="Læs mere i FAQ om start- og slut-SOC">
-                <span class="label-text">Start SoC (%)</span><span class="info-icon">i</span>
-              </a> 
-            </label>
-          <input type="number" id="spor3-soc-start" min="0" max="100" step="1" value="20" inputmode="numeric">
-        </div>
-
-        <div class="form-group">
-          <label for="soc-model" class="input-label">
-            <span class="label-text">Beregn ud fra</span>
-          </label>
-          <select id="soc-model">
-            <option value="varighed" selected>Varighed (timer/minutter)</option>
-            <option value="tidspunkter">Start- og sluttidspunkt</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Varighed -->
-      <div class="form-row soc-varighed">
-        <div class="form-group">
-          <label for="varighed-timer">Timer</label>
-          <input type="number" id="varighed-timer" min="0" step="1" value="0" inputmode="numeric">
-        </div>
-        <div class="form-group">
-          <label for="varighed-minutter">Minutter</label>
-          <input type="number" id="varighed-minutter" min="0" max="59" step="1" value="0" inputmode="numeric">
-        </div>
-      </div>
-
-      <!-- Start- og sluttidspunkt -->
-      <div class="form-row soc-tidspunkter" style="display:none;">
-        <div class="form-group">
-          <label for="soc-starttid">Starttidspunkt</label>
-          <input type="time" id="soc-starttid">
-        </div>
-
-        <div class="form-group">
-          <label for="soc-sluttid">Sluttidspunkt</label>
-          <input type="time" id="soc-sluttid">
-        </div>
-      </div>
-
-      <div class="form-row">
-        <button type="button" id="beregn-soc-tid-btn" class="beregn-knap">Beregn</button>
-      </div>
-
-      <div id="resultat-soc-tid" class="resultat-tekst" aria-live="polite"></div>
-
-      <div class="calc-help bottom">
-        <p class="help-text">
-          Hvis beregningen overstiger 100 %, viser vi, hvor lang tid der skal lades for at nå 80 % og 100 %, 
-          samt bruttoforbrug for disse værdier.
-        </p>
-      </div>
-    </form>
-  </div>
-</div>
-
-    <hr class="beregner-divider" />
-
-    <!-- Indstillinger -->
-    <div class="advanced-section" id="advanced-fields">
-      <button class="advanced-question" aria-expanded="true" id="advanced-toggle">
-        <span class="advanced-icon">▶</span>
-        <h3 class="advanced-heading">Indstillinger</h3>
-      </button>
-
-      <div class="advanced-answer" aria-hidden="false">
-        <div class="form-row triple-fields">
-          <div class="form-group">
-            <a class="input-label" href="#faq-batterikapacitet-brutto-netto" aria-label="Læs mere i FAQ om batterikapacitet">
-              <span class="label-text">Batterikapacitet (kWh)</span><span class="info-icon">i</span>
-            </a>
-            <input type="number" id="kapacitet" placeholder="Angiv bilens batteristørrelse (kWh)">
-            <small class="help-text">
-              Beregningen bør tage udgangspunkt i bilens <strong>netto batterikapacitet</strong> – altså den del, der reelt kan bruges.  
-              Se <a href="https://ev-database.org/" target="_blank" rel="noopener">ev-database.org</a> for oplysninger.
-            </small>
-          </div>
-
-          <div class="form-group">
-            <a class="input-label" href="#faq-front-ladetab" aria-label="Læs mere i FAQ om ladetab">
-              <span class="label-text">Ladetab (%)</span><span class="info-icon">i</span>
-            </a>
-            <input type="number" id="ladetab" min="0" step="0.1" value="12" inputmode="decimal" />
-            <div class="help-text">Ladetab dækker energi tabt i kabler, konvertering og køling.<br />
-                    <div class="form-group">
-  <label>Ladetab:</label>
-  <div>
-    <input type="radio" id="ladetab-tastet" name="ladetab-valg" checked>
-    <label for="ladetab-tastet">Brug tastet ladetab</label>
-  </div>
-  <div>
-    <input type="radio" id="ladetab-beregnet" name="ladetab-valg" disabled>
-    <label for="ladetab-beregnet">Brug beregnet ladetab <span id="beregnet-ladetab-info">(Ingen beregnet værdi endnu)</span></label>
-  </div>
-  <small>Hvis du endnu ikke har beregnet ladetabet, anbefaler vi at tage udgangspunkt i ca. 12 %.
-  <a href="#calc-spor4">Beregn ladetab</a></small>
-</div>
-            </div>
-          </div>
-
-<div class="form-group">
-  <a class="input-label" href="#faq-front-11kw" aria-label="Læs mere i FAQ om ladeeffekt og faser">
-    <span class="label-text">Vælg ladeeffekt og antal faser</span><span class="info-icon">i</span>
-  </a>
-  <select id="ladevalg">
-    <option value="">Vælg</option>
-    <option value="3.7-1">3,7 kW (1 fase)</option>
-    <option value="7.4-1">7,4 kW (1 fase)</option>
-    <option value="11-3" selected>11 kW (3 faser)</option>
-    <option value="22-3">22 kW (3 faser)</option>
-  </select>
-  <div class="help-text">Husk: bilen sætter grænsen for, hvor meget effekt der kan udnyttes.</div>
-</div>
-
-        </div>
-      </div>
-    </div>
-
-    <hr class="beregner-divider" />
-
-    <!-- Sektion 4: Beregn ladetab -->
-<div class="calc-section" id="calc-spor4">
-  <button class="calc-question" aria-expanded="false">
-    <span class="calc-icon">▶</span>
-    <h3 class="calc-heading">Beregn ladetab</h3>
-  </button>
-
-  <div class="calc-answer" aria-hidden="true">
-
-    <div class="calc-help top">
-      <p class="help-text">
-        Beregn dit faktiske ladetab baseret på en gennemført opladning.
-        Du skal blot bruge bilens SoC før og efter opladning samt,
-        hvor mange kWh der blev trukket fra laderen.
-      </p>
-    </div>
-
-    <form class="calc-form" onsubmit="return false;">
-
-      <!-- SOC -->
-      <div class="form-row">
-        <div class="form-group">
-          <a class="input-label" href="#faq-soc">
-            <span class="label-text">Start SoC (%)</span>
-            <span class="info-icon">i</span>
-          </a>
-          <input
-            type="number"
-            id="ladetab-soc-start"
-            min="0"
-            max="100"
-            step="1"
-            inputmode="numeric"
-            value="20"
-          />
-        </div>
-
-        <div class="form-group">
-          <a class="input-label" href="#faq-soc">
-            <span class="label-text">Slut SoC (%)</span>
-            <span class="info-icon">i</span>
-          </a>
-          <input
-            type="number"
-            id="ladetab-soc-slut"
-            min="0"
-            max="100"
-            step="1"
-            inputmode="numeric"
-            value="80"
-          />
-        </div>
-      </div>
-
-      <!-- Energi fra lader -->
-      <div class="form-row">
-        <div class="form-group">
-          <a class="input-label" href="#faq-ladetab">
-            <span class="label-text">Energi trukket fra lader (kWh)</span>
-            <span class="info-icon">i</span>
-          </a>
-          <input
-            type="number"
-            id="ladetab-energi"
-            min="0"
-            step="0.1"
-            inputmode="decimal"
-            placeholder="fx 40"
-          />
-        </div>
-      </div>
-
-      <!-- Info om batterikapacitet -->
-      <div class="calc-help inline">
-        <p class="help-text">
-          Batterikapaciteten hentes automatisk fra
-          <a href="#advanced-fields"><em>Indstillinger</em></a>.
-        </p>
-      </div>
-
-      <!-- Beregn -->
-      <div class="form-row">
-        <button type="button" id="beregn-ladetab-btn" class="beregn-knap">Beregn ladetab</button>
-      </div>
-
-      <!-- Resultat -->
-      <div id="resultat-ladetab" class="resultat-tekst" aria-live="polite"></div>
-
-      <p class="help-text">
-  Får du et højt ladetab?
-  <a href="#faq-hoejt-ladetab">Læs hvorfor det er helt normalt</a>.
-</p>
-
-
-      <div class="calc-help bottom">
-        <p class="help-text">
-          Tip: Korte opladninger og kolde temperaturer kan give et højere
-          ladetab end normalt.
-        </p>
-      </div>
-
-    </form>
-  </div>
-</div>
-
-
-
-    <hr class="beregner-divider" />
-
-
-    <p>Beregningen er vejledende og kan variere afhængigt af bilmodel, batteriets tilstand, temperatur og laderens kapacitet. Resultatet giver et realistisk udgangspunkt for planlægning af hjemmeladning, men de faktiske opladningstider kan afvige. Vi påtager os ikke ansvar for eventuelle fejl eller afvigelser i beregningen og kan ikke holdes ansvarlige for tab som følge af brug af værktøjet.</p>
- 
- 
-  </div>
-</div>
-
-<!-- beregner slut -->
-
-
-
-  <!-- Features / trin -->
-  <section class="features-image-with-steps fade-section">
-    <div class="features-wrapper">
-      <div class="features-image">
-        <img class="fade-right" src="img/elbil-dame-telefon.jpg" alt="Kvinde bruger ladetidsberegner til elbil hjemme">
-      </div>
-
-      <div class="features-text">
-        <div class="text-wrapper">
-          <h2 class="fade-left">Sådan finder du hurtigt opladningstiden for din elbil</h2>
-          <p class="fade-left">Beregn opladningstid, planlæg start- eller sluttidspunkt, eller se, hvor meget bilen lader på et bestemt tidsrum – nemt og hurtigt.</p>
-
-          <ol class="features-steps">
-            <li class="fade-left">
-              <h3>Vælg beregningstype</h3>
-              <p>Vælg, om du vil beregne opladningstid, finde start-/sluttidspunkt eller se, hvor meget din SoC stiger i en given periode.</p>
-            </li>
-
-            <li class="fade-left">
-              <h3>Angiv start- og slutniveau (SoC)</h3>
-              <p>Indtast bilens aktuelle ladestand og det ønskede slutniveau – herefter får du vist, hvor lang tid opladningen vil tage.</p>
-            </li>
-
-            <div class="eller fade-up">eller</div>
-
-            <div class="fade-left" style="margin-left:80px">
-              <h3 style="margin-bottom:0">Beregn start- eller sluttidspunkt</h3>
-              <p>Angiv, hvornår opladningen skal starte eller være færdig. Beregneren viser sluttidspunktet, hvis du indtaster et starttidspunkt – og omvendt, hvis du angiver et sluttidspunkt.</p>
-            </div>
-
-            <div class="eller fade-up">eller</div>
-
-            <div class="fade-left" style="margin-left:80px">
-              <h3 style="margin-bottom:0px">Beregn SoC-stigning i et tidsrum</h3>
-              <p>Se, hvor meget din bils ladestand stiger, hvis du oplader i et bestemt antal timer – eller mellem to valgte tidspunkter.</p>
-            </div>
-
-            <li class="fade-left">
-              <h3>Indtast batteristørrelse og vælg ladeeffekt</h3>
-              <p>Angiv bilens batteristørrelse i kWh, og vælg den ladeeffekt, du lader med. Du kan også justere ladetab for at få et mere realistisk resultat.</p>
-            </li>
-          </ol>
-
-          <h3 class="fade-left">Planlæg din opladning på få sekunder</h3>
-          <p class="fade-left">Uanset om du vil planlægge opladningen til et bestemt tidspunkt, finde ud af hvor længe bilen skal lade, eller blot få et hurtigt overblik over opladningstiden derhjemme, giver ladetidsberegneren dig svaret på få sekunder.</p>
-
-          <p class="fade-left"><a href="#bereger" class="btn">Beregn ladetid på din elbil</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Ad: efter Features -->
-  <div class="adsense-slot fade-section" id="ads-features">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4322732012925287"
-         data-ad-slot="8685524120"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-  </div>
-
-  <!-- FAQ start-->
-<!-- FAQ – accordion (kort version til forsiden) -->
-<section class="faq-section fade-section" id="faq-front">
-  <div class="faq-container">
-    <h2 class="fade-up">Ofte stillede spørgsmål</h2>
-    <p class="faq-intro fade-left">
-      Få korte svar på de mest almindelige spørgsmål om ladetid, ladetab og opladning af elbil derhjemme.
-    </p>
-
-    <div class="faq">
-              <!-- SOC -->
-        <div class="faq-item fade-up" id="faq-soc">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvad betyder start- og slut-SOC?</h3>
-          </button>
-          <div class="faq-answer">
-            <p>SOC står for "State of Charge" og viser i procent, hvor meget strøm der er på bilens batteri. Start-SOC er niveauet, inden du begynder at lade, og slut-SOC er, hvor fyldt batteriet er, når opladningen er færdig.</p>
-          </div>
-        </div>
-
-        <!-- Brutto vs netto -->
-        <div class="faq-item fade-up" id="faq-batterikapacitet-brutto-netto">
-          <button class="faq-question">
-            <span class="faq-icon">▶</span>
-            <h3 class="faq-heading">Hvad er forskellen på brutto og netto batterikapacitet?</h3>
-          </button>
-          <div class="faq-answer">
-            <p><strong>Brutto batterikapacitet</strong> er hele batteriets størrelse, som bilproducenten angiver – inklusive den del, der er reserveret for at beskytte batteriet mod slid.</p>
-            <p><strong>Netto batterikapacitet</strong> er den mængde energi, du faktisk kan bruge til opladning og kørsel. Det er denne værdi, du bør bruge i beregneren, da den giver det mest realistiske resultat for ladetid og energiforbrug.</p>
-            <p>Du kan finde både brutto- og nettokapacitet for din bil på <a href="https://ev-database.org/" target="_blank" rel="noopener">ev-database.org</a>.</p>
-          </div>
-        </div>
-
-
-      <!-- Hvad er ladetab -->
-      <div class="faq-item fade-up" id="faq-front-ladetab">
-        <button class="faq-question">
-          <span class="faq-icon">▶</span>
-          <h3 class="faq-heading">Hvad er ladetab?</h3>
-        </button>
-        <div class="faq-answer">
-          <p>
-            Ladetab er den energi, der går tabt under opladning af elbilen. Ved hjemmeopladning ligger tabet typisk omkring 10–15 %, men kan være højere ved korte opladninger.
-          </p>
-          <!--<p>
-            <a href="/faq/hvad-er-ladetab.html">Læs mere om ladetab ved opladning af elbil</a>
-          </p>-->
-        </div>
-      </div>
-
-      <!-- Sådan beregner du ladetid -->
-      <div class="faq-item fade-up" id="faq-front-beregning">
-        <button class="faq-question">
-          <span class="faq-icon">▶</span>
-          <h3 class="faq-heading">Sådan beregner du ladetid på din elbil</h3>
-        </button>
-        <div class="faq-answer">
-          <p>
-            Ladetiden afhænger af batteriets størrelse, hvor meget der skal lades, ladeeffekten og ladetab. Med en enkel beregning kan du få et realistisk estimat.
-          </p>
-          <p>
-            <a href="/saadan-beregner-du-ladetid.html">Se hvordan du beregner ladetid trin for trin</a>
-          </p>
-        </div>
-      </div>
-
-      <!-- 80% eller 100% -->
-      <div class="faq-item fade-up" id="faq-front-80-100">
-        <button class="faq-question">
-          <span class="faq-icon">▶</span>
-          <h3 class="faq-heading">Bør jeg lade min elbil til 80 % eller 100 %?</h3>
-        </button>
-        <div class="faq-answer">
-          <p>
-            Det afhænger af batteritypen. Nogle elbiler har bedst af daglig opladning til 70–80 %, mens andre uden problemer kan lades helt op.
-          </p>
-          <!--<p>
-            <a href="/faq/80-eller-100-procent.html">Læs hvornår du bør lade til 80 % eller 100 %</a>
-          </p>-->
-        </div>
-      </div>
-
-      <!-- Hvorfor kun 11 kW -->
-      <div class="faq-item fade-up" id="faq-front-11kw">
-        <button class="faq-question">
-          <span class="faq-icon">▶</span>
-          <h3 class="faq-heading">Hvorfor kan jeg ikke lade med 22 kW derhjemme?</h3>
-        </button>
-        <div class="faq-answer">
-          <p>
-            Selvom din ladeboks og installation kan levere 22 kW, er det bilens indbyggede lader, der begrænser effekten – typisk til 11 kW.
-          </p>
-          <!--<p>
-            <a href="/faq/hvorfor-lader-min-elbil-kun-11-kw.html">Forstå hvorfor din elbil kun lader med 11 kW</a>
-          </p>-->
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-<!-- FAQ – accordion slut -->
-
-<!-- FAQ – kort version slut -->
-
-  <!--FAQ Slut-->
-
-  <!-- Ad: efter FAQ -->
-  <div class="adsense-slot fade-section" id="ads-faq">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4322732012925287"
-         data-ad-slot="6613894552"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-  </div>
-
-
-<div id="footer-placeholder"></div>
+ <!-- Google Analytics (GA4) -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E9HWE5NX2M"></script>
 <script>
-  fetch('/includes/footer.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('footer-placeholder').innerHTML = html;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-      // Footer er loadet – initialiser cookie.js
-      const script = document.createElement('script');
-      script.src = '/cookie.js';
-      document.body.appendChild(script);
-    });
+  gtag('config', 'G-E9HWE5NX2M');
 </script>
 
-<script src="master.js"></script>
-<script src="accordion.js"></script>
-<script src="scroll.js"></script>
-<script src="beregner-soc.js" defer></script>
-<script src="beregner-spor3.js" defer></script>
-<script src="beregner-spor4.js" defer></script>
-<script src="cookie.js" defer></script>
-<script src="/includes/includes-menu.js" defer></script>
-<script src="/includes/includes-footer.js" defer></script>
-<script src="/cookie.js" defer></script>
+</head>
+
+<body>
+    <!--Digitalur start-->
+<div class="digital-clock" id="digitalClock">
+
+  00<span class="blink">:</span>00
+
+</div>
+
+
+<!-- LEFT SIDE (CLOCK) -->
+<!--Digitalur start-->
+<div class="clock-container">
+
+  <div class="sentence">
+
+    <span class="small">Det er i dag</span>
+
+    <span id="weekday" class="word"></span>
+
+  </div>
+
+
+  <div class="sentence">
+
+    <span class="small">den</span>
+
+    <span id="day" class="word"></span>
+
+    <span id="month" class="word"></span>
+
+    <span id="year" class="word"></span>
+
+  </div>
+
+
+  <div class="sentence">
+
+    <span class="small">og klokken er</span>
+
+    <span id="minuteWord" class="word"></span>
+
+    <span id="relationText"></span>
+
+    <span id="hourWord" class="word"></span>
+
+  </div>
+
+
+  <div class="sentence">
+
+    <span id="dayPeriod" class="word"></span>
+
+  </div>
+
+</div>
+
+
+<!-- RIGHT SIDE (WEATHER) -->
+<div class="weather">
+
+  <h2>Vejr</h2>
+
+  <div class="weather-item">
+    <span>København</span>
+    <span>☀️ 17°</span>
+  </div>
+
+  <div class="weather-item">
+    <span>Roskilde</span>
+    <span>🌤️ 16°</span>
+  </div>
+
+  <div class="weather-item">
+    <span>Odense</span>
+    <span>🌧️ 14°</span>
+  </div>
+
+  <div class="weather-item">
+    <span>Aarhus</span>
+    <span>☁️ 15°</span>
+  </div>
+
+</div>
+<!--newsticker start-->
+<div class="news-ticker">
+
+  <div class="news-track">
+
+    DR: Regeringen præsenterer ny klimaaftale •  
+    TV2: KHøj sol og temeraturer over 22° i weekenden •  
+    København: Nye elbil-regler træder i kraft •  
+    Sport: Danmark vinder vigtig kvalkamp •  
+    Tech: Ny dansk app går viralt •
+
+  </div>
+
+</div>
+
+<!--newsticker slut-->
+
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" style="position:fixed;bottom:0;width:100%;background:#000;color:#fff;padding:12px;text-align:center;z-index:9999;">
+  Vi bruger cookies til trafikmåling.
+  <button id="acceptCookies">Accepter</button>
+  <button id="declineCookies">Afvis</button>
+</div>
+
+
+<script src="clock.js"></script>
+<script src="wordclock.js"></script>
+
+<!--Cookiebanner start-->
+<script>
+  // =========================
+  // COOKIE / GA CONTROL
+  // =========================
+  document.getElementById('acceptCookies').onclick = function() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('cookieBanner').style.display = 'none';
+
+    // Load GA
+    var gaScript = document.createElement('script');
+    gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-ELGNQRMN1X";
+    gaScript.async = true;
+    document.head.appendChild(gaScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ELGNQRMN1X');
+  };
+
+  document.getElementById('declineCookies').onclick = function() {
+    localStorage.setItem('cookiesAccepted', 'false');
+    document.getElementById('cookieBanner').style.display = 'none';
+  };
+
+  // AUTO LOAD IF ACCEPTED
+  if(localStorage.getItem('cookiesAccepted') === 'true') {
+    document.getElementById('acceptCookies').click();
+  }
+</script>
+<!--Cookiebanner slut-->
 </body>
 </html>
