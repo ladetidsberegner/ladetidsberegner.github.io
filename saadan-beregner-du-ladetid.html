@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -6,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
 
-  <!-- SEO – RETTES PR. SIDE -->
- <title>Beregn ladetid på elbil – formel og eksempler</title>
-<meta name="description" content="Hvor lang tid tager det at oplade en elbil? Lær at beregne ladetiden ud fra batteriets størrelse og ladeeffekt, og prøv vores gratis beregner.">
+  <!-- SEO -->
+  <title>Beregn ladetid på elbil – formel og eksempler</title>
+  <meta name="description" content="Hvor lang tid tager det at oplade en elbil? Lær at beregne ladetiden med en enkel formel, eksempler og vores gratis ladetidsberegner.">
   <link rel="canonical" href="https://ladetidsberegner.github.io/saadan-beregner-du-ladetid.html">
 
   <!-- CSS -->
@@ -17,37 +18,37 @@
   <!-- OPEN GRAPH -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Sådan beregner du ladetid på elbil hjemme">
-  <meta property="og:description" content="Guide til beregning af ladetid for elbil med eksempler og ladetidsberegner">
+  <meta property="og:description" content="Lær at beregne ladetiden på din elbil med en enkel formel og realistiske eksempler.">
   <meta property="og:url" content="https://ladetidsberegner.github.io/saadan-beregner-du-ladetid.html">
   <meta property="og:image" content="https://ladetidsberegner.github.io/img/beregner-preview.png">
 
   <!-- TWITTER -->
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- STRUCTURED DATA – WEB APPLICATION -->
+  <!-- STRUCTURED DATA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Ladetidsberegner",
-    "url": "https://ladetidsberegner.github.io/index.html#beregner",
-    "description": "Beregn hvor lang tid det tager at lade din elbil hjemme, med indtastning af batterikapacitet, start- og slut-SOC samt ladeeffekt.",
+    "url": "https://ladetidsberegner.github.io/#beregner",
+    "description": "Beregn ladetiden for din elbil ud fra batterikapacitet, start- og slutprocent, ladeeffekt og ladetab.",
     "applicationCategory": "Utilities",
     "operatingSystem": "Web",
-    "featureList": "Batterikapacitet, Start-SOC, Slut-SOC, Ladeeffekt, Ladetab",
+    "featureList": "Batterikapacitet, startprocent, slutprocent, ladeeffekt og ladetab",
     "softwareVersion": "1.0",
     "exampleOfWork": {
       "@type": "ExampleObject",
       "name": "Beregning af ladetid",
       "input": {
         "Batterikapacitet": "77 kWh",
-        "Start-SOC": "20 %",
-        "Slut-SOC": "80 %",
+        "Startprocent": "20 %",
+        "Slutprocent": "80 %",
         "Ladeeffekt": "11 kW",
         "Ladetab": "12 %"
       },
       "output": {
-        "Tid": "4 timer 42 minutter"
+        "Tid": "Cirka 4 timer og 46 minutter"
       }
     }
   }
@@ -55,22 +56,40 @@
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4322732012925287"
      crossorigin="anonymous"></script>
-
 </head>
+
 <body>
 
-  <!-- HEADER (INJECTED) -->
+  <!-- HEADER -->
   <div id="site-header"></div>
 
   <main class="content-container">
 
-    <!-- HERO -->
+    <!-- HERO: eksisterende billede og struktur bevares -->
     <section class="hero" id="top">
-      <img src="/img/man-charging-his-electric-car-charge-station-using-smartphone.jpg" alt="Mand oplader elbil med smartphone" class="hero-image">
+      <img
+        src="/img/man-charging-his-electric-car-charge-station-using-smartphone.jpg"
+        alt="Mand oplader elbil med smartphone ved en ladestation"
+        class="hero-image"
+      >
+
       <div class="hero-text">
-        <h1 class="fade-up">Sådan beregner du ladetid på din elbil hjemme</h1>
+        <h1 class="fade-up">Sådan beregner du ladetiden på din elbil derhjemme</h1>
+
         <p class="fade-up">
-          Vil du vide, hvor lang tid det tager at lade din elbil op hjemme? Vi viser formlen trin for trin, giver eksempler og gør det nemt at bruge vores ladetidsberegner.
+          Hvor lang tid tager det at oplade en elbil? Det afhænger især af
+          batteriets størrelse, hvor meget batteriet skal oplades, og hvor
+          stor ladeeffekt bilen kan udnytte.
+        </p>
+
+        <p class="fade-up">
+          Med en simpel formel kan du beregne den forventede ladetid for din
+          elbil. Du kan også bruge vores
+          <a href="https://ladetidsberegner.github.io/#beregner">
+            gratis ladetidsberegner
+          </a>,
+          hvor du indtaster batteriets størrelse, ladeeffekt og batteriets
+          start- og slutprocent.
         </p>
       </div>
     </section>
@@ -80,118 +99,263 @@
       <section id="about" class="about fade-section">
         <section class="content">
 
-          <!-- Første blok: Formlen for ladetid -->
-          <h2 class="fade-up">Formlen for ladetid</h2>
-          <div class="about-row">
-            <div class="about-text fade-left">
-              <p>
-                Når du vil finde ud af, hvor lang tid det tager at lade din elbil op derhjemme, skal du kende batteriets størrelse, hvor meget der skal lades, og hvor kraftig din hjemmelader er.
-              </p>
-              <p>
-                Batteriets kapacitet måles i kilowatt-timer (kWh), som angiver den samlede energimængde, batteriet kan lagre. Ladeeffekten måles i kilowatt (kW), som angiver, hvor hurtigt energi kan tilføres batteriet. Effekt i kW fortæller altså, hvor mange kilowatt-timer (kWh) der leveres pr. time. Hvis du ved, hvor meget energi der skal på batteriet (målt i kWh), og hvor hurtigt den leveres (i kW), kan du finde ladetiden ved at dividere energien med effekten.
-              </p>
-              <p>
-                Du kan også bruge vores <a href="/index.html#beregner">ladetidsberegner</a>, som automatisk tager højde for batteristørrelse, ladeeffekt og ladetab.
-              </p>
-            </div>
-            <div class="about-image fade-right">
-              <img src="/img/hvordan-beregner-man-ladetid.jpg" alt="Hvordan beregner man ladetid?" style="height:100%;">
-              <figcaption>Det er ikke så indviklet at beregne, hvor lang tid det tager at lade sin elbil op derhjemme. Følg vores guide – eller brug vores online beregner.</figcaption>
-            </div>
-          </div>
+          <!-- EKSEMPEL FRA 20 TIL 80 % -->
+          <h2 class="fade-up">
+            Hvor lang tid tager det at lade en elbil fra 20 til 80 %?
+          </h2>
 
-          <!-- Formlen inkl SOC og ladetab -->
-          <h2 class="fade-up">Formlen for ladetid inkl. SOC og ladetab</h2>
-          <pre class="fade-left"><code>
-Tid (timer) = Batterikapacitet × (Slut‑SOC − Start‑SOC) / 100 × (1 + Ladetab) ÷ Ladeeffekt
-          </code></pre>
           <p class="fade-left">
-            Hvor: <br>
-            Batterikapacitet måles i kWh <br>
-            SOC = State of Charge (start- og slutprocent) <br>
-            Ladetab = typisk 0,10–0,15 (10–15 % ved almindelig hjemmeopladning)
+            Når du lader fra 20 til 80 %, skal batteriet modtage energi
+            svarende til 60 % af sin kapacitet.
           </p>
 
-          <!-- Eksempel med stort batteri -->
-          <h2 class="fade-up">Eksempel: Bil med 77kWh batteri</h2>
+          <h3 class="fade-up">
+            Eksempel: Ladetid fra 20 til 80 % med 11 kW
+          </h3>
+
           <div class="about-row">
             <div class="about-text fade-left">
+              <p>
+                Forestil dig en elbil med et batteri på 77 kWh, der skal
+                oplades fra 20 til 80 % med en ladeeffekt på 11 kW.
+                Vi regner med et ladetab på 12 %.
+              </p>
+
               <ul>
-                <li>Batterikapacitet: 77 kWh</li>
-                <li>Start-SOC: 20 %</li>
-                <li>Slut-SOC: 80 %</li>
-                <li>Ladeeffekt: 11 kW</li>
-                <li>Ladetab: 12 %</li>
+                <li>Batteriets kapacitet: 77 kWh.</li>
+                <li>Energi til batteriet: 77 × 0,60 = 46,2 kWh.</li>
+                <li>Energi inklusive ladetab: 46,2 / 0,88 = cirka 52,5 kWh.</li>
+                <li>Beregnet ladetid: 52,5 / 11 = cirka 4,77 timer.</li>
               </ul>
-              <p>Energi der skal tilføres: 77 × 0,6 = 46,2 kWh</p>
-              <p>Ladetab 12 % → 46,2 × 1,12 ≈ 51,7 kWh</p>
-              <p>Tid = 51,7 ÷ 11 ≈ 4,7 timer → ca. 4 timer og 42 minutter</p>
+
+              <p>
+                <strong>Resultat: Cirka 4 timer og 46 minutter.</strong>
+              </p>
+
+              <p>
+                Det er et teoretisk estimat, da ladeeffekten kan variere
+                under opladningen.
+              </p>
             </div>
+
             <div class="about-image fade-right">
-              <img src="/img/ladende-elbil.jpg" alt="Beregn ladetid eksempel" style="height:100%;">
-              <figcaption>Eksempel på beregning af ladetid med stort batteri.</figcaption>
+              <img
+                src="/img/ladende-elbil.jpg"
+                alt="Elbil, der lader ved en ladestation"
+                style="height:100%;"
+              >
+              <figcaption>
+                Ladetiden afhænger blandt andet af batteriets størrelse
+                og den ladeeffekt, bilen kan udnytte.
+              </figcaption>
             </div>
           </div>
 
-          <!-- Ladetab ved AC-opladning -->
-          <h2 class="fade-up">Ladetab ved AC-opladning</h2>
-          <p class="fade-left">
-            Når du lader din bil på en almindelig hjemmelader, konverteres boligens strøm fra vekselstrøm (AC) til jævnstrøm (DC), som batteriet bruger, i bilens indbyggede lader. Denne konvertering medfører et ladetab på typisk 10–15 % eller mere, afhængigt af bil og installation.
-          </p>
+          <!-- FORMEL -->
+          <h2 class="fade-up">Formlen til at beregne ladetid</h2>
 
-          <!-- Forudsætninger og modelbegrænsninger -->
-          <h2 class="fade-up">Forudsætninger og modelbegrænsninger</h2>
-          <p class="fade-left">
-            Formlen bygger på grundlæggende sammenhæng mellem energi og effekt og giver et realistisk estimat for ladetiden. Den faktiske tid kan variere afhængigt af:
-          </p>
-          <ul class="fade-left">
-            <li>Bilens batteristyring (BMS) – regulerer ladeeffekten for at beskytte batteriet.</li>
-            <li>Temperatur – kolde batterier oplades langsommere, men det kan sjældent betale sig at forvarme batteriet kun for at spare lidt tid.</li>
-            <li>Spændingsfald i installationen – reelle effekt kan være lidt lavere end nominal 11 kW, hvilket øger ladetiden.</li>
-          </ul>
-
-          <!-- Tesla eksempel -->
-          <h2 class="fade-up">Hvor hurtigt lader en Tesla Model 3 Standard Range (SR) derhjemme</h2>
           <div class="about-row">
             <div class="about-text fade-left">
               <p>
-                Tesla Model 3 SR understøtter op til 11 kW AC-opladning, hvilket er det maksimale, bilen kan tage imod fra en tre-faset hjemmelader – selvom ladeboksen teknisk kan levere mere.
+                Du skal kende batteriets kapacitet, start- og slutprocent,
+                ladeeffekten og det forventede ladetab.
               </p>
+
               <p>
-                Ved 11 kW AC-opladning tager opladning fra 20 % til 80 % typisk omkring 4–5 timer afhængigt af køreforbrug, batteristørrelse og installationens effekt. Dette svarer til ca. 62 km rækkevidde pr. time opladning.
+                Batteriets kapacitet måles i kilowatt-timer (kWh) og angiver,
+                hvor meget energi batteriet kan lagre. Ladeeffekten måles i
+                kilowatt (kW) og fortæller, hvor hurtigt energi tilføres bilen.
               </p>
-              <p>
-                Selv hvis ladeboksen kan levere 22 kW, vil bilens interne lader normalt kun trække 11 kW, fordi den er designet til netop den effekt under AC‑ladning.
+
+              <h3 class="fade-up">
+                Formel for ladetid inklusive ladetab
+              </h3>
+
+              <pre class="fade-left"><code>Ladetid i timer =
+batterikapacitet
+× (slutprocent − startprocent) / 100
+/ (1 − ladetab)
+/ ladeeffekt</code></pre>
+
+              <p class="fade-left">
+                Ladetabet angives som et decimaltal. Et ladetab på 12 %
+                skrives derfor som 0,12.
               </p>
             </div>
+
             <div class="about-image fade-right">
-              <img src="/img/hvor-mange-procent-lader-en-tesla-pr-time.jpg" alt="Tesla Model 3 oplades på hjemmelader" style="height:100%;">
-              <figcaption>Tesla Model 3 Standard Range oplades ca. 16 % af batteriet pr. time på en 11 kW hjemmelader inklusive ladetab.</figcaption>
+              <img
+                src="/img/hvordan-beregner-man-ladetid.jpg"
+                alt="Sådan beregner du ladetid på en elbil"
+                style="height:100%;"
+              >
+              <figcaption>
+                Du kan beregne ladetiden med en simpel formel eller bruge
+                den gratis ladetidsberegner.
+              </figcaption>
             </div>
           </div>
 
-          <!-- Afslutning: tips -->
-          <h2 class="fade-up">Gode råd og realistiske forventninger</h2>
-          <ul class="fade-left">
-            <li>Hjemmeladere bruger AC-strøm, som bilen omformer til DC – dette medfører altid et ladetab på typisk 10–15 %.</li>
-            <li>Kulde påvirker opladningen, fordi batteriet beskytter cellerne – vinterladetider er ofte længere end sommerladetider.</li>
-            <li>Spændingsfald i installationen betyder, at du sjældent får præcis den nominelle kW-effekt hele tiden.</li>
-          </ul>
-
-          <h2 class="fade-up">Hvorfor er det nyttigt at kunne beregne ladetid?</h2>
-          <ul class="fade-left">
-            <li>Du kan planlægge opladning natten over</li>
-            <li>Du ved, hvornår bilen er klar igen</li>
-            <li>Du får bedre forståelse for dit strømforbrug</li>
-            <li>Du kan optimere opladningen efter de billigste timer at lade bilen op</li>
-          </ul>
+          <!-- LADETAB -->
+          <h2 class="fade-up">
+            Hvor meget energi går tabt under opladning?
+          </h2>
 
           <p class="fade-left">
-            Hvis du lader bilen på tidspunkter med lav elpris og undgår unødvendige korte opladninger, kan du over tid spare de sidste – men vigtige – øre på din samlede ladeøkonomi.
+            Når du oplader en elbil, går en del af energien tabt undervejs,
+            blandt andet som varme. Derfor skal bilen trække mere strøm fra
+            elnettet, end batteriet faktisk modtager.
           </p>
 
           <p class="fade-left">
-            💡 Alle tal og formler er baseret på officielle kilder fra danske myndigheder og troværdige udenlandske myndigheder: ENS, Sikkerhedsstyrelsen, EPA og EV‑Database.
+            Ved hjemmeopladning kan ladetabet eksempelvis ligge omkring
+            10–15 %, men det varierer afhængigt af bilen, ladeeffekten,
+            temperaturen og installationen.
+          </p>
+
+          <p class="fade-left">
+            I eksemplet ovenfor skal der bruges cirka 52,5 kWh fra elnettet
+            for at tilføre batteriet 46,2 kWh, når vi regner med et ladetab
+            på 12 %.
+          </p>
+
+          <p class="fade-left">
+            Læs mere i vores guide:
+            <a href="/faq/hvad-er-ladetab.html">
+              Hvad er ladetab ved opladning af elbil?
+            </a>
+          </p>
+
+          <!-- FAKTORER -->
+          <h2 class="fade-up">Hvad påvirker den faktiske ladetid?</h2>
+
+          <p class="fade-left">
+            Flere forhold kan påvirke, hvor lang tid det tager at oplade
+            en elbil:
+          </p>
+
+          <ul class="fade-left">
+            <li>
+              <strong>Bilens indbyggede lader:</strong>
+              Ved opladning med vekselstrøm (AC) omdanner bilens indbyggede
+              lader strømmen, så den kan lagres i batteriet. Den sætter
+              samtidig en øvre grænse for, hvor stor en ladeeffekt bilen
+              kan udnytte.
+            </li>
+
+            <li>
+              <strong>Temperaturen:</strong>
+              Et koldt batteri kan begrænse ladeeffekten.
+            </li>
+
+            <li>
+              <strong>Spændingsfald:</strong>
+              Modstanden i kabler og installation kan medføre spændingsfald
+              og påvirke den effekt, der når frem til bilen.
+            </li>
+
+            <li>
+              <strong>Batteriets ladeniveau:</strong>
+              Nogle biler reducerer ladeeffekten, når batteriet nærmer sig
+              fuld opladning.
+            </li>
+          </ul>
+
+          <p class="fade-left">
+            Ladetabet kan også være højere ved lav ladeeffekt. Læs mere om
+            <a href="/faq/hvorfor-er-ladetabet-h%C3%B8jere-ved-lav-ladeeffekt.html">
+              hvorfor ladetabet er højere ved lav ladeeffekt
+            </a>.
+          </p>
+
+          <!-- TESLA -->
+          <h2 class="fade-up">
+            Hvor hurtigt lader en Tesla Model 3 Standard Range derhjemme?
+          </h2>
+
+          <div class="about-row">
+            <div class="about-text fade-left">
+              <p>
+                En Tesla Model 3 Standard Range kan oplades med op til
+                11 kW ved opladning med vekselstrøm (AC). Ved denne
+                ladeeffekt afhænger ladetiden blandt andet af batteriets
+                størrelse og hvor meget batteriet skal oplades.
+              </p>
+            </div>
+
+            <div class="about-image fade-right">
+              <img
+                src="/img/hvor-mange-procent-lader-en-tesla-pr-time.jpg"
+                alt="Tesla Model 3, der oplades hjemme"
+                style="height:100%;"
+              >
+              <figcaption>
+                Bilens maksimale AC-ladeeffekt er med til at bestemme,
+                hvor hurtigt den kan oplades derhjemme.
+              </figcaption>
+            </div>
+          </div>
+
+          <!-- LADEEFFEKT -->
+          <h2 class="fade-up">Hvorfor lader min elbil ikke hurtigere?</h2>
+
+          <p class="fade-left">
+            Det er ikke kun ladeboksens effekt, der afgør, hvor hurtigt
+            din elbil kan oplades. Både bilen, ladeboksen og den elektriske
+            installation kan sætte en grænse for ladeeffekten.
+          </p>
+
+          <p class="fade-left">
+            Det er den laveste maksimale ladeeffekt blandt bilen, ladeboksen
+            og den elektriske installation, der bestemmer, hvor hurtigt
+            bilen kan oplades. Hvis bilen eksempelvis kan modtage 11 kW,
+            men ladeboksen eller installationen kun kan levere 3,7 kW,
+            bliver ladeeffekten højst 3,7 kW. Omvendt kan en ladeboks på
+            22 kW ikke få bilen til at lade med mere end de 11 kW, som
+            bilens indbyggede lader kan modtage.
+          </p>
+
+          <p class="fade-left">
+            Læs mere i vores guide:
+            <a href="/faq/hvorfor-lader-min-elbil-kun-11-kw.html">
+              Hvorfor lader min elbil kun 11 kW?
+            </a>
+          </p>
+
+          <!-- GODE RÅD -->
+          <h2 class="fade-up">
+            Gode råd til opladning af elbil derhjemme
+          </h2>
+
+          <ul class="fade-left">
+            <li>Tag højde for ladetab, når du beregner strømforbruget.</li>
+            <li>Husk, at kulde kan forlænge ladetiden.</li>
+            <li>
+              Tjek både bilens, ladeboksens og installationens maksimale
+              ladeeffekt.
+            </li>
+            <li>
+              Planlæg opladningen efter dit behov og de tidspunkter,
+              hvor strømmen er billigst.
+            </li>
+          </ul>
+
+          <!-- CTA -->
+          <h2 class="fade-up">
+            Beregn ladetiden for din egen elbil
+          </h2>
+
+          <p class="fade-left">
+            Vil du vide, hvor lang tid det tager at oplade din egen elbil?
+            Med vores gratis ladetidsberegner kan du beregne den forventede
+            ladetid ud fra batteriets kapacitet, ladeeffekten og den ønskede
+            ændring i batteriets ladeniveau.
+          </p>
+
+          <p class="fade-left">
+            <a href="https://ladetidsberegner.github.io/#beregner">
+              Prøv ladetidsberegneren her
+            </a>.
           </p>
 
         </section>
@@ -199,8 +363,9 @@ Tid (timer) = Batterikapacitet × (Slut‑SOC − Start‑SOC) / 100 × (1 + Lad
     </div>
   </main>
 
-
+  <!-- FOOTER -->
   <div id="footer-placeholder"></div>
+
   <script>
     fetch('/includes/footer.html')
       .then(r => r.text())
@@ -211,9 +376,6 @@ Tid (timer) = Batterikapacitet × (Slut‑SOC − Start‑SOC) / 100 × (1 + Lad
         document.body.appendChild(script);
       });
   </script>
-
-
-
 
   <!-- SCRIPTS -->
   <script src="/master.js" defer></script>
